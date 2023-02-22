@@ -6,8 +6,7 @@ namespace dae
 {
 	class Texture2D;
 
-	// todo: this should become final.
-	class GameObject 
+	class GameObject final
 	{
 	public:
 		virtual void Update();
@@ -15,6 +14,11 @@ namespace dae
 
 		void SetTexture(const std::string& filename);
 		void SetPosition(float x, float y);
+
+		template <typename T> T* AddComponent();
+		template <typename T> T* GetComponent() const;
+		template <typename T> void RemoveComponent();
+
 
 		GameObject() = default;
 		virtual ~GameObject();
