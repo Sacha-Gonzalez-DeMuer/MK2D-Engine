@@ -1,5 +1,9 @@
 #include "Time.h"
 
+dae::Time::Time()
+{
+}
+
 void dae::Time::Update()
 {
 	const auto currentTime = std::chrono::high_resolution_clock::now();

@@ -24,6 +24,22 @@ void Scene::RemoveAll()
 	m_objects.clear();
 }
 
+void dae::Scene::Awake()
+{
+	for (auto& object : m_objects)
+	{
+		object->Awake();
+	}
+}
+
+void dae::Scene::Start()
+{
+	for (auto& object : m_objects)
+	{
+		object->Start();
+	}
+}
+
 void Scene::Update()
 {
 	for(auto& object : m_objects)
@@ -37,6 +53,14 @@ void Scene::Render() const
 	for (const auto& object : m_objects)
 	{
 		object->Render();
+	}
+}
+
+void dae::Scene::OnDestroy()
+{
+	for (auto& object : m_objects)
+	{
+		object->OnDestroy();
 	}
 }
 

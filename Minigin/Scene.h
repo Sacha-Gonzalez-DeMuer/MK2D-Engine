@@ -4,7 +4,7 @@
 namespace dae
 {
 	class GameObject;
-	class Scene final
+	class Scene final : public IObject
 	{
 		friend Scene& SceneManager::CreateScene(const std::string& name);
 	public:
@@ -12,8 +12,11 @@ namespace dae
 		void Remove(std::shared_ptr<GameObject> object);
 		void RemoveAll();
 
-		void Update();
-		void Render() const;
+		virtual void Awake() override;
+		virtual void Start() override;
+		virtual void Update() override;
+		virtual void Render() const override;
+		virtual void OnDestroy() override;
 
 		~Scene();
 		Scene(const Scene& other) = delete;
@@ -25,7 +28,7 @@ namespace dae
 		explicit Scene(const std::string& name);
 
 		std::string m_name;
-		std::vector < std::shared_ptr<GameObject>> m_objects{};
+		std::vector <std::shared_ptr<GameObject>> m_objects{};
 
 		static unsigned int m_idCounter; 
 	};
