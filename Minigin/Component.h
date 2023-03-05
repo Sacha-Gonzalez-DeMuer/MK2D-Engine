@@ -6,20 +6,16 @@
 namespace dae
 {
     class GameObject;
-
     class Component : public IObject
     {
     public:
-        Component() {};
+        explicit Component(std::weak_ptr<GameObject> owner) 
+            : m_gameObject{ owner } {};
 
-        void AttachToGameObject(std::weak_ptr<GameObject> parent) { m_gameObject = parent; };
         const glm::vec3& GetPosition() const;
+        std::weak_ptr<GameObject> GetOwner() { return m_gameObject; };
 
     protected:
         std::weak_ptr<GameObject> m_gameObject;
-
-    private:
     };
 }
-
-

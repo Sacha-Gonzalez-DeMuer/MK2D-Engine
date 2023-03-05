@@ -5,6 +5,7 @@
 #include "IObject.h"
 #include <vector>
 #include <string>
+#include <stdexcept>
 
 namespace dae
 {
@@ -29,15 +30,15 @@ namespace dae
 
 		void SetPosition(float x, float y);
 
-		template <typename T>  std::shared_ptr<T> AddComponent();
-		void AddComponent(std::shared_ptr<Component> component);
-		template <typename T>  std::shared_ptr<T> GetComponent() const;
-		template <typename T> void RemoveComponent();
+		template <typename TComponent>  std::shared_ptr<TComponent> AddComponent();
+		template <typename TComponent, typename... Args> std::shared_ptr<TComponent> AddComponent(Args&&... constructorArguments);
+		template <typename TComponent>  std::shared_ptr<TComponent> GetComponent() const;
+		template <typename TComponent> void RemoveComponent();
 
 		void AddChild(std::shared_ptr<GameObject> child);
 
 		const Transform& GetTransform() const { return m_transform; };
-
+		
 
 	private:
 		Transform m_transform{};
@@ -46,33 +47,43 @@ namespace dae
 		std::vector<std::shared_ptr<Component>> m_components{};
 	};
 
-	template<typename T>
-	inline std::shared_ptr<T> GameObject::AddComponent()
-	{
-		if (std::is_base_of<Component, T>())
-		{
-			auto new_component{ std::make_shared<T>() };
-			std::dynamic_pointer_cast<Component>(new_component)->AttachToGameObject(weak_from_this());
-			m_components.emplace_back(new_component);
 
-			return new_component;
-		}
-		return nullptr;
+
+	// Template Declarations
+	template<typename TComponent>
+	inline std::shared_ptr<TComponent> GameObject::AddComponent()
+	{
+		static_assert(std::is_base_of<Component, TComponent>::value, "Template type must be a component.");
+
+		auto new_component{ std::make_shared<TComponent>(weak_from_this()) };
+		m_components.emplace_back(new_component);
+
+		return new_component;
 	}
 
-	template<typename T>
-	inline std::shared_ptr<T> GameObject::GetComponent() const
+	template<typename TComponent, typename ...Args>
+	inline std::shared_ptr<TComponent> GameObject::AddComponent(Args && ...constructorArguments)
 	{
+		static_assert(std::is_base_of<Component, TComponent>::value, "Template type must be a component.");
+
+		return std::make_shared<TComponent>(std::forward<Args>(constructorArguments)...);
+	}
+
+	template<typename TComponent>
+	inline std::shared_ptr<TComponent> GameObject::GetComponent() const
+	{
+		static_assert(std::is_base_of<Component, TComponent>::value, "Template type must be a component.");
+
 		// Find the first component in the vector that is of type T*
 		auto it = std::find_if(m_components.begin(), m_components.end(), [](std::shared_ptr<Component> component) {
-			return std::dynamic_pointer_cast<T>(component) != nullptr;
+			return std::dynamic_pointer_cast<TComponent>(component) != nullptr;
 			});
 
-		// If a component of type T* is found, return it
-		if (it != m_components.end())
-			return std::dynamic_pointer_cast<T>(*it);
+		//// 
+		//if (it == m_components.end())
+		//	throw std::runtime_error("Gameobject does not contain component of type" + typeid(TComponent).name());
 
-		return nullptr;
+		return std::dynamic_pointer_cast<TComponent>(*it);
 	}
 
 	template<typename T>

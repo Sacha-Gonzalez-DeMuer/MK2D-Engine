@@ -57,7 +57,7 @@
     <ClInclude Include="RenderComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TextObject.h">
+    <ClInclude Include="TextComponent.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="IObject.h">
@@ -110,7 +110,7 @@
     <ClCompile Include="RenderComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TextObject.cpp">
+    <ClCompile Include="TextComponent.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="FPSCounter.cpp">

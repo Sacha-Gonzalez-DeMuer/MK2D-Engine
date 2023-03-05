@@ -1,11 +1,11 @@
 #include "FPSCounter.h"
 #include "Time.h"
-#include "TextObject.h"
+#include "TextComponent.h"
 #include "GameObject.h"
 
 void dae::FPSCounter::Start()
 {
-	m_textObject = m_gameObject.lock()->GetComponent<TextObject>();
+	m_textObject = m_gameObject.lock()->GetComponent<TextComponent>();
 }
 
 void dae::FPSCounter::Update()

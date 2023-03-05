@@ -10,6 +10,7 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include "Time.h"
+#include <thread>
 
 SDL_Window* g_window{};
 
@@ -80,24 +81,32 @@ void dae::Minigin::Run(const std::function<void()>& load)
 {
 	load();
 
-	auto& renderer = Renderer::GetInstance();
-	auto& sceneManager = SceneManager::GetInstance();
-	auto& input = InputManager::GetInstance();
 
+	const float desiredFPS{ 144.0f };
+	const float frame_time{ 1000 / desiredFPS };
+
+	auto& renderer = Renderer::GetInstance();
+	auto& scene_manager = SceneManager::GetInstance();
+	auto& input = InputManager::GetInstance();
 	auto& time{ dae::Time::GetInstance() };
 
-	sceneManager.Awake();
-	sceneManager.Start();
+	scene_manager.Awake();
+	scene_manager.Start();
 
 	// todo: this update loop could use some work.
-	bool doContinue = true;
-	while (doContinue)
+	bool do_continue = true;
+	while (do_continue)
 	{
 		time.Update();
-		doContinue = input.ProcessInput();
-		sceneManager.Update();
+		do_continue = input.ProcessInput();
+		scene_manager.Update();
 		renderer.Render();
+
+		const float sleep_time{ frame_time - time.DeltaTime()};
+		const auto& sleep_duration{ std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::duration<float, std::milli>(sleep_time)) };
+		if (sleep_time > 0)
+			std::this_thread::sleep_for(sleep_duration);
 	}
 
-	sceneManager.OnDestroy();
+	scene_manager.OnDestroy();
 }
