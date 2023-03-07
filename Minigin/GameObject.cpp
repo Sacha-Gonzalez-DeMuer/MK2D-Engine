@@ -50,22 +50,19 @@ void dae::GameObject::Render() const
 		component->Render();
 }
 
-void dae::GameObject::OnDestroy()
-{
-	for (auto& child_gameobject : m_children)
-		child_gameobject->OnDestroy();
-
-	for (auto& component : m_components)
-		component->OnDestroy();
-}
 
 void dae::GameObject::SetPosition(float x, float y)
 {
-	m_transform.SetPosition(x, y, 0.0f);
+	m_transform->SetLocalPosition(x, y);
+}
+
+glm::vec2 dae::GameObject::GetPosition() const
+{
+	return m_transform->GetWorldPosition();
 }
 
 void dae::GameObject::AddComponent(std::shared_ptr<Component> component)
 {
-	component->AttachToGameObject(weak_from_this());
+	component->SetOwner(weak_from_this());
 	m_components.emplace_back(component);
 }

@@ -56,11 +56,5 @@ void Scene::Render() const
 	}
 }
 
-void dae::Scene::OnDestroy()
-{
-	for (auto& object : m_objects)
-	{
-		object->OnDestroy();
-	}
-}
+
 

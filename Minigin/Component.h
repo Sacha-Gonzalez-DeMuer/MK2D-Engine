@@ -2,6 +2,7 @@
 #include "Transform.h"
 #include "IObject.h"
 #include <memory>
+#include "GameObject.h"
 
 namespace dae
 {
@@ -12,11 +13,10 @@ namespace dae
     public:
         Component() {};
 
-        void AttachToGameObject(std::weak_ptr<GameObject> parent) { m_gameObject = parent; };
-        const glm::vec3& GetPosition() const;
+        void SetOwner(std::weak_ptr<GameObject> owner) { m_owner = owner; };
 
     protected:
-        std::weak_ptr<GameObject> m_gameObject;
+        std::weak_ptr<GameObject> m_owner;
 
     private:
     };

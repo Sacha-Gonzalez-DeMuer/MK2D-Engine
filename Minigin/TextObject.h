@@ -15,7 +15,6 @@ namespace dae
 		void Start() override {};
 		void Update() override;
 		void Render() const override;
-		void OnDestroy() override {};
 
 		void SetText(const std::string& text);
 

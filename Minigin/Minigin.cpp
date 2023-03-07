@@ -80,6 +80,9 @@ void dae::Minigin::Run(const std::function<void()>& load)
 {
 	load();
 
+	constexpr float desired_FPS{ 144.0f };
+	constexpr float frame_time{ 1000 / desired_FPS };
+
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
@@ -97,7 +100,10 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		doContinue = input.ProcessInput();
 		sceneManager.Update();
 		renderer.Render();
-	}
 
-	sceneManager.OnDestroy();
+		const float sleep_time{ frame_time - time.DeltaTime() };
+		const auto& sleep_duration{ std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::duration<float, std::milli>(sleep_time)) };
+		if (sleep_time > 0)
+			std::this_thread::sleep_for(sleep_duration);
+	}
 }

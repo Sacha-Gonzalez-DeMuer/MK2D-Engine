@@ -14,7 +14,8 @@ namespace dae
 	class GameObject final : public IObject, public std::enable_shared_from_this<GameObject>
 	{
 	public:
-		GameObject() = default;
+		GameObject() : m_transform{ std::make_shared<Transform>(weak_from_this())} {};
+
 		virtual ~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -25,9 +26,9 @@ namespace dae
 		virtual void Awake() override;
 		virtual void Update() override;
 		virtual void Render() const override;
-		virtual void OnDestroy() override;
 
 		void SetPosition(float x, float y);
+		glm::vec2 GetPosition() const; // returns world position of gameobject
 
 		template <typename T>  std::shared_ptr<T> AddComponent();
 		void AddComponent(std::shared_ptr<Component> component);
@@ -36,11 +37,10 @@ namespace dae
 
 		void AddChild(std::shared_ptr<GameObject> child);
 
-		const Transform& GetTransform() const { return m_transform; };
-
+		std::shared_ptr<Transform> GetTransform() { return m_transform; };
 
 	private:
-		Transform m_transform{};
+		std::shared_ptr<Transform> m_transform;
 
 		std::vector<std::shared_ptr<GameObject>> m_children{};
 		std::vector<std::shared_ptr<Component>> m_components{};
@@ -52,7 +52,7 @@ namespace dae
 		if (std::is_base_of<Component, T>())
 		{
 			auto new_component{ std::make_shared<T>() };
-			std::dynamic_pointer_cast<Component>(new_component)->AttachToGameObject(weak_from_this());
+			std::dynamic_pointer_cast<Component>(new_component)->SetOwner(weak_from_this());
 			m_components.emplace_back(new_component);
 
 			return new_component;

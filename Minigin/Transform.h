@@ -1,14 +1,30 @@
 #pragma once
 #include <glm/glm.hpp>
+#include <memory>
 
 namespace dae
 {
+	class GameObject;
 	class Transform final
 	{
 	public:
-		const glm::vec3& GetPosition() const { return m_position; }
-		void SetPosition(float x, float y, float z);
+		Transform() = delete;
+		Transform(std::weak_ptr<GameObject> owner);
+
+		const glm::vec2& GetLocalPosition() const { return m_localPosition; };
+		const glm::vec2& GetWorldPosition();
+
+		void UpdateWorldPosition();
+
+		void SetLocalPosition(float x, float y);
+		void SetLocalPosition(const glm::vec2& toPos);
+
 	private:
-		glm::vec3 m_position;
+		bool m_Dirty;
+
+		glm::vec2 m_localPosition;
+		glm::vec2 m_worldPosition;
+
+		std::weak_ptr<GameObject> m_owner;
 	};
 }

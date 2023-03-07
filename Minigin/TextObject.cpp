@@ -4,6 +4,7 @@
 #include "Renderer.h"
 #include "Font.h"
 #include "Texture2D.h"
+#include "GameObject.h"
 
 dae::TextObject::TextObject()
 	: m_needsUpdate(true), m_text("TEXT"), m_font(nullptr), m_textTexture(nullptr)
@@ -38,7 +39,7 @@ void dae::TextObject::Render() const
 {
 	if (m_textTexture != nullptr)
 	{
-		const auto& pos = GetPosition();
+		const auto& pos = m_owner.lock()->GetPosition();
 		Renderer::GetInstance().RenderTexture(*m_textTexture, pos.x, pos.y);
 	}
 }
