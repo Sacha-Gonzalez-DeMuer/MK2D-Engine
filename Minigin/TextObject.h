@@ -11,7 +11,6 @@ namespace dae
 	class TextObject final  : public Component
 	{
 	public:
-		void Awake() override {};
 		void Start() override {};
 		void Update() override;
 		void Render() const override;

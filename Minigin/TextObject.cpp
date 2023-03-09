@@ -39,7 +39,7 @@ void dae::TextObject::Render() const
 {
 	if (m_textTexture != nullptr)
 	{
-		const auto& pos = m_owner.lock()->GetWorldPosition();
+		const auto& pos = m_owner->GetWorldPosition();
 		Renderer::GetInstance().RenderTexture(*m_textTexture, pos.x, pos.y);
 	}
 }
@@ -50,6 +50,3 @@ void dae::TextObject::SetText(const std::string& text)
 	m_text = text;
 	m_needsUpdate = true;
 }
-
-
-

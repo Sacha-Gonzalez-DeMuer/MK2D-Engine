@@ -89,7 +89,6 @@ void dae::Minigin::Run(const std::function<void()>& load)
 
 	auto& time{ dae::Time::GetInstance() };
 
-	sceneManager.Awake();
 	sceneManager.Start();
 
 	// todo: this update loop could use some work.

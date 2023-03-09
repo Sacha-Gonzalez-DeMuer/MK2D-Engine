@@ -5,7 +5,7 @@
 
 void dae::Orbiter::Update()
 {
-	if (m_orbitCenter) m_orbitPosition = m_orbitCenter->GetWorldPosition();
+	if (m_owner->GetParent().expired()) return;
 
 	glm::vec2 target_postion{};
 
@@ -13,8 +13,9 @@ void dae::Orbiter::Update()
 	constexpr float to_rad{ pi / 180.0f };
 	m_angle = Time::GetInstance().TotalTime() * to_rad * m_orbitSpeed;
 
-	target_postion.x = m_orbitDistance * cosf(m_angle) + m_orbitPosition.x;
-	target_postion.y = m_orbitDistance * sinf(m_angle) + m_orbitPosition.y;
+	target_postion.x = m_orbitDistance * cosf(m_angle) + m_owner->GetParent().lock()->GetTransform()->GetWorldPosition().x;
+	target_postion.y = m_orbitDistance * sinf(m_angle) + m_owner->GetParent().lock()->GetTransform()->GetWorldPosition().y;
 	
-	m_owner.lock()->GetTransform()->SetLocalPosition(target_postion);
+	m_owner->GetTransform()->SetLocalPosition(target_postion);
 }
+ 

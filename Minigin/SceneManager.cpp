@@ -1,14 +1,6 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
-void dae::SceneManager::Awake()
-{
-	for (auto& scene : m_scenes)
-	{
-		scene->Awake();
-	}
-}
-
 void dae::SceneManager::Start()
 {
 	for (auto& scene : m_scenes)

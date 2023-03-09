@@ -13,10 +13,9 @@ namespace dae
     public:
         Component() {};
 
-        void SetOwner(std::weak_ptr<GameObject> owner) { m_owner = owner; };
-
+        void SetOwner(std::shared_ptr<GameObject> owner) { m_owner = owner; };
     protected:
-        std::weak_ptr<GameObject> m_owner;
+        std::shared_ptr<GameObject> m_owner;
 
     private:
     };
