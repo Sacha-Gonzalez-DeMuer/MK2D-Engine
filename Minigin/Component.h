@@ -13,9 +13,9 @@ namespace dae
     public:
         Component() {};
 
-        void SetOwner(std::shared_ptr<GameObject> owner) { m_owner = owner; };
+        void SetOwner(GameObject* owner) { m_owner = owner; };
     protected:
-        std::shared_ptr<GameObject> m_owner;
+        GameObject* m_owner;
 
     private:
     };

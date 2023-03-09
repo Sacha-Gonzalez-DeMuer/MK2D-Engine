@@ -60,7 +60,7 @@ namespace dae
 		static_assert(std::is_base_of<Component, TComponent>::value, "Template type must be a component.");
 
 		auto newComponent = std::make_shared<TComponent>(std::forward<Args>(args)...);
-		newComponent->SetOwner(shared_from_this());
+		newComponent->SetOwner(this);
 
 		m_components.emplace_back(newComponent);
 		return newComponent;
@@ -72,7 +72,7 @@ namespace dae
 		static_assert(std::is_base_of<Component, TComponent>::value, "Template type must be a component.");
 
 		auto new_component{ std::make_shared<TComponent>() };
-		std::dynamic_pointer_cast<Component>(new_component)->SetOwner(shared_from_this());
+		std::dynamic_pointer_cast<Component>(new_component)->SetOwner(this);
 		m_components.emplace_back(new_component);
 
 		return new_component;
@@ -107,5 +107,4 @@ namespace dae
 
 		m_components.erase(it);
 	}
-
 }
