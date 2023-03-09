@@ -72,6 +72,9 @@
     <ClInclude Include="Component.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="Orbiter.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -121,6 +124,9 @@
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Orbiter.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

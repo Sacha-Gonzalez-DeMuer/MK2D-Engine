@@ -19,6 +19,7 @@ namespace dae
 		void SetLocalPosition(float x, float y);
 		void SetLocalPosition(const glm::vec2& toPos);
 
+		void SetDirty();
 	private:
 		bool m_Dirty;
 

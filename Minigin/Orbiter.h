@@ -11,7 +11,7 @@ namespace dae
 	public:
 		Orbiter() = delete;
 		Orbiter(float orbitDistance)
-			: m_orbitDistance{ orbitDistance }, m_orbitCenter{ nullptr }, m_orbitPosition{ glm::vec2{0,0} } {};
+			: m_orbitDistance{ orbitDistance }, m_orbitPosition{ glm::vec2{0,0} } {};
 		Orbiter(float orbitDistance, std::shared_ptr<Transform> orbitCenter)
 			: m_orbitDistance{ orbitDistance }, m_orbitCenter{ orbitCenter }, m_orbitPosition{ orbitCenter->GetWorldPosition() } {};
 
@@ -27,6 +27,4 @@ namespace dae
 
 		glm::vec2 m_orbitPosition;
 	};
-
 }
-

@@ -14,9 +14,9 @@ namespace dae
 	class GameObject final : public IObject, public std::enable_shared_from_this<GameObject>
 	{
 	public:
-		GameObject() : m_transform{ std::make_shared<Transform>(weak_from_this())} {};
+		GameObject() : m_transform{ nullptr }, m_parent{ nullptr } {};
 
-		virtual ~GameObject();
+		virtual ~GameObject() {};
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
@@ -27,20 +27,26 @@ namespace dae
 		virtual void Update() override;
 		virtual void Render() const override;
 
-		void SetPosition(float x, float y);
-		glm::vec2 GetPosition() const; // returns world position of gameobject
+		void SetLocalPosition(float x, float y);
+		void SetLocalPosition(const glm::vec2& position);
+
+		glm::vec2 GetWorldPosition() const;
 
 		template <typename T>  std::shared_ptr<T> AddComponent();
 		void AddComponent(std::shared_ptr<Component> component);
 		template <typename T>  std::shared_ptr<T> GetComponent() const;
 		template <typename T> void RemoveComponent();
 
+		void SetParent(std::shared_ptr<GameObject> parent, bool keepWorldPosition);
 		void AddChild(std::shared_ptr<GameObject> child);
-
+		void RemoveChild(std::shared_ptr<GameObject> child);
+		std::vector<std::shared_ptr<GameObject>>& GetChildren() { return m_children; };
 		std::shared_ptr<Transform> GetTransform() { return m_transform; };
 
 	private:
 		std::shared_ptr<Transform> m_transform;
+
+		std::shared_ptr<GameObject> m_parent;
 
 		std::vector<std::shared_ptr<GameObject>> m_children{};
 		std::vector<std::shared_ptr<Component>> m_components{};

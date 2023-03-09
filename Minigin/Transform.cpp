@@ -1,11 +1,14 @@
 #include "Transform.h"
 #include "GameObject.h"
+#include <iostream>
 
 dae::Transform::Transform(std::weak_ptr<GameObject> owner)
 	: m_owner{ owner }
 	, m_localPosition{0}
 	, m_Dirty{true}
+	, m_worldPosition{0}
 {
+
 }
 
 const glm::vec2& dae::Transform::GetWorldPosition()
@@ -34,13 +37,34 @@ void dae::Transform::SetLocalPosition(float x, float y)
 	m_localPosition.x = x;
 	m_localPosition.y = y;
 
-	m_Dirty = true;
+	SetDirty();
 }
 
 void dae::Transform::SetLocalPosition(const glm::vec2& toPos)
 {
 	m_localPosition = toPos;
 
-	m_Dirty = true;
+	SetDirty();
 }
 
+void dae::Transform::SetDirty()
+{
+	m_Dirty = true;
+
+	if (!m_owner.lock()) return;
+
+	const auto& children{ m_owner.lock()->GetChildren() };
+	if (children.empty())
+	{
+		std::cout << "Children empty!\n";
+	};
+
+	for (auto& child : children)
+	{
+		if (child)
+		{
+			child->GetTransform()->SetDirty();
+			child->GetTransform()->UpdateWorldPosition();
+		}
+	}
+}
