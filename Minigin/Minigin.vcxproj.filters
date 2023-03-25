@@ -21,6 +21,15 @@
     <Filter Include="Managers">
       <UniqueIdentifier>{6edca074-91c8-45c0-8621-9fa8318d9b5e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Dear ImGui">
+      <UniqueIdentifier>{fa106382-4995-46f6-8a1a-76c76602ed20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineObjects\Exercises">
+      <UniqueIdentifier>{9a294d62-05d7-42d8-a6de-9f4bec199410}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{0ff40ffe-cdb9-49bc-873a-4bafe75f1a44}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TextObject.h">
@@ -77,6 +86,48 @@
     <ClInclude Include="SceneManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
+    <ClInclude Include="imconfig.h">
+      <Filter>Dear ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui.h">
+      <Filter>Dear ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_opengl2.h">
+      <Filter>Dear ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_sdl2.h">
+      <Filter>Dear ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_internal.h">
+      <Filter>Dear ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_rectpack.h">
+      <Filter>Dear ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_textedit.h">
+      <Filter>Dear ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_truetype.h">
+      <Filter>Dear ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Debug.h">
+      <Filter>EngineObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CacheTrasher.h">
+      <Filter>EngineObjects\Exercises</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_plot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CacheTrashDebugger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Datatypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Keybindings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -130,5 +181,35 @@
     <ClCompile Include="Renderer.cpp">
       <Filter>EngineObjects</Filter>
     </ClCompile>
+    <ClCompile Include="imgui.cpp">
+      <Filter>Dear ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_demo.cpp">
+      <Filter>Dear ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_draw.cpp">
+      <Filter>Dear ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_opengl2.cpp">
+      <Filter>Dear ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_sdl2.cpp">
+      <Filter>Dear ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_tables.cpp">
+      <Filter>Dear ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_widgets.cpp">
+      <Filter>Dear ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug.cpp">
+      <Filter>EngineObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_plot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="imgui.ini" />
   </ItemGroup>
 </Project>
