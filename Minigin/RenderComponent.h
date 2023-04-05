@@ -9,7 +9,7 @@ namespace dae
 	class RenderComponent : public Component
 	{
 	public:
-		RenderComponent() = default;
+		RenderComponent() :m_texture{ nullptr } {};
 
 		void SetTexture(std::shared_ptr<Texture2D> texture) { m_texture = texture; };
 		void SetTexture(const std::string filename) {
@@ -19,7 +19,7 @@ namespace dae
 		virtual void Render() const override;
 
 	private:
-		std::shared_ptr<Texture2D> m_texture{nullptr};
+		std::shared_ptr<Texture2D> m_texture;
 	};
 }
 

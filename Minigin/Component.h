@@ -2,20 +2,23 @@
 #include "Transform.h"
 #include "IObject.h"
 #include <memory>
+#include "GameObject.h"
 
 namespace dae
 {
     class GameObject;
+
     class Component : public IObject
     {
     public:
-        explicit Component(std::weak_ptr<GameObject> owner) 
-            : m_gameObject{ owner } {};
+        Component() {};
 
-        const glm::vec3& GetPosition() const;
-        std::weak_ptr<GameObject> GetOwner() { return m_gameObject; };
-
+        void SetOwner(GameObject* owner) { m_owner = owner; };
     protected:
-        std::weak_ptr<GameObject> m_gameObject;
+        GameObject* m_owner{ nullptr };
+
+    private:
     };
 }
+
+

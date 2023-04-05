@@ -1,8 +1,9 @@
 #include "Time.h"
-
+#include <iostream>
 dae::Time::Time()
-	: m_DeltaTime{0}
-	, m_TotalTime{0}
+	: m_DeltaTime{ 0 }
+	, m_TotalTime{ 0 }
+	, m_LastTime{ std::chrono::high_resolution_clock::now() }
 {
 }
 

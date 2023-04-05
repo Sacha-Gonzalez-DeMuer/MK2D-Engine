@@ -4,20 +4,29 @@
 
 namespace dae
 {
+	class GameObject;
 	class Transform final
 	{
 	public:
-		Transform();
-		Transform(const glm::vec3& pos);
+		Transform() = delete;
+		Transform(std::weak_ptr<GameObject> owner);
 
-		const glm::vec3& GetLocalPosition() const { return m_position; };
-		const glm::vec3& GetWorldPosition() const;
+		const glm::vec2& GetLocalPosition() const { return m_localPosition; };
+		const glm::vec2& GetWorldPosition();
 
-		void SetPosition(float x, float y, float z);
+		void UpdateWorldPosition();
+
+		void SetLocalPosition(float x, float y);
+		void SetLocalPosition(const glm::vec2& toPos);
+
+		void SetPositionDirty();
 
 	private:
-		bool m_needsUpdate;
-		std::shared_ptr<Transform> m_parent;
-		glm::vec3 m_position;
+		bool m_isPositionDirty;
+
+		glm::vec2 m_localPosition;
+		glm::vec2 m_worldPosition;
+
+		std::weak_ptr<GameObject> m_owner;
 	};
 }

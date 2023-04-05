@@ -1,29 +1,65 @@
 #include "Transform.h"
+#include "GameObject.h"
 
-dae::Transform::Transform()
-	: m_needsUpdate{ false }
-	, m_parent{ nullptr }
-	, m_position{0,0,0}
+dae::Transform::Transform(std::weak_ptr<GameObject> owner)
+	: m_owner{ owner }
+	, m_localPosition{0}
+	, m_isPositionDirty{true}
+	, m_worldPosition{0}
 {
 }
 
-dae::Transform::Transform(const glm::vec3& pos)
-	: m_needsUpdate{false}
-	, m_parent{nullptr}
-	, m_position{pos}
+const glm::vec2& dae::Transform::GetWorldPosition()
 {
+	if (m_isPositionDirty)
+		UpdateWorldPosition();
+
+	return m_worldPosition;
 }
 
-const glm::vec3& dae::Transform::GetWorldPosition() const
+void dae::Transform::UpdateWorldPosition()
 {
-	if (!m_parent) return m_position;
+	if (m_isPositionDirty)
+	{
+		if (!m_owner.lock())
+			m_worldPosition = m_localPosition;
+		else
+			m_worldPosition = m_owner.lock()->GetTransform()->GetWorldPosition() + m_localPosition;
 
-	return (m_parent->GetWorldPosition() + GetLocalPosition());
+		m_isPositionDirty = false;
+	}
 }
 
-void dae::Transform::SetPosition(const float x, const float y, const float z)
+void dae::Transform::SetLocalPosition(float x, float y)
 {
-	m_position.x = x;
-	m_position.y = y;
-	m_position.z = z;
+	m_localPosition.x = x;
+	m_localPosition.y = y;
+
+	SetPositionDirty();
 }
+
+void dae::Transform::SetLocalPosition(const glm::vec2& toPos)
+{
+	m_localPosition = toPos;
+	
+	SetPositionDirty();
+}
+
+void dae::Transform::SetPositionDirty()
+{
+	m_isPositionDirty = true;
+
+	if (!m_owner.lock()) return;
+
+	const auto& children{ m_owner.lock()->GetChildren() };
+
+	for (auto& child : children)
+	{
+		if (child)
+		{
+			child->GetTransform()->SetPositionDirty();
+			child->GetTransform()->UpdateWorldPosition();
+		}
+	}
+}
+

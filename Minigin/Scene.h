@@ -12,11 +12,9 @@ namespace dae
 		void Remove(std::shared_ptr<GameObject> object);
 		void RemoveAll();
 
-		virtual void Awake() override;
 		virtual void Start() override;
 		virtual void Update() override;
 		virtual void Render() const override;
-		virtual void OnDestroy() override;
 
 		~Scene();
 		Scene(const Scene& other) = delete;

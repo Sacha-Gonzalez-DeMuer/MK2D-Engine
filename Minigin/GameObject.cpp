@@ -3,10 +3,54 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 #include "Component.h"
+#include "SceneManager.h"
 
+void dae::GameObject::SetParent(std::weak_ptr<GameObject> parent, bool keepWorldPosition)
+{
+	if (parent.lock() == m_parent.lock()) return;
+
+	if (parent.expired()) {
+		SetLocalPosition(GetWorldPosition());
+	}
+	else {
+		if (keepWorldPosition) {
+			SetLocalPosition(m_transform->GetLocalPosition() - parent.lock()->GetWorldPosition());
+		}
+		m_transform->SetPositionDirty();
+	}
+	if (auto prevParent = m_parent.lock()) {
+		prevParent->RemoveChild(shared_from_this());
+	}
+	m_parent = parent;
+	if (auto newParent = m_parent.lock()) {
+		newParent->AddChild(shared_from_this());
+	}
+}
 void dae::GameObject::AddChild(std::shared_ptr<GameObject> child)
 {
-	m_children.emplace_back(child);
+	if (child == nullptr) return;
+	if (child->m_parent.lock() == shared_from_this()) return;
+
+	if (auto prevParent = child->m_parent.lock()) {
+		prevParent->RemoveChild(child);
+	}
+	m_children.push_back(child);
+	child->m_parent = shared_from_this();
+}
+
+void dae::GameObject::RemoveChild(std::shared_ptr<GameObject> child)
+{
+	if (child == nullptr) return;
+
+	auto it = std::find(m_children.begin(), m_children.end(), child);
+	if (it != m_children.end()) {
+		m_children.erase(it);
+		if (auto parent = child->m_parent.lock()) {
+
+			child->m_parent.lock()->GetTransform()->SetPositionDirty();
+			child->m_parent.reset();
+		}
+	}
 }
 
 void dae::GameObject::Start()
@@ -17,17 +61,6 @@ void dae::GameObject::Start()
 	for (auto& component : m_components)
 		component->Start();
 }
-
-void dae::GameObject::Awake()
-{
-	for (auto& child_gameobject : m_children)
-		child_gameobject->Awake();
-
-	for (auto& component : m_components)
-		component->Awake();
-}
-
-dae::GameObject::~GameObject() = default;
 
 void dae::GameObject::Update()
 {
@@ -40,9 +73,6 @@ void dae::GameObject::Update()
 
 void dae::GameObject::Render() const
 {
-	//const auto& pos = m_transform.GetPosition();
-	//Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y);
-
 	for (auto& child_gameobject : m_children)
 		child_gameobject->Render();
 
@@ -50,16 +80,19 @@ void dae::GameObject::Render() const
 		component->Render();
 }
 
-void dae::GameObject::OnDestroy()
+void dae::GameObject::SetLocalPosition(float x, float y)
 {
-	for (auto& child_gameobject : m_children)
-		child_gameobject->OnDestroy();
-
-	for (auto& component : m_components)
-		component->OnDestroy();
+	m_transform->SetLocalPosition(x, y);
+	m_transform->SetPositionDirty();
 }
 
-void dae::GameObject::SetPosition(float x, float y)
+void dae::GameObject::SetLocalPosition(const glm::vec2& position)
 {
-	m_transform.SetPosition(x, y, 0.0f);
+	m_transform->SetLocalPosition(position.x, position.y);
+	m_transform->SetPositionDirty();
+}
+
+glm::vec2 dae::GameObject::GetWorldPosition() const
+{
+	return m_transform->GetWorldPosition();
 }
