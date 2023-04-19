@@ -3,7 +3,7 @@
 
 namespace dae
 {
-	class TextObject;
+	class TextComponent;
 
 	class FPSCounter : public Component
 	{
@@ -13,7 +13,7 @@ namespace dae
 		void Render() const override;
 
 	private:
-		std::shared_ptr<TextObject> m_textObject;
+		std::shared_ptr<TextComponent> m_textObject;
 		float m_framesPerSecond{ 0.f };
 		float m_timer{ 0.f };
 		int m_frameCount{ 0 };

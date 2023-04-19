@@ -1,5 +1,6 @@
 #pragma once
 #include "SceneManager.h"
+#include "ICollider.h"
 
 namespace dae
 {
@@ -22,11 +23,14 @@ namespace dae
 		Scene& operator=(const Scene& other) = delete;
 		Scene& operator=(Scene&& other) = delete;
 
+		void DeleteObjectsMarkedForDestruction();
+
 	private: 
 		explicit Scene(const std::string& name);
 
 		std::string m_name;
 		std::vector <std::shared_ptr<GameObject>> m_objects{};
+		std::vector <std::shared_ptr<ICollider>> m_collisionObjects{};
 
 		static unsigned int m_idCounter; 
 	};

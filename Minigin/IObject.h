@@ -1,9 +1,14 @@
 #pragma once
 
-class IObject
+namespace dae
 {
-public:
-    virtual void Start() {};
-    virtual void Update() {};
-    virtual void Render() const {};
-};
+	class ICollider;
+	class IObject
+	{
+	public:
+		virtual void Start() {};
+		virtual void Update() {};
+		virtual void Render() const {};
+		virtual void OnCollision(ICollider& /*other*/) {};
+	};
+}

@@ -1,25 +1,36 @@
 #include "HealthHUD.h"
 #include "TextObject.h"
 #include "HealthComponent.h"
+#include "Minigin.h"
 
-dae::HealthHUD::HealthHUD(std::shared_ptr<TextObject> healthText, std::shared_ptr<TextObject> livesText, std::shared_ptr<HealthComponent> health)
-	: m_healthText(healthText)
-	, m_livesText(livesText)
-	, m_health(health)
+namespace dae
 {
-	m_health->AddObserver(this);
+	HealthHUD::HealthHUD(std::shared_ptr<HealthComponent> health
+		, std::shared_ptr<TextComponent> livesText)
+		: m_healthComponent{ health }
+		, m_livesText{ livesText }
+	{
+	}
+
+	void HealthHUD::Update()
+	{
+		m_livesText->Update();
+	}
+
+	void HealthHUD::Render() const
+	{
+		m_livesText->Render();
+	}
+
+	void HealthHUD::Notify(const HealthComponent& health)
+	{
+		m_livesText->SetText("Lives: " + std::to_string( health.GetRemainingLives()));
+	}
+
+	void HealthHUD::Start()
+	{
+		m_healthComponent->AddObserver(shared_from_this());
+	}
 }
 
-void dae::HealthHUD::Render() const
-{
-	m_healthText->Render();
-	m_livesText->Render();
-}
 
-void dae::HealthHUD::Notify(const HealthComponent& health)
-{
-	m_healthText->SetText(
-	"Health: " + std::to_string(m_health->GetCurrentHealth()));
-
-	m_livesText->SetText("Remaining lives: " + std::to_string(m_health->GetRemainingLives()));
-}

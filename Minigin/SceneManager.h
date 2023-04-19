@@ -17,6 +17,8 @@ namespace dae
 		virtual void Update() override;
 		virtual void Render() const override;
 
+		void DeleteObjectsMarkedForDestruction();
+
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;

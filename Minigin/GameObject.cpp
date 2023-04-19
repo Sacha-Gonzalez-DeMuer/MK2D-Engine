@@ -29,7 +29,7 @@ void dae::GameObject::SetParent(std::weak_ptr<GameObject> parent, bool keepWorld
 void dae::GameObject::AddChild(std::shared_ptr<GameObject> child)
 {
 	if (child == nullptr) return;
-	if (child->m_parent.lock() == shared_from_this()) return;
+	if (child->m_parent.lock().get() == this) return;
 
 	if (auto prevParent = child->m_parent.lock()) {
 		prevParent->RemoveChild(child);
@@ -80,16 +80,20 @@ void dae::GameObject::Render() const
 		component->Render();
 }
 
+void dae::GameObject::OnCollision(ICollider& other)
+{
+	for (auto component : m_components)
+		component->OnCollision(other);
+}
+
 void dae::GameObject::SetLocalPosition(float x, float y)
 {
 	m_transform->SetLocalPosition(x, y);
-	m_transform->SetPositionDirty();
 }
 
 void dae::GameObject::SetLocalPosition(const glm::vec2& position)
 {
 	m_transform->SetLocalPosition(position.x, position.y);
-	m_transform->SetPositionDirty();
 }
 
 glm::vec2 dae::GameObject::GetWorldPosition() const

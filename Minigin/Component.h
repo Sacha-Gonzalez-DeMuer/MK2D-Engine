@@ -3,6 +3,7 @@
 #include "IObject.h"
 #include <memory>
 #include "GameObject.h"
+#include <stdexcept>
 
 namespace dae
 {
@@ -13,9 +14,19 @@ namespace dae
     public:
         Component() {};
 
-        void SetOwner(GameObject* owner) { m_owner = owner; };
+        void SetOwner(std::weak_ptr<GameObject> owner) { m_gameObject = owner; };
+
+        GameObject* GetOwner() {
+            auto ownerPtr = m_gameObject.lock();
+            if (!ownerPtr)
+            {
+                throw std::runtime_error("GameObject has been destroyed");
+            }
+            return ownerPtr.get();
+        }
+
     protected:
-        GameObject* m_owner{ nullptr };
+        std::weak_ptr<GameObject> m_gameObject{ };
 
     private:
     };

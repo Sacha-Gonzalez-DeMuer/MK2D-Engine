@@ -14,7 +14,7 @@ namespace dae
 	class GameObject final : public IObject, public std::enable_shared_from_this<GameObject>
 	{
 	public:
-		GameObject() : m_transform{ std::make_shared<Transform>(weak_from_this()) }, m_parent{} {};
+		GameObject() : m_transform{ std::make_shared<Transform>(this)}, m_parent{} {};
 
 		~GameObject() {};
 		GameObject(const GameObject& other) = delete;
@@ -25,6 +25,7 @@ namespace dae
 		virtual void Start() override;
 		virtual void Update() override;
 		virtual void Render() const override;
+		virtual void OnCollision(ICollider& other) override;
 
 		void SetLocalPosition(float x, float y);
 		void SetLocalPosition(const glm::vec2& position);
@@ -45,6 +46,13 @@ namespace dae
 		std::vector<std::shared_ptr<GameObject>>& GetChildren() { return m_children; };
 		std::shared_ptr<Transform> GetTransform() { return m_transform; };
 
+		void SetTag(const std::string& tag) { m_tag = tag; };
+		std::string GetTag() const { return m_tag; };
+
+		bool IsMarkedForDestruction() const { return m_toDestroy; };
+		void Destroy() { m_toDestroy = true; };
+
+
 	private:
 		std::shared_ptr<Transform> m_transform;
 
@@ -52,6 +60,10 @@ namespace dae
 
 		std::vector<std::shared_ptr<GameObject>> m_children{};
 		std::vector<std::shared_ptr<Component>> m_components{};
+
+		std::string m_tag;
+
+		bool m_toDestroy{ false };
 	};
 
 	template <typename TComponent, typename... Args>
@@ -60,7 +72,7 @@ namespace dae
 		static_assert(std::is_base_of<Component, TComponent>::value, "Template type must be a component.");
 
 		auto newComponent = std::make_shared<TComponent>(std::forward<Args>(args)...);
-		newComponent->SetOwner(this);
+		newComponent->SetOwner(weak_from_this());
 
 		m_components.emplace_back(newComponent);
 		return newComponent;
@@ -72,7 +84,7 @@ namespace dae
 		static_assert(std::is_base_of<Component, TComponent>::value, "Template type must be a component.");
 
 		auto new_component{ std::make_shared<TComponent>() };
-		std::dynamic_pointer_cast<Component>(new_component)->SetOwner(this);
+		std::dynamic_pointer_cast<Component>(new_component)->SetOwner(weak_from_this());
 		m_components.emplace_back(new_component);
 
 		return new_component;

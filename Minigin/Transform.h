@@ -9,7 +9,8 @@ namespace dae
 	{
 	public:
 		Transform() = delete;
-		Transform(std::weak_ptr<GameObject> owner);
+		~Transform() { m_owner = nullptr; };
+		Transform(GameObject* owner);
 
 		const glm::vec2& GetLocalPosition() const { return m_localPosition; };
 		const glm::vec2& GetWorldPosition();
@@ -27,6 +28,6 @@ namespace dae
 		glm::vec2 m_localPosition;
 		glm::vec2 m_worldPosition;
 
-		std::weak_ptr<GameObject> m_owner;
+		GameObject* m_owner;
 	};
 }

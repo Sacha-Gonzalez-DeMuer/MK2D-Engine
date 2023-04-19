@@ -6,13 +6,18 @@
 	
 #include <vector>
 
-class Debug : public dae::Singleton<Debug>, public IObject
+
+namespace dae
 {
-public:
-	Debug() {};
+	class Debug : public dae::Singleton<Debug>, public IObject
+	{
+	public:
+		Debug() {};
 
-	void PlotData(const char* title, const std::vector<float>& x, const std::vector<float>& y);
-private:
+		void PlotData(const char* title, const std::vector<float>& x, const std::vector<float>& y);
+	private:
 
-};
+	};
+
+}
 

@@ -4,13 +4,18 @@
 
 namespace dae
 {
-	class TextObject;
+	class TextComponent;
 	class HealthComponent;
+	class Font;
 
-	class HealthHUD final : public Component, public IObserver<HealthComponent>
+	class HealthHUD final 
+		: public Component
+		, public IObserver<HealthComponent>
+		, public  std::enable_shared_from_this<HealthHUD>
 	{
 	public:
-		HealthHUD(std::shared_ptr<TextObject> healthText, std::shared_ptr<TextObject> livesText, std::shared_ptr<HealthComponent> health);
+		HealthHUD(std::shared_ptr<HealthComponent> health
+			, std::shared_ptr<TextComponent> m_livesText);
 
 		virtual ~HealthHUD() = default;
 		HealthHUD(const HealthHUD& other) = delete;
@@ -18,13 +23,15 @@ namespace dae
 		HealthHUD& operator=(const HealthHUD& other) = delete;
 		HealthHUD& operator=(HealthHUD&& other) = delete;
 
+		void Update() override;
 		void Render() const override;
 		void Notify(const HealthComponent& healthComponent) override;
 
 	private:
-		std::shared_ptr<HealthComponent> m_health;
-		std::shared_ptr<TextObject> m_healthText;
-		std::shared_ptr<TextObject> m_livesText;
+		std::shared_ptr<HealthComponent> m_healthComponent;
+		std::shared_ptr<TextComponent> m_livesText;
+
+		void Start() override;
 	};
 }
 

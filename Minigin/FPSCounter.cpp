@@ -5,7 +5,7 @@
 
 void dae::FPSCounter::Start()
 {
-	m_textObject = m_owner->GetComponent<TextObject>();
+	m_textObject = m_gameObject.lock()->GetComponent<TextComponent>();
 }
 
 void dae::FPSCounter::Update()

@@ -1,11 +1,11 @@
 #include "Transform.h"
 #include "GameObject.h"
 
-dae::Transform::Transform(std::weak_ptr<GameObject> owner)
+dae::Transform::Transform(GameObject* owner)
 	: m_owner{ owner }
-	, m_localPosition{0}
+	, m_localPosition{0,0}
 	, m_isPositionDirty{true}
-	, m_worldPosition{0}
+	, m_worldPosition{0,0}
 {
 }
 
@@ -21,10 +21,10 @@ void dae::Transform::UpdateWorldPosition()
 {
 	if (m_isPositionDirty)
 	{
-		if (!m_owner.lock())
+		if (m_owner->GetParent().lock() == nullptr)
 			m_worldPosition = m_localPosition;
 		else
-			m_worldPosition = m_owner.lock()->GetTransform()->GetWorldPosition() + m_localPosition;
+			m_worldPosition = m_owner->GetParent().lock()->GetTransform()->GetWorldPosition() + m_localPosition;
 
 		m_isPositionDirty = false;
 	}
@@ -49,9 +49,7 @@ void dae::Transform::SetPositionDirty()
 {
 	m_isPositionDirty = true;
 
-	if (!m_owner.lock()) return;
-
-	const auto& children{ m_owner.lock()->GetChildren() };
+	const auto& children{ m_owner->GetChildren() };
 
 	for (auto& child : children)
 	{

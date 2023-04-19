@@ -36,17 +36,23 @@
     <Filter Include="GameObjects\UI">
       <UniqueIdentifier>{7ca7469c-ccc2-432f-bc19-164aeb9164bf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components\HUD">
-      <UniqueIdentifier>{1cb96dce-5da2-461e-b5bb-785ad98687ee}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Events">
       <UniqueIdentifier>{80c2f7a1-099f-48d8-aff6-cb8989ce3a13}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\CanvasElements">
+      <UniqueIdentifier>{1cb96dce-5da2-461e-b5bb-785ad98687ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Physics">
+      <UniqueIdentifier>{580549d4-46ad-4397-be1f-ee6c661a2e46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\GameComponents">
+      <UniqueIdentifier>{2d1ad060-82f7-44df-91bb-ca0e66bfc6df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\UIComponents">
+      <UniqueIdentifier>{39cb6c9b-0a36-44f2-8ee7-8c2e16c280b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FPSCounter.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
@@ -79,9 +85,6 @@
     </ClInclude>
     <ClInclude Include="Renderer.h">
       <Filter>EngineObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Orbiter.h">
-      <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Font.h">
       <Filter>EngineObjects</Filter>
@@ -140,20 +143,44 @@
     <ClInclude Include="XBox360Controller.h">
       <Filter>Input\Controllers</Filter>
     </ClInclude>
-    <ClInclude Include="HealthComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="TextObject.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="HealthHUD.h">
-      <Filter>Components\HUD</Filter>
+      <Filter>Components\CanvasElements</Filter>
     </ClInclude>
     <ClInclude Include="IObserver.h">
       <Filter>Events</Filter>
     </ClInclude>
-    <ClInclude Include="ISubject.h">
+    <ClInclude Include="Subject.h">
       <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreHUD.h">
+      <Filter>Components\CanvasElements</Filter>
+    </ClInclude>
+    <ClInclude Include="ICollider.h">
+      <Filter>Components\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthComponent.h">
+      <Filter>Components\GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreComponent.h">
+      <Filter>Components\GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="TextObject.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="FPSCounter.h">
+      <Filter>Components\UIComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Orbiter.h">
+      <Filter>Components\GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleCollider.h">
+      <Filter>Components\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SteamAchievements.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -162,12 +189,6 @@
     </ClCompile>
     <ClCompile Include="Minigin.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FPSCounter.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Component.cpp">
-      <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>GameObjects</Filter>
@@ -189,9 +210,6 @@
     </ClCompile>
     <ClCompile Include="Time.cpp">
       <Filter>EngineObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Orbiter.cpp">
-      <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="Texture2D.cpp">
       <Filter>EngineObjects</Filter>
@@ -235,20 +253,41 @@
     <ClCompile Include="Input.cpp">
       <Filter>Input</Filter>
     </ClCompile>
-    <ClCompile Include="HealthComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="Commands.cpp">
       <Filter>Input</Filter>
     </ClCompile>
-    <ClCompile Include="TextObject.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="HealthHUD.cpp">
-      <Filter>Components\HUD</Filter>
+      <Filter>Components\CanvasElements</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreHUD.cpp">
+      <Filter>Components\CanvasElements</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthComponent.cpp">
+      <Filter>Components\GameComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreComponent.cpp">
+      <Filter>Components\GameComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="TextObject.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="FPSCounter.cpp">
+      <Filter>Components\UIComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Orbiter.cpp">
+      <Filter>Components\GameComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleCollider.cpp">
+      <Filter>Components\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="SteamAchievements.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Minigin.rc" />
   </ItemGroup>
 </Project>
