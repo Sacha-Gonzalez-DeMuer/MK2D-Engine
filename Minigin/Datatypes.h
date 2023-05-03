@@ -1,10 +1,10 @@
 #pragma once
 #include <SDL_keycode.h>
 
-
-enum ESteamAchievements
+enum class Direction
 {
-	SCORE_500
+	UP,
+	RIGHT,
+	DOWN,
+	LEFT
 };
-
-

@@ -12,7 +12,6 @@
 #include "Time.h"
 #include "Debug.h"
 
-#include <steam_api.h>
 SDL_Window* g_window{};
 
 void PrintSDLVersion()
@@ -107,7 +106,5 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		const auto& sleep_duration{ std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::duration<float, std::milli>(sleep_time)) };
 		if (sleep_time > 0)
 			std::this_thread::sleep_for(sleep_duration);
-
-		SteamAPI_RunCallbacks();
 	}
 }

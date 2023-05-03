@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Time.h"
 #include "HealthComponent.h"
+#include "CGraphNodeNavigator.h"
 
 namespace dae
 {
@@ -12,5 +13,10 @@ namespace dae
 	void KillCommand::Execute()
 	{
 		m_Health->Die();
+	}
+
+	void GraphMoveCommand::Execute()
+	{
+		m_Navigator->Move(m_Direction);
 	}
 }

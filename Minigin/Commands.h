@@ -1,6 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
 #include <memory>
+#include "Datatypes.h"
 
 namespace dae
 {
@@ -12,7 +13,7 @@ namespace dae
 	};
 
 	class GameObject;
-	class MoveCommand final : public Command
+	class MoveCommand : public Command
 	{
 	public:
 		MoveCommand(std::shared_ptr<GameObject> object, const glm::vec2& dir, float speed) 
@@ -21,12 +22,26 @@ namespace dae
 		virtual ~MoveCommand() = default;
 		virtual void Execute() override;
 
-	private:
+	protected:
 		std::shared_ptr<GameObject> m_Object;
 		glm::vec2 m_Direction;
 		float m_Speed;
 	};
 
+	// 2d move
+	class Graph2DNavComponent;
+	class GraphMoveCommand final : public MoveCommand
+	{
+	public:
+		GraphMoveCommand(std::shared_ptr<Graph2DNavComponent> navigator, const glm::vec2& dir, float speed)
+			: MoveCommand(nullptr, dir, speed) {};
+		virtual ~GraphMoveCommand() = default;
+		virtual void Execute() override;
+
+	private:
+		std::shared_ptr<Graph2DNavComponent> m_Navigator;
+		Direction m_Direction;
+	};
 
 	class HealthComponent;
 	class KillCommand final : public Command

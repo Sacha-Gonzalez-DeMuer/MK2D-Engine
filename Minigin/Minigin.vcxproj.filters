@@ -51,6 +51,15 @@
     <Filter Include="Components\UIComponents">
       <UniqueIdentifier>{39cb6c9b-0a36-44f2-8ee7-8c2e16c280b6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\Navigation">
+      <UniqueIdentifier>{76c241f5-ab9e-4ebc-b685-63a09d0ccf9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interfaces">
+      <UniqueIdentifier>{894ee244-4455-4687-a875-d18011f130ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Graphs">
+      <UniqueIdentifier>{3e3a7a44-1765-4114-adbd-865f6d720d81}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -179,7 +188,28 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SteamAchievements.h">
+    <ClInclude Include="CGraphNodeNavigator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphConnectionTypes.h">
+      <Filter>Components\Graphs</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphNodeTypes.h">
+      <Filter>Components\Graphs</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphTypes.h">
+      <Filter>Components\Graphs</Filter>
+    </ClInclude>
+    <ClInclude Include="IPathFinder.h">
+      <Filter>Components\Navigation</Filter>
+    </ClInclude>
+    <ClInclude Include="AStarPathFinder.h">
+      <Filter>Components\Navigation</Filter>
+    </ClInclude>
+    <ClInclude Include="IGraph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Heuristic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -280,7 +310,16 @@
     <ClCompile Include="CircleCollider.cpp">
       <Filter>Components\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="SteamAchievements.cpp">
+    <ClCompile Include="CGraphNodeNavigator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IPathFinder.cpp">
+      <Filter>Components\Navigation</Filter>
+    </ClCompile>
+    <ClCompile Include="AStarPathFinder.cpp">
+      <Filter>Components\Navigation</Filter>
+    </ClCompile>
+    <ClCompile Include="IGraph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
