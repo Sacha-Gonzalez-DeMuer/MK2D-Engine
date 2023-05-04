@@ -22,7 +22,7 @@ namespace dae
 		int m_idx;
 	};
 
-	class GraphNode2D : public GraphNode
+	class GraphNode2D final : public GraphNode
 	{
 	public:
 		GraphNode2D() : GraphNode(), m_position(0, 0) {}

@@ -218,7 +218,7 @@ xcopy "$(SolutionDir)3rdParty\steamworks\public\redistributable_bin\win64\*.dll"
     <ClInclude Include="CircleCollider.h" />
     <ClInclude Include="GraphConnectionTypes.h" />
     <ClInclude Include="GraphNodeTypes.h" />
-    <ClInclude Include="GraphTypes.h" />
+    <ClInclude Include="Graph2D.h" />
     <ClInclude Include="Heuristic.h" />
     <ClInclude Include="ICollider.h" />
     <ClInclude Include="Commands.h" />
@@ -271,9 +271,9 @@ xcopy "$(SolutionDir)3rdParty\steamworks\public\redistributable_bin\win64\*.dll"
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSCounter.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GraphConnectionTypes.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="HealthHUD.cpp" />
-    <ClCompile Include="IGraph.cpp" />
     <ClCompile Include="imgui.cpp">
       <TreatWarningAsError Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</TreatWarningAsError>
       <TreatWarningAsError Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</TreatWarningAsError>

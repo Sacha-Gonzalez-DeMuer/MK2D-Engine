@@ -1,12 +1,9 @@
 #pragma once
+#include <iomanip>
+#include <memory>
+#include "GraphConnectionTypes.h"
 #include "GraphNodeTypes.h"
 #include "IGraph.h"
-
-#include <vector>
-#include <list>
-#include <memory>
-#include <algorithm>
-#include <glm/glm.hpp>
 
 //
 ///* MODIFIED IMPLEMENTATION OF THE ELITE FRAMEWORK GRAPHS */
@@ -61,15 +58,15 @@ namespace dae
 	inline int Graph2D<T_NodeType, T_ConnectionType>::GetNodeIdxAtWorldPos(const glm::vec2& pos) const
 	{
 		float posErrorMargin = 1.5f;
-		auto foundIt = std::find_if(m_Nodes.begin(), m_Nodes.end(),
+		auto foundIt = std::find_if(this->m_Nodes.begin(), this->m_Nodes.end(),
 			[pos, posErrorMargin, this](T_NodeType* pNode)
 			{
 				return pNode->GetIndex() != invalid_node_index 
-					&& glm::length((pNode->GetPosition() - pos) ) < pow(posErrorMargin * GetNodeRadius(), 2); });
+					&& glm::length((pNode->GetPosition() - pos) ) < std::pow(posErrorMargin * GetNodeRadius(), 2); });
 
 
 
-		if (foundIt != m_Nodes.end())
+		if (foundIt != this->m_Nodes.end())
 			return (*foundIt)->GetIndex();
 		else
 			return invalid_node_index;
@@ -78,7 +75,7 @@ namespace dae
 	template<class T_NodeType, class T_ConnectionType>
 	void Graph2D<T_NodeType, T_ConnectionType>::SetConnectionCostsToDistance()
 	{
-		for (auto& connectionList : m_Connections)
+		for (auto& connectionList : this->m_Connections)
 		{
 			for (auto& connection : connectionList)
 			{

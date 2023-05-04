@@ -197,7 +197,7 @@
     <ClInclude Include="GraphNodeTypes.h">
       <Filter>Components\Graphs</Filter>
     </ClInclude>
-    <ClInclude Include="GraphTypes.h">
+    <ClInclude Include="Graph2D.h">
       <Filter>Components\Graphs</Filter>
     </ClInclude>
     <ClInclude Include="IPathFinder.h">
@@ -207,10 +207,10 @@
       <Filter>Components\Navigation</Filter>
     </ClInclude>
     <ClInclude Include="IGraph.h">
-      <Filter>Header Files</Filter>
+      <Filter>Components\Graphs</Filter>
     </ClInclude>
     <ClInclude Include="Heuristic.h">
-      <Filter>Header Files</Filter>
+      <Filter>Components\Graphs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -319,8 +319,8 @@
     <ClCompile Include="AStarPathFinder.cpp">
       <Filter>Components\Navigation</Filter>
     </ClCompile>
-    <ClCompile Include="IGraph.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="GraphConnectionTypes.cpp">
+      <Filter>Components\Graphs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

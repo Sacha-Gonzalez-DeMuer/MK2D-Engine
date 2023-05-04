@@ -3,7 +3,8 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 448 496" style="enable-background:new 0 0 448 496;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:none;stroke:#FFFFFF;stroke-miterlimit:10;}
+	.st0{fill:none;stroke:#000000;stroke-miterlimit:10;}
+	.st1{fill:#FFFF00;}
 </style>
 <polygon class="st0" points="24.1,471.7 200.3,471.7 248.3,471.7 424.5,471.7 424.5,424 392.3,424 392.3,375.7 424.5,375.7 
 	424.5,328 344,328 344,231.9 344,135.7 424.5,135.7 424.5,23.3 344.5,23.3 248.3,23.3 248.3,88.3 200.3,88.3 200.3,23.3 104.6,23.3 
@@ -28,4 +29,6 @@
 <line class="st0" x1="296.3" y1="376.3" x2="344" y2="376.3"/>
 <line class="st0" x1="152" y1="232" x2="104.3" y2="232"/>
 <line class="st0" x1="224.2" y1="233.5" x2="224.2" y2="184.9"/>
+<circle class="st1" cx="24.1" cy="232" r="5.3"/>
+<circle class="st1" cx="424.5" cy="232" r="5.3"/>
 </svg>

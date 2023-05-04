@@ -1,11 +1,10 @@
 #pragma once
 #include "Component.h"
 #include "Datatypes.h"
-#include "GraphTypes.h"
+#include "Graph2D.h"
 #include "GraphNodeTypes.h"
 #include "GraphConnectionTypes.h"
 #include "IPathFinder.h"
-
 #include <queue>
 namespace dae
 {
@@ -17,7 +16,7 @@ namespace dae
 
 	public:
 		Graph2DNavComponent() = delete;
-		explicit Graph2DNavComponent(std::shared_ptr<Graph2D> graph, std::shared_ptr<GraphNode2D> node);
+		explicit Graph2DNavComponent(std::shared_ptr<Graph2D> graph, std::shared_ptr<GraphNode2D> startingNode);
 		virtual ~Graph2DNavComponent() = default;
 
 		// adds command to be executed to the queue
