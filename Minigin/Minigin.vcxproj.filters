@@ -215,10 +215,10 @@
     <ClInclude Include="Graph2D.h">
       <Filter>Components\Graphs</Filter>
     </ClInclude>
-    <ClInclude Include="GraphConnectionTypes.h">
+    <ClInclude Include="GraphConnection.h">
       <Filter>Components\Graphs</Filter>
     </ClInclude>
-    <ClInclude Include="GraphNodeTypes.h">
+    <ClInclude Include="GraphNode.h">
       <Filter>Components\Graphs</Filter>
     </ClInclude>
     <ClInclude Include="GridGraph.h">
@@ -342,6 +342,12 @@
     </ClCompile>
     <ClCompile Include="GridGraph.cpp">
       <Filter>Components\Graphs</Filter>
+    </ClCompile>
+    <ClCompile Include="IGraph.cpp">
+      <Filter>Components\Graphs</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph2D.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

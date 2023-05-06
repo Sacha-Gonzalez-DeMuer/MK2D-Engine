@@ -1,11 +1,16 @@
 #pragma once
 #include <vector>
+#include "GraphNode.h"
 
-template <class T_NodeType, class T_ConnectionType>
-class IPathFinder
+
+namespace dae
 {
-public:
-	virtual ~IPathFinder() = default;
-	virtual std::vector<T_NodeType*> FindPath(T_NodeType* pStartNode, T_NodeType* pDestinationNode) = 0;
-};
+	class IPathFinder
+	{
+	public:
+		virtual ~IPathFinder() = default;
+		virtual std::vector<GraphNode*> FindPath(GraphNode* pStartNode, GraphNode* pDestinationNode) = 0;
+	};
+}
+
 

@@ -86,4 +86,23 @@ void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
+void dae::Renderer::DrawLine(const glm::vec2& p1, const glm::vec2& p2, const glm::vec4& col) const
+{
+	//set draw color to white
+	SDL_SetRenderDrawColor(m_renderer, static_cast<Uint8>(col.x), static_cast<Uint8>(col.y), static_cast<Uint8>(col.z), static_cast<Uint8>(col.w));
+	SDL_RenderDrawLine(m_renderer, static_cast<int>(p1.x), static_cast<int>(p1.y), static_cast<int>(p2.x), static_cast<int>(p2.y));
+}
+
+void dae::Renderer::DrawRect(const glm::vec2& pos, float width, float height, const glm::vec4& col) const
+{
+	SDL_SetRenderDrawColor(m_renderer, static_cast<Uint8>(col.x), static_cast<Uint8>(col.y), static_cast<Uint8>(col.z), static_cast<Uint8>(col.w));
+
+	SDL_Rect r;
+	r.x = static_cast<int>(pos.x);
+	r.y = static_cast<int>(pos.y);
+	r.w = static_cast<int>(width);
+	r.h = static_cast<int>(height);
+	SDL_RenderDrawRect(m_renderer, &r);
+}
+
 inline SDL_Renderer* dae::Renderer::GetSDLRenderer() const { return m_renderer; }

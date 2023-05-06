@@ -31,11 +31,4 @@ namespace dae
 		// the cost of traversing the edge
 		float m_Cost;
 	};
-
-	class GraphConnection2D : public GraphConnection
-	{
-	public:
-		GraphConnection2D(int from = -1, int to = -1, float cost = 1.f);
-		virtual ~GraphConnection2D() = default;
-	};
 }

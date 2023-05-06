@@ -217,8 +217,8 @@
     <ClInclude Include="CGraphNodeNavigator.h" />
     <ClInclude Include="CircleCollider.h" />
     <ClInclude Include="Graph2D.h" />
-    <ClInclude Include="GraphConnectionTypes.h" />
-    <ClInclude Include="GraphNodeTypes.h" />
+    <ClInclude Include="GraphConnection.h" />
+    <ClInclude Include="GraphNode.h" />
     <ClInclude Include="GridGraph.h" />
     <ClInclude Include="Heuristic.h" />
     <ClInclude Include="ICollider.h" />
@@ -275,10 +275,12 @@
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSCounter.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Graph2D.cpp" />
     <ClCompile Include="GraphConnectionTypes.cpp" />
     <ClCompile Include="GridGraph.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="HealthHUD.cpp" />
+    <ClCompile Include="IGraph.cpp" />
     <ClCompile Include="imgui.cpp">
       <TreatWarningAsError Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</TreatWarningAsError>
       <TreatWarningAsError Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</TreatWarningAsError>

@@ -1,6 +1,8 @@
 #include "Debug.h"
 #include <algorithm>
-
+#include "GridGraph.h"
+#include "Renderer.h"
+#include "GraphNode.h"
 
 namespace dae
 {
@@ -16,5 +18,19 @@ namespace dae
 		config.frame_size = ImVec2(200, 100);
 
 		ImGui::Plot(title, config);
+	}
+
+	void Debug::DrawGrid(GridGraph* grid) const
+	{
+		const auto& nodes = grid->GetAllNodes();
+
+		for (const auto& node : nodes)
+		{
+			Renderer::GetInstance()
+				.DrawRect
+				(node->GetPosition()
+				, static_cast<float>(grid->GetCellSize()), static_cast<float>(grid->GetCellSize())
+				, {255,255,255,255});
+		}
 	}
 }

@@ -1,4 +1,4 @@
-#include "GraphConnectionTypes.h"
+#include "GraphConnection.h"
 
 namespace dae
 {
@@ -19,15 +19,5 @@ namespace dae
 	{
 		return !(*this == rhs);
 	}
-
-	// ---------------------------------------------------------------------------------------------------------------------
-
-
-	GraphConnection2D::GraphConnection2D(int from /* = invalid_node_index*/, int to /* = invalid_node_index*/, float cost /* = 1.f*/)
-		:GraphConnection(from, to, cost)
-	{
-
-	}
-
 
 }
