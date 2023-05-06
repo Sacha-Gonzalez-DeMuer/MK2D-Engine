@@ -15,7 +15,7 @@ namespace dae
 		m_Health->Die();
 	}
 
-	void GraphMoveCommand::Execute()
+	void GridMoveCommand::Execute()
 	{
 		m_Navigator->Move(m_Direction);
 	}

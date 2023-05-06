@@ -1,35 +1,35 @@
 #pragma once
 #include "Component.h"
+#include "GridGraph.h"
 #include "Datatypes.h"
-#include "Graph2D.h"
-#include "GraphNodeTypes.h"
-#include "GraphConnectionTypes.h"
 #include "IPathFinder.h"
 #include <queue>
+#include <memory>
+
+class GraphNode2D;
+class GraphConnection2D;
 namespace dae
 {
-	class Graph2DNavComponent final : public IPathFinder<GraphNode2D, GraphConnection2D>, public Component
+	class GridNavComponent final : public Component
 	{
-		using Graph2D = Graph2D<GraphNode2D, GraphConnection2D>;
-		using GraphNode2D = GraphNode2D;
-		using GraphConnection2D = GraphConnection2D;
-
 	public:
-		Graph2DNavComponent() = delete;
-		explicit Graph2DNavComponent(std::shared_ptr<Graph2D> graph, std::shared_ptr<GraphNode2D> startingNode);
-		virtual ~Graph2DNavComponent() = default;
+		GridNavComponent() = delete;
+		explicit GridNavComponent(std::shared_ptr<GridGraph<GraphNode2D, GraphConnection2D>> graph
+			, std::shared_ptr<IPathFinder<GraphNode2D, GraphConnection2D>> pathfinder);
+		virtual ~GridNavComponent() = default;
 
 		// adds command to be executed to the queue
-		void Move(const Direction& direction);
+		void Move(Direction direction);
 		void GoTo(std::shared_ptr<GraphNode2D> node);
 
 		virtual void Update() override;
 
 	private:
 		std::queue<Direction> m_Commands;
-		std::shared_ptr<Graph2D> m_pGraph;
+		std::shared_ptr<GridGraph<GraphNode2D, GraphConnection2D>> m_pGraph;
 		std::shared_ptr<GraphNode2D> m_CurrentNode;
 		std::shared_ptr<GraphNode2D> m_TargetNode;
 		std::queue<std::shared_ptr<GraphNode2D>> m_Path;
+		std::shared_ptr<IPathFinder<GraphNode2D, GraphConnection2D>> m_pPathFinder;
 	};
 }

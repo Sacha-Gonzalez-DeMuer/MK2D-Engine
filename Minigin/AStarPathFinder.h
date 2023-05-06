@@ -1,10 +1,14 @@
 #pragma once
+#pragma warning(disable : 6011)
 #include "IPathFinder.h"
 #include "IGraph.h"
 #include <vector>
 #include <memory>
 #include <algorithm>
 #include "Heuristic.h"
+#include "GraphConnectionTypes.h"
+#include "GraphNodeTypes.h"
+
 
 namespace dae
 {
@@ -15,7 +19,6 @@ namespace dae
 		AStarPathFinder() = default;
 		~AStarPathFinder() = default;
 		std::vector<T_NodeType*> FindPath(T_NodeType* pStartNode, T_NodeType* pGoalNode) override;
-
 
 		// stores the optimal connection to a node and its total costs related to the start and end node of the path
 		struct NodeRecord
@@ -74,7 +77,7 @@ namespace dae
 
 			//check if that connection leads to the end node. if so, end loop
 			if (currentRecord.pConnection && currentRecord.pConnection->GetTo() == pGoalNode->GetIndex()) break;
-
+			if(!currentRecord.pConnection) break;
 			//else get all connections current node, loop over them
 			const auto currentRecordConnections{ m_pGraph->GetNodeConnections(currentRecord.pNode) };
 
@@ -158,6 +161,9 @@ namespace dae
 				}
 			}
 		}
+
+
+
 
 		path.emplace_back(pStartNode);
 		std::reverse(path.begin(), path.end());

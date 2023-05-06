@@ -60,6 +60,9 @@
     <Filter Include="Components\Graphs">
       <UniqueIdentifier>{3e3a7a44-1765-4114-adbd-865f6d720d81}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\PacMan">
+      <UniqueIdentifier>{aa0c71ae-1d72-4e50-9d93-6293550a12a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -188,8 +191,29 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CGraphNodeNavigator.h">
+    <ClInclude Include="IPathFinder.h">
+      <Filter>Components\Navigation</Filter>
+    </ClInclude>
+    <ClInclude Include="AStarPathFinder.h">
+      <Filter>Components\Navigation</Filter>
+    </ClInclude>
+    <ClInclude Include="Heuristic.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MathHelpers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelComponent.h">
+      <Filter>Components\PacMan</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerController.h">
+      <Filter>Components\PacMan</Filter>
+    </ClInclude>
+    <ClInclude Include="CGraphNodeNavigator.h">
+      <Filter>Components\Graphs</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph2D.h">
+      <Filter>Components\Graphs</Filter>
     </ClInclude>
     <ClInclude Include="GraphConnectionTypes.h">
       <Filter>Components\Graphs</Filter>
@@ -197,26 +221,14 @@
     <ClInclude Include="GraphNodeTypes.h">
       <Filter>Components\Graphs</Filter>
     </ClInclude>
-    <ClInclude Include="Graph2D.h">
+    <ClInclude Include="GridGraph.h">
       <Filter>Components\Graphs</Filter>
-    </ClInclude>
-    <ClInclude Include="IPathFinder.h">
-      <Filter>Components\Navigation</Filter>
-    </ClInclude>
-    <ClInclude Include="AStarPathFinder.h">
-      <Filter>Components\Navigation</Filter>
     </ClInclude>
     <ClInclude Include="IGraph.h">
       <Filter>Components\Graphs</Filter>
     </ClInclude>
-    <ClInclude Include="Heuristic.h">
-      <Filter>Components\Graphs</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Minigin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -310,16 +322,25 @@
     <ClCompile Include="CircleCollider.cpp">
       <Filter>Components\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="CGraphNodeNavigator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="IPathFinder.cpp">
       <Filter>Components\Navigation</Filter>
     </ClCompile>
     <ClCompile Include="AStarPathFinder.cpp">
       <Filter>Components\Navigation</Filter>
     </ClCompile>
+    <ClCompile Include="LevelComponent.cpp">
+      <Filter>Components\PacMan</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerController.cpp">
+      <Filter>Components\PacMan</Filter>
+    </ClCompile>
+    <ClCompile Include="CGraphNodeNavigator.cpp">
+      <Filter>Components\Graphs</Filter>
+    </ClCompile>
     <ClCompile Include="GraphConnectionTypes.cpp">
+      <Filter>Components\Graphs</Filter>
+    </ClCompile>
+    <ClCompile Include="GridGraph.cpp">
       <Filter>Components\Graphs</Filter>
     </ClCompile>
   </ItemGroup>

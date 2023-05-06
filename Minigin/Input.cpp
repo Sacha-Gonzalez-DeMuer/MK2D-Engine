@@ -7,6 +7,13 @@ void dae::Input::AddController(std::shared_ptr<XBox360Controller> controller)
 	m_Controllers.push_back(controller);
 }
 
+unsigned int dae::Input::Add360Controller()
+{
+	int idx = static_cast<int>(m_Controllers.size()) + 1;
+	m_Controllers.push_back(std::make_shared<XBox360Controller>(idx));
+	return idx;
+}
+
 void dae::Input::AddCommand(const ControllerKey& key, std::shared_ptr<Command> command)
 {
 	m_ControllerCommands[key] = command;

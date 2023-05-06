@@ -26,6 +26,7 @@ namespace dae
 		Input& operator=(Input&& other) = delete;
 
 		void AddController(std::shared_ptr<XBox360Controller> controller);
+		unsigned int Add360Controller(); // returns controller index
 		void AddCommand(const ControllerKey& key, std::shared_ptr<Command> command);
 		void AddCommand(const KeyboardKey& key, std::shared_ptr<Command> command);
 

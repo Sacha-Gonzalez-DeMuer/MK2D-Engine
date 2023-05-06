@@ -70,13 +70,13 @@ namespace dae
 	protected:
 		ConnectionListVector m_Connections{};
 		NodeVector m_Nodes{};
+		bool m_IsDirectionalGraph;
 
 		// Called whenever the graph is modified, to be overriden by derived classes
-		virtual void OnGraphModified(bool nrOfNodesChanged, bool nrOfConnectionsChanged) {}
+		virtual void OnGraphModified(bool /*nrOfNodesChanged*/, bool /*nrOfConnectionsChanged*/) {}
 
 
 	private:
-		bool m_IsDirectionalGraph;
 		int m_NextNodeIndex;
 	};
 
@@ -106,7 +106,7 @@ namespace dae
 			ConnectionList newList;
 			for (auto c : cList)
 				newList.push_back(new T_ConnectionType(*c));
-			m_Connections.push_back(newList);
+			this->m_Connections.push_back(newList);
 		}
 
 		m_IsDirectionalGraph = other.m_IsDirectionalGraph;
@@ -307,16 +307,19 @@ namespace dae
 			(m_Nodes[pConnection->GetFrom()]->GetIndex() != invalid_node_index))
 		{
 			//add the pConnection, first making sure it is unique
-			if(IsUniqueConnection(pConnection->GetFrom(), pConnection->GetTo()) && "Connection already exists on this graph");
+			if (!this->IsUniqueConnection(pConnection->GetFrom(), pConnection->GetTo()))
+			{
+				return;
+			}
 
-			m_Connections[pConnection->GetFrom()].push_back(pConnection);
+			this->m_Connections[pConnection->GetFrom()].push_back(pConnection);
 
 			//if the graph is undirected we must add another pConnection in the opposite
 			//direction
 			if (!m_IsDirectionalGraph)
 			{
 				//check to make sure the pConnection is unique before adding
-				if (IsUniqueConnection(pConnection->GetTo(), pConnection->GetFrom()))
+				if (this->IsUniqueConnection(pConnection->GetTo(), pConnection->GetFrom()))
 				{
 					T_ConnectionType* oppositeDirEdge = new T_ConnectionType();
 
