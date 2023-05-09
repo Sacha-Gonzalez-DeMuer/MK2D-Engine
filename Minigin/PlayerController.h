@@ -1,6 +1,6 @@
 #pragma once
 #include "Component.h"
-#include "CGraphNodeNavigator.h"
+#include "GridNavComponent.h"
 
 namespace dae
 {

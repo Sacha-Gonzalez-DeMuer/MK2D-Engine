@@ -16,9 +16,12 @@ namespace dae
 			, std::shared_ptr<IPathFinder> pathfinder);
 		virtual ~GridNavComponent() = default;
 
-		// adds command to be executed to the queue
 		void Move(Direction direction);
-		void GoTo(std::shared_ptr<GraphNode> node);
+		void GoTo(GraphNode* node);
+
+
+		GraphNode* GetCurrentNode() const { return m_CurrentNode; }
+		void SetMovementSpeed(float speed) { m_MoveSpeed = speed; }
 
 		virtual void Start() override;
 		virtual void Update() override;
@@ -28,7 +31,12 @@ namespace dae
 		std::shared_ptr<GridGraph> m_pGraph;
 		GraphNode* m_CurrentNode;
 		GraphNode* m_TargetNode;
-		std::queue<std::shared_ptr<GraphNode>> m_Path;
+		std::queue<GraphNode*> m_Path;
 		std::shared_ptr<IPathFinder> m_pPathFinder;
+
+		float m_MoveSpeed{ 50 };
+
+
+		void AddMoveToPath(GraphNode* toNode);
 	};
 }

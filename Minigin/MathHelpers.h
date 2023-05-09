@@ -10,5 +10,12 @@ namespace dae
 			float y = a.y - b.y;
 			return x * x + y * y;
 		}
+
+		inline glm::vec2 glmLerp(const glm::vec2& from, const glm::vec2& to, float t)
+		{
+			return ((1 - t) * from) + (t * to);
+		}
+
+
 	}
 }

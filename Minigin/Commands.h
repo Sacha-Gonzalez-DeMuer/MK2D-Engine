@@ -44,6 +44,19 @@ namespace dae
 		float m_Speed;
 	};
 
+	class GoToCommand final : public Command
+	{
+	public:
+		GoToCommand(std::shared_ptr<GridNavComponent> navigator, std::shared_ptr<GridNavComponent> target)
+			: m_Navigator(navigator), m_Target(target) {};
+		virtual ~GoToCommand() = default;
+		virtual void Execute() override;
+
+		private:
+			std::shared_ptr<GridNavComponent> m_Navigator;
+			std::shared_ptr<GridNavComponent> m_Target;
+	};
+
 	class HealthComponent;
 	class KillCommand final : public Command
 	{

@@ -209,7 +209,7 @@
     <ClInclude Include="PlayerController.h">
       <Filter>Components\PacMan</Filter>
     </ClInclude>
-    <ClInclude Include="CGraphNodeNavigator.h">
+    <ClInclude Include="GridNavComponent.h">
       <Filter>Components\Graphs</Filter>
     </ClInclude>
     <ClInclude Include="Graph2D.h">
@@ -226,6 +226,9 @@
     </ClInclude>
     <ClInclude Include="IGraph.h">
       <Filter>Components\Graphs</Filter>
+    </ClInclude>
+    <ClInclude Include="GridInteractionComponent.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -334,7 +337,7 @@
     <ClCompile Include="PlayerController.cpp">
       <Filter>Components\PacMan</Filter>
     </ClCompile>
-    <ClCompile Include="CGraphNodeNavigator.cpp">
+    <ClCompile Include="GridNavComponent.cpp">
       <Filter>Components\Graphs</Filter>
     </ClCompile>
     <ClCompile Include="GraphConnectionTypes.cpp">
@@ -347,6 +350,9 @@
       <Filter>Components\Graphs</Filter>
     </ClCompile>
     <ClCompile Include="Graph2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GridInteractionComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

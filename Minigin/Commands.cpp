@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include "Time.h"
 #include "HealthComponent.h"
-#include "CGraphNodeNavigator.h"
+#include "GridNavComponent.h"
 
 namespace dae
 {
@@ -18,5 +18,10 @@ namespace dae
 	void GridMoveCommand::Execute()
 	{
 		m_Navigator->Move(m_Direction);
+	}
+
+	void GoToCommand::Execute()
+	{
+		m_Navigator->GoTo(m_Target->GetCurrentNode());
 	}
 }

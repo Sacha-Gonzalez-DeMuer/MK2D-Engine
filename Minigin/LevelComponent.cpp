@@ -7,7 +7,7 @@
 namespace dae
 {
 	LevelComponent::LevelComponent(const std::wstring& /*levelPath*/)
-		: m_pGridGraph(std::make_shared<GridGraph>(20, 20, 20, false, false))
+		: m_pGridGraph(std::make_shared<GridGraph>(10, 10, 50, false, false))
 		//, m_pMapRenderer(std::make_unique<RenderComponent>(levelPath))
 	{
 	}

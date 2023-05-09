@@ -214,7 +214,8 @@
     <ClInclude Include="AStarPathFinder.h" />
     <ClInclude Include="CacheTrashDebugger.h" />
     <ClInclude Include="CacheTrasher.h" />
-    <ClInclude Include="CGraphNodeNavigator.h" />
+    <ClInclude Include="GridInteractionComponent.h" />
+    <ClInclude Include="GridNavComponent.h" />
     <ClInclude Include="CircleCollider.h" />
     <ClInclude Include="Graph2D.h" />
     <ClInclude Include="GraphConnection.h" />
@@ -268,7 +269,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AStarPathFinder.cpp" />
-    <ClCompile Include="CGraphNodeNavigator.cpp" />
+    <ClCompile Include="GridInteractionComponent.cpp" />
+    <ClCompile Include="GridNavComponent.cpp" />
     <ClCompile Include="CircleCollider.cpp" />
     <ClCompile Include="Commands.cpp" />
     <ClCompile Include="Debug.cpp" />
