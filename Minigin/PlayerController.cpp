@@ -4,19 +4,11 @@
 #include "Input.h"
 #include "GameObject.h"
 
-dae::PlayerController::PlayerController(std::shared_ptr<GridNavComponent> pNavigator)
-	: m_Speed(100.f)
+dae::PlayerController::PlayerController(std::shared_ptr<GridNavComponent> pNavigator, const float speed)
+	: m_Speed(speed)
 	, m_pNavigator(pNavigator)
 {
 	InitializeInput();
-}
-
-void dae::PlayerController::Update()
-{
-}
-
-void dae::PlayerController::Render() const
-{
 }
 
 void dae::PlayerController::InitializeInput()

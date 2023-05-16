@@ -2,19 +2,22 @@
 #include "SoundSystem.h"
 #include <memory>
 
-class ServiceLocator final
+namespace dae
 {
-public:
-	ServiceLocator() = default;
-	~ServiceLocator() = default;
-	ServiceLocator(const ServiceLocator& other) = delete;
-	ServiceLocator(ServiceLocator&& other) = delete;
-	ServiceLocator& operator=(const ServiceLocator& other) = delete;
-	ServiceLocator& operator=(ServiceLocator&& other) = delete;
+	class ServiceLocator final 
+	{
+	public:
+		static void RegisterSoundSystem(std::unique_ptr<ISoundSystem>&& pSoundSystem)
+		{ m_pSoundSystem = std::move(pSoundSystem); }
 
-	static void RegisterSoundSystem(SoundSystem* pSoundSystem);
-	static SoundSystem* GetSoundSystem();
+		static ISoundSystem& GetSoundSystem()
+		{ 	return *m_pSoundSystem; }
 
-private:
-	static std::unique_ptr<SoundSystem> m_pSoundSystem;
-};
+
+	private:
+		static std::unique_ptr<ISoundSystem> m_pSoundSystem;
+		static NULL_SoundSystem m_nullSoundSystem;
+	};
+
+	std::unique_ptr<ISoundSystem> ServiceLocator::m_pSoundSystem = nullptr;
+}

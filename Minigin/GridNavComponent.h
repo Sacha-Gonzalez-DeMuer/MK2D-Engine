@@ -8,7 +8,7 @@
 #include "IPathFinder.h"
 namespace dae
 {
-	class GridNavComponent final : public Component
+	class GridNavComponent : public Component
 	{
 	public:
 		GridNavComponent() = delete;
@@ -19,6 +19,7 @@ namespace dae
 		void Move(Direction direction);
 		void GoTo(GraphNode* node);
 
+		bool IsMoving() const { return !m_Path.empty(); }
 
 		GraphNode* GetCurrentNode() const { return m_CurrentNode; }
 		void SetMovementSpeed(float speed) { m_MoveSpeed = speed; }
@@ -26,17 +27,16 @@ namespace dae
 		virtual void Start() override;
 		virtual void Update() override;
 
-	private:
-		std::queue<Direction> m_Commands;
-		std::shared_ptr<GridGraph> m_pGraph;
+	protected:
 		GraphNode* m_CurrentNode;
 		GraphNode* m_TargetNode;
-		std::queue<GraphNode*> m_Path;
-		std::shared_ptr<IPathFinder> m_pPathFinder;
-
 		float m_MoveSpeed{ 50 };
 
-
 		void AddMoveToPath(GraphNode* toNode);
+		float SqrDistanceToTarget() const;
+	private:
+		std::shared_ptr<GridGraph> m_pGraph;
+		std::queue<GraphNode*> m_Path;
+		std::shared_ptr<IPathFinder> m_pPathFinder;
 	};
 }

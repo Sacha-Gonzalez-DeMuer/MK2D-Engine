@@ -10,7 +10,7 @@ namespace dae
 
 	class HealthHUD final 
 		: public Component
-		, public IObserver<HealthComponent>
+		//, public IObserver<HealthComponent>
 		, public  std::enable_shared_from_this<HealthHUD>
 	{
 	public:
@@ -25,7 +25,7 @@ namespace dae
 
 		void Update() override;
 		void Render() const override;
-		void Notify(const HealthComponent& healthComponent) override;
+		//void Notify(const HealthComponent& healthComponent) override;
 
 	private:
 		std::shared_ptr<HealthComponent> m_healthComponent;

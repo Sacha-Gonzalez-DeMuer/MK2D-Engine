@@ -22,10 +22,10 @@ namespace dae
 		m_scoreText->Render();
 	}
 
-	void ScoreHUD::Notify(const int& /*score*/)
-	{
-		m_scoreText->SetText("Score: " + std::to_string(m_scoreComponent->GetScore()));
-	}
+	//void ScoreHUD::Notify(const int& /*score*/)
+	//{
+	//	m_scoreText->SetText("Score: " + std::to_string(m_scoreComponent->GetScore()));
+	//}
 
 
 	void dae::ScoreHUD::Start()

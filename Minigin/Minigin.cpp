@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 #include "Minigin.h"
 #include "Input.h"
 #include "SceneManager.h"
@@ -46,7 +47,7 @@ dae::Minigin::Minigin(const std::string &dataPath)
 {
 	PrintSDLVersion();
 	
-	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0)
 	{
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
 	}

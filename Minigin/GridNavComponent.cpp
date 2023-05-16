@@ -1,4 +1,5 @@
 #include "GridNavComponent.h"
+#include "GridNavComponent.h"
 #include "glm/glm.hpp"
 #include "AStarPathFinder.h"
 #include "GraphNode.h"
@@ -13,12 +14,12 @@
 
 namespace dae
 {
-	GridNavComponent::GridNavComponent(std::shared_ptr<GridGraph> graph, 
+	GridNavComponent::GridNavComponent(std::shared_ptr<GridGraph> graph,
 		std::shared_ptr<IPathFinder> pathfinder)
 		: m_pGraph(graph)
-		, m_CurrentNode(m_pGraph->GetNode(1, 1))
-		, m_TargetNode(m_pGraph->GetNode(1, 1))
-		, m_pPathFinder(std::move(pathfinder))
+		, m_CurrentNode(graph->GetNode(0))
+		, m_TargetNode(graph->GetNode(0))
+		, m_pPathFinder(pathfinder)
 	{
 	}
 
@@ -75,6 +76,11 @@ namespace dae
 		}
 	}
 
+	float GridNavComponent::SqrDistanceToTarget() const
+	{
+		return MathHelpers::glmDistanceSquared(m_gameObject.lock()->GetWorldPosition(), m_TargetNode->GetPosition());
+	}
+
 	void GridNavComponent::Update()
 	{
 		constexpr float epsilon = 1.0f;
@@ -100,11 +106,9 @@ namespace dae
 					m_Path.pop();
 				}
 
-				std::cout << "Arrived!\n";
 			}
 			else
 			{
-				std::cout << "travelling\n";
 				// Otherwise, interpolate towards the target node
 				const auto& current_position = m_gameObject.lock()->GetTransform()->GetLocalPosition();
 				const auto& direction = glm::normalize(m_TargetNode->GetPosition() - current_position);
@@ -113,9 +117,8 @@ namespace dae
 
 				// If we've overshot the target node, snap to it
 				if (MathHelpers::glmDistanceSquared(new_position, m_TargetNode->GetPosition()) > distance_to_target)
-				{
 					m_gameObject.lock()->GetTransform()->SetLocalPosition(m_TargetNode->GetPosition());
-				}
+
 
 				m_gameObject.lock()->GetTransform()->SetLocalPosition(new_position);
 			}
@@ -130,6 +133,4 @@ namespace dae
 			m_Path.push(toNode);
 		}
 	}
-
-	
 }

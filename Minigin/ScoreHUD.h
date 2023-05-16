@@ -25,7 +25,7 @@ namespace dae
 
 		void Update() override;
 		void Render() const override;
-		void Notify(const int& score) override;
+		//void Notify(const int& score) override;
 
 	private:
 		std::shared_ptr<TextComponent> m_scoreText;
