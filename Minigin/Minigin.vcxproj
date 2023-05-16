@@ -117,7 +117,7 @@
       </Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -144,7 +144,7 @@
       </Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -175,7 +175,7 @@
       </Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -207,7 +207,7 @@
       </Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -246,9 +246,11 @@
     <ClInclude Include="IObject.h" />
     <ClInclude Include="IPathFinder.h" />
     <ClInclude Include="LevelComponent.h" />
+    <ClInclude Include="LoggingSoundSystem.h" />
     <ClInclude Include="MathHelpers.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="IObserver.h" />
+    <ClInclude Include="NULL_SoundSystem.h" />
     <ClInclude Include="Orbiter.h" />
     <ClInclude Include="PlayerController.h" />
     <ClInclude Include="resource.h" />
@@ -259,11 +261,14 @@
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SdlSoundSystem.h" />
+    <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="Singleton.h" />
+    <ClInclude Include="SoundSystem.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="TextObject.h" />
     <ClInclude Include="Texture2D.h" />
-    <ClInclude Include="Time.h" />
+    <ClInclude Include="GameTime.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="XBox360Controller.h" />
   </ItemGroup>
@@ -319,7 +324,9 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="IPathFinder.cpp" />
     <ClCompile Include="LevelComponent.cpp" />
+    <ClCompile Include="LoggingSoundSystem.cpp" />
     <ClCompile Include="Minigin.cpp" />
+    <ClCompile Include="NULL_SoundSystem.cpp" />
     <ClCompile Include="Orbiter.cpp" />
     <ClCompile Include="PlayerController.cpp" />
     <ClCompile Include="ScoreComponent.cpp" />
@@ -329,9 +336,11 @@
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SdlSoundSystem.cpp" />
+    <ClCompile Include="SoundSystem.cpp" />
     <ClCompile Include="TextObject.cpp" />
     <ClCompile Include="Texture2D.cpp" />
-    <ClCompile Include="Time.cpp" />
+    <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="XBox360Controller.cpp" />
   </ItemGroup>

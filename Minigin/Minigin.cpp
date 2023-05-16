@@ -9,7 +9,7 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
-#include "Time.h"
+#include "GameTime.h"
 #include "Debug.h"
 
 SDL_Window* g_window{};
@@ -87,7 +87,7 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = Input::GetInstance();
-	auto& time{ dae::Time::GetInstance() };
+	auto& time{ dae::GameTime::GetInstance() };
 
 	sceneManager.Start();
 

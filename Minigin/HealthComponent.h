@@ -19,4 +19,3 @@ namespace dae
 		void OnCollision(ICollider& other) override;
 	};
 }
-

@@ -4,10 +4,10 @@
 
 namespace dae
 {
-	class Time : public Singleton<Time>
+	class GameTime : public Singleton<GameTime>
 	{
 	public:
-		Time();
+		GameTime();
 
 		void Update();
 

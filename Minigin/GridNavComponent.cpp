@@ -6,7 +6,7 @@
 #include "GridGraph.h"
 #include "IPathFinder.h"
 #include "MathHelpers.h"
-#include "Time.h"
+#include "GameTime.h"
 
 #include <memory>
 #include <iostream>
@@ -32,7 +32,8 @@ namespace dae
 		float distance_to_enable_queuing{ 20.0f }; // distance at which a move will be queued again
 		float dist_to_target = MathHelpers::glmDistanceSquared(m_gameObject.lock()->GetWorldPosition(), m_TargetNode->GetPosition());
 
-		if (m_Path.size() > 1 && dist_to_target > distance_to_enable_queuing) return;
+		if (m_Path.size() >= 1 && dist_to_target > distance_to_enable_queuing) return;
+		else if (m_Path.size() >= 2) return;
 
 		int to_node_idx = -1;
 		GraphNode* to_node;
@@ -76,7 +77,7 @@ namespace dae
 
 	void GridNavComponent::Update()
 	{
-		constexpr float epsilon = 0.05f;
+		constexpr float epsilon = 1.0f;
 		if (!m_Path.empty())
 		{
 			m_TargetNode = m_Path.front();
@@ -107,7 +108,7 @@ namespace dae
 				// Otherwise, interpolate towards the target node
 				const auto& current_position = m_gameObject.lock()->GetTransform()->GetLocalPosition();
 				const auto& direction = glm::normalize(m_TargetNode->GetPosition() - current_position);
-				const float speed = m_MoveSpeed * Time::GetInstance().DeltaTime();
+				const float speed = m_MoveSpeed * GameTime::GetInstance().DeltaTime();
 				auto new_position = current_position + direction * speed;
 
 				// If we've overshot the target node, snap to it
