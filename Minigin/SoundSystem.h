@@ -52,7 +52,7 @@ namespace dae
 	{
 	public:
 		SDL_SoundSystem();
-		~SDL_SoundSystem() = default;
+		~SDL_SoundSystem();
 
 		//overrides
 		void AddSound(const std::string& filePath, const sound_id soundId) override;

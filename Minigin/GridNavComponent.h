@@ -13,7 +13,7 @@ namespace dae
 	public:
 		GridNavComponent() = delete;
 		explicit GridNavComponent(std::shared_ptr<GridGraph> graph
-			, std::shared_ptr<IPathFinder> pathfinder);
+			, std::shared_ptr<IPathFinder> pathfinder, bool isContinuous = false);
 		virtual ~GridNavComponent() = default;
 
 		void Move(Direction direction);
@@ -31,6 +31,9 @@ namespace dae
 		GraphNode* m_CurrentNode;
 		GraphNode* m_TargetNode;
 		float m_MoveSpeed{ 50 };
+
+		bool m_isContinuous{ false };
+		Direction m_CurrentDirection{ Direction::NONE };
 
 		void AddMoveToPath(GraphNode* toNode);
 		float SqrDistanceToTarget() const;

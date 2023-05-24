@@ -17,7 +17,6 @@ namespace dae
 	{
 	}
 
-
 	GridGraph::GridGraph(
 		int columns,
 		int rows,

@@ -15,11 +15,12 @@
 namespace dae
 {
 	GridNavComponent::GridNavComponent(std::shared_ptr<GridGraph> graph,
-		std::shared_ptr<IPathFinder> pathfinder)
+		std::shared_ptr<IPathFinder> pathfinder, bool isContinuous)
 		: m_pGraph(graph)
 		, m_CurrentNode(graph->GetNode(0))
 		, m_TargetNode(graph->GetNode(0))
 		, m_pPathFinder(pathfinder)
+		, m_isContinuous(isContinuous)
 	{
 	}
 
@@ -30,16 +31,26 @@ namespace dae
 
 	void dae::GridNavComponent::Move(Direction direction)
 	{
-		float distance_to_enable_queuing{ 20.0f }; // distance at which a move will be queued again
+		float distance_to_enable_queuing{ m_pGraph->GetCellSize() * 1.5f }; // distance at which a move will be queued again
 		float dist_to_target = MathHelpers::glmDistanceSquared(m_gameObject.lock()->GetWorldPosition(), m_TargetNode->GetPosition());
 
-		if (m_Path.size() >= 1 && dist_to_target > distance_to_enable_queuing) return;
-		else if (m_Path.size() >= 2) return;
-
+		if (dist_to_target > distance_to_enable_queuing) return;
+		if(m_CurrentDirection == direction) return;
+		m_CurrentDirection = direction;
+	
 		int to_node_idx = -1;
 		GraphNode* to_node;
-
 		int from_node_idx = m_Path.empty() ? m_CurrentNode->GetIndex() : m_TargetNode->GetIndex();
+		
+		if (m_Path.size() >= 1)
+		{
+			while (!m_Path.empty())
+				m_Path.pop();
+		};
+
+		auto from_node = m_pGraph->GetNode(from_node_idx);
+		m_gameObject.lock()->GetTransform()->SetLocalPosition(from_node->GetPosition());
+
 		switch (direction)
 		{
 		case Direction::UP:
@@ -58,10 +69,41 @@ namespace dae
 			break;
 		}
 
+
 		if (to_node_idx != -1)
 		{
 			to_node = m_pGraph->GetNode(to_node_idx);
 			AddMoveToPath(to_node);
+			
+			if (m_isContinuous)
+			{
+				while (to_node_idx != -1)
+				{
+					switch (direction)
+					{
+					case Direction::UP:
+						to_node_idx = m_pGraph->GetIndexUp(to_node_idx);
+						break;
+					case Direction::RIGHT:
+						to_node_idx = m_pGraph->GetIndexRight(to_node_idx);
+						break;
+					case Direction::DOWN:
+						to_node_idx = m_pGraph->GetIndexDown(to_node_idx);
+						break;
+					case Direction::LEFT:
+						to_node_idx = m_pGraph->GetIndexLeft(to_node_idx);
+						break;
+					default:
+						break;
+					}
+
+					if (to_node_idx != -1)
+					{
+						to_node = m_pGraph->GetNode(to_node_idx);
+						AddMoveToPath(to_node);
+					}
+				}
+			}
 		}
 	}
 
@@ -118,9 +160,8 @@ namespace dae
 				// If we've overshot the target node, snap to it
 				if (MathHelpers::glmDistanceSquared(new_position, m_TargetNode->GetPosition()) > distance_to_target)
 					m_gameObject.lock()->GetTransform()->SetLocalPosition(m_TargetNode->GetPosition());
-
-
-				m_gameObject.lock()->GetTransform()->SetLocalPosition(new_position);
+				else
+					m_gameObject.lock()->GetTransform()->SetLocalPosition(new_position);
 			}
 		}
 	}

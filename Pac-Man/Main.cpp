@@ -37,8 +37,9 @@ void LoadPacMan()
 	ghost_go->AddComponent<dae::RenderComponent>()->SetTexture("ghost.png");
 	auto ghost_navigator = ghost_go->AddComponent<dae::GridNavComponent>(level->GetGrid(), astar_pathfinder);
 
-	auto pac_navigator = pacman_go->AddComponent<dae::GridNavComponent>(level->GetGrid(), astar_pathfinder);
-	//pacman_go->AddComponent<dae::PacController>(pac_navigator);
+	const float speed = 100.0f;
+	auto pac_navigator = pacman_go->AddComponent<dae::GridNavComponent>(level->GetGrid(), astar_pathfinder, true);
+	pacman_go->AddComponent<dae::PacController>(pac_navigator, speed);
 
 	auto goto_command{ std::make_shared<dae::GoToCommand>(ghost_navigator, pac_navigator) };
 

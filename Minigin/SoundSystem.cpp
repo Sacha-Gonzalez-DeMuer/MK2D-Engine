@@ -47,6 +47,8 @@ namespace dae
             m_Running = false;
             m_qCondtionVariable.notify_all();
             m_SoundThread.join();
+
+
 		}
 
         void PlaySound(const PlayRequest& request)
@@ -181,6 +183,12 @@ namespace dae
     SDL_SoundSystem::SDL_SoundSystem()
         : m_pImpl{ new SDL_SoundSysImpl() }
     {}
+
+    SDL_SoundSystem::~SDL_SoundSystem()
+    {
+        delete m_pImpl;
+        m_pImpl = nullptr;
+    }
 
     void SDL_SoundSystem::AddSound(const std::string& filePath, const sound_id soundId)
     {
