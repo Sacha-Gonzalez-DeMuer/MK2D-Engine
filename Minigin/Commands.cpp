@@ -2,7 +2,6 @@
 #include "GameObject.h"
 #include "Time.h"
 #include "HealthComponent.h"
-#include "GridNavComponent.h"
 
 namespace dae
 {
@@ -13,15 +12,5 @@ namespace dae
 	void KillCommand::Execute()
 	{
 		m_Health->Die();
-	}
-
-	void GridMoveCommand::Execute()
-	{
-		m_Navigator->Move(m_Direction);
-	}
-
-	void GoToCommand::Execute()
-	{
-		m_Navigator->GoTo(m_Target->GetCurrentNode());
 	}
 }

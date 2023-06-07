@@ -1,8 +1,6 @@
 #pragma once
-#include "PlayerController.h"
-#include "GridNavComponent.h"
-#include "Commands.h"
 #include "Subject.h"
+#include "Component.h"
 namespace dae
 {
 	enum class PacEvent
@@ -11,12 +9,16 @@ namespace dae
 		Win
 	};
 
-	class PacController : public PlayerController, public Subject<PacController>
+	class PacNavigator;
+	class PacController : public Component, public Subject<PacController>
 	{
 	public:
-		PacController(std::shared_ptr<GridNavComponent> pNavigator, const float speed);
+		PacController(std::shared_ptr<PacNavigator> pNavigator);
 		~PacController() = default;
 
-		void Update() override;
+		
+	private:
+		std::shared_ptr<PacNavigator> m_pNavigator;
+		void InitializeInput();
 	};
 }

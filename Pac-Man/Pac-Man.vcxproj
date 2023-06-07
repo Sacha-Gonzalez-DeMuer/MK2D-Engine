@@ -19,21 +19,31 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="LevelsData.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="PacController.cpp" />
-    <ClCompile Include="PacLevelLoader.cpp" />
-    <ClCompile Include="PacMoveCommand.cpp" />
+    <ClCompile Include="PacNPCState.cpp" />
+    <ClCompile Include="PacLevel.cpp" />
+    <ClCompile Include="PacGrid.cpp" />
+    <ClCompile Include="PacCommands.cpp" />
     <ClCompile Include="PacNavigator.cpp" />
+    <ClCompile Include="PacNPC.cpp" />
+    <ClCompile Include="PacNPCChase.cpp" />
+    <ClCompile Include="PacNPCWander.cpp" />
     <ClCompile Include="PacSound.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="PacData.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="PacController.h" />
     <ClInclude Include="PacFilePaths.h" />
-    <ClInclude Include="PacLevelLoader.h" />
-    <ClInclude Include="PacMoveCommand.h" />
+    <ClInclude Include="PacNPCState.h" />
+    <ClInclude Include="PacLevel.h" />
+    <ClInclude Include="PacGrid.h" />
+    <ClInclude Include="PacCommands.h" />
     <ClInclude Include="PacNavigator.h" />
+    <ClInclude Include="PacNPC.h" />
+    <ClInclude Include="PacNPCChase.h" />
+    <ClInclude Include="PacNPCWander.h" />
     <ClInclude Include="PacSound.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

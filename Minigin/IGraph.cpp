@@ -325,8 +325,6 @@ namespace dae
 		RemoveConnection(pConnection->GetFrom(), pConnection->GetTo());
 	}
 
-
-
 	void IGraph::RemoveConnections()
 	{
 		for (auto& connectionList : m_Connections)

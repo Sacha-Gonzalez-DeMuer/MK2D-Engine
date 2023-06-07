@@ -3,9 +3,20 @@
 #include "GridGraph.h"
 #include "Renderer.h"
 #include "GraphNode.h"
+#include "imgui.h"
+#include "imgui_plot.h"
+#include <SDL_ttf.h>
+#include "Font.h"
+#include <stdexcept>
+#include "Texture2D.h"
+#include "ResourceManager.h"
 
 namespace dae
 {
+	Debug::Debug()
+		: m_font(dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 12))
+	{}
+
 	void Debug::PlotData(const char* title, const std::vector<float>& x, const std::vector<float>& y)
 	{
 		ImGui::PlotConfig config;
@@ -31,6 +42,15 @@ namespace dae
 				(node->GetPosition()
 				, static_cast<float>(grid->GetCellSize()), static_cast<float>(grid->GetCellSize())
 				, {255,255,255,255});
+
 		}
+	}
+	void Debug::DrawDebugText(const std::string& text, const glm::vec2& pos) const
+	{
+		const auto surf = TTF_RenderText_Blended(m_font->GetFont(), text.c_str(), {255,255,255,255});
+		auto texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetSDLRenderer(), surf);
+		SDL_FreeSurface(surf);
+		auto textTex = std::make_shared<Texture2D>(texture);
+		Renderer::GetInstance().RenderTexture(*textTex, pos.x, pos.y);
 	}
 }

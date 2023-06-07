@@ -40,7 +40,6 @@ namespace dae
 		const ConnectionList& GetNodeConnections(GraphNode* pNode) const;
 		bool IsUniqueConnection(int from, int to) const;
 
-
 		int GetNextFreeNodeIndex() const { return m_NextNodeIndex; }
 		int AddNode(GraphNode* pNode);
 		void RemoveNode(int node);

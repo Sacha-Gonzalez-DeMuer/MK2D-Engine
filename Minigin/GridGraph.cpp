@@ -108,7 +108,6 @@ namespace dae
 			return -1;
 
 		return right;
-
 	}
 
 	int GridGraph::GetIndexDown(int currentIndex)

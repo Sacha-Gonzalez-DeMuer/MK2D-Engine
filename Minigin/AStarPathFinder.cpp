@@ -4,6 +4,7 @@
 #include "IGraph.h"
 #include "Heuristic.h"
 #include <algorithm>
+
 namespace dae
 {
 	AStarPathFinder::AStarPathFinder(std::shared_ptr<IGraph> graph)

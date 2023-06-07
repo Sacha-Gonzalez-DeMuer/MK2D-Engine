@@ -1,6 +1,7 @@
 #pragma once
 #include "../Minigin/Commands.h"
 #include "PacNavigator.h"
+#include "PacData.h"
 
 namespace dae
 {
@@ -8,12 +9,12 @@ namespace dae
 	{
 	public:
 		PacMoveCommand() = delete;
-		explicit PacMoveCommand(std::shared_ptr<PacNavigator> navigator, Direction direction);
+		explicit PacMoveCommand(std::shared_ptr<PacNavigator> navigator, PacData::Direction direction);
 		virtual ~PacMoveCommand() = default;
 		virtual void Execute() override;
 
 	private:
 		std::shared_ptr<PacNavigator> m_Navigator;
-		Direction m_Direction;
+		PacData::Direction m_Direction;
 	};
 }

@@ -16,7 +16,10 @@
     <Filter Include="Map">
       <UniqueIdentifier>{bc0d579a-ca12-4f02-af48-0b34d910aaf6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Player">
+    <Filter Include="Level">
+      <UniqueIdentifier>{dc465aed-ccf2-4294-93ad-e8afec8f9c03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Character">
       <UniqueIdentifier>{e4689011-1ef6-4cd4-b06c-30222d136610}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -24,45 +27,75 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PacMoveCommand.cpp">
+    <ClCompile Include="PacCommands.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PacSound.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PacLevelLoader.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="PacController.cpp">
+      <Filter>Character</Filter>
     </ClCompile>
-    <ClCompile Include="LevelsData.cpp">
-      <Filter>Header Files</Filter>
+    <ClCompile Include="PacGrid.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="PacLevel.cpp">
+      <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="PacNavigator.cpp">
-      <Filter>Map</Filter>
+      <Filter>Character</Filter>
     </ClCompile>
-    <ClCompile Include="PacController.cpp">
-      <Filter>Player</Filter>
+    <ClCompile Include="PacNPC.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PacNPCState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PacNPCWander.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PacNPCChase.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PacController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PacFilePaths.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PacMoveCommand.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PacNavigator.h">
+    <ClInclude Include="PacCommands.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PacSound.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PacLevelLoader.h">
+    <ClInclude Include="PacData.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="PacGrid.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="PacLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="PacController.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="PacNavigator.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="PacNPC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PacNPCState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PacNPCWander.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PacNPCChase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -56,9 +56,6 @@
     <Filter Include="Components\Graphs">
       <UniqueIdentifier>{3e3a7a44-1765-4114-adbd-865f6d720d81}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components\PacMan">
-      <UniqueIdentifier>{aa0c71ae-1d72-4e50-9d93-6293550a12a1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
@@ -206,15 +203,6 @@
     <ClInclude Include="MathHelpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LevelComponent.h">
-      <Filter>Components\PacMan</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerController.h">
-      <Filter>Components\PacMan</Filter>
-    </ClInclude>
-    <ClInclude Include="GridNavComponent.h">
-      <Filter>Components\Graphs</Filter>
-    </ClInclude>
     <ClInclude Include="Graph2D.h">
       <Filter>Components\Graphs</Filter>
     </ClInclude>
@@ -339,15 +327,6 @@
     </ClCompile>
     <ClCompile Include="AStarPathFinder.cpp">
       <Filter>Components\Navigation</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelComponent.cpp">
-      <Filter>Components\PacMan</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerController.cpp">
-      <Filter>Components\PacMan</Filter>
-    </ClCompile>
-    <ClCompile Include="GridNavComponent.cpp">
-      <Filter>Components\Graphs</Filter>
     </ClCompile>
     <ClCompile Include="GraphConnectionTypes.cpp">
       <Filter>Components\Graphs</Filter>
