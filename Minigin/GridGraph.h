@@ -2,6 +2,7 @@
 #include "IGraph.h"
 #include <glm/glm.hpp>
 #include <queue>
+#include "Datatypes.h"
 
 namespace dae
 {
@@ -45,6 +46,8 @@ namespace dae
 		void AddConnectionsToAdjacentCells(int col, int row);
 		void AddConnectionsToAdjacentCells(int idx);
 		GridGraph* GetGraph() { return this; };
+
+		Direction GetConnectionDirection(int fromIdx, int toIdx) const;
 
 	private:
 		int m_NrOfColumns;

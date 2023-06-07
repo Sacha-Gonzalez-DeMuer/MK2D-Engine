@@ -8,8 +8,9 @@
 #include <memory>
 #include <iostream>
 #include <SDL.h>
+#include "IPathFinder.h"
+#include "Datatypes.h"
 
-using namespace dae::PacData;
 
 dae::PacNavigator::PacNavigator(std::shared_ptr<PacGrid> graph, std::shared_ptr<IPathFinder> pathfinder)
 	: m_pGraph{ graph }, m_pPathFinder{ pathfinder }, m_pPacGrid{ graph }, m_CurrentDirection{ Direction::NONE }
@@ -39,6 +40,8 @@ void dae::PacNavigator::Update()
 		m_CurrentNode = m_TargetNode;
 		m_TargetNode = nullptr;
 
+		OnArriveAtTarget.Invoke();
+
 		// find next node using direction queue
 		if (!m_DirectionQueue.empty())
 		{
@@ -46,7 +49,7 @@ void dae::PacNavigator::Update()
 
 			if (IsValid(next_node_idx))
 			{
-				m_CurrentDirection= m_DirectionQueue.front();
+				m_CurrentDirection = m_DirectionQueue.front();
 				m_DirectionQueue.pop();
 				m_TargetNode = m_pGraph->GetNode(next_node_idx);
 			}
@@ -88,19 +91,11 @@ void dae::PacNavigator::Update()
 		else
 			m_gameObject.lock()->GetTransform()->SetLocalPosition(new_position);
 	}
-	
-	//else
-	//{
-	//	//if(MathHelpers::glmDistanceSquared(m_gameObject.lock()->GetTransform()->GetLocalPosition(), m_CurrentNode->GetPosition()) > m_QDistance * m_QDistance * 2)
-	//	m_gameObject.lock()->GetTransform()->SetLocalPosition(m_CurrentNode->GetPosition());
-	//	m_CurrentDirection = Direction::NONE;
-	//}
-
 }
 
-void dae::PacNavigator::Move(Direction direction)
+bool dae::PacNavigator::Move(Direction direction)
 {
-	if (direction == m_CurrentDirection) return;
+	if (direction == m_CurrentDirection) return false;
 
 	if (!m_TargetNode)
 	{
@@ -108,92 +103,40 @@ void dae::PacNavigator::Move(Direction direction)
 		if (IsValid(target))
 		{
 			m_TargetNode = m_pGraph->GetNode(target);
-			return;
+			return true;
 		}
+		else return false;
 	}
 
 	if(!m_DirectionQueue.empty())
 		m_DirectionQueue = std::queue<Direction>();
 
 	m_DirectionQueue.emplace(direction);
-	
-	//// check if move is valid
-	//if (m_pPacGrid->GetPacNodeInfo(to_node->GetIndex()).type == PacGridData::PacNodeType::Wall)
-	//	return;
-
-	//if (m_Path.empty()) m_TargetNode = to_node;
-
-	//if (m_Path.size() >= 1)
-	//	m_Path = std::queue<GraphNode*>();
-
-	//AddMoveToPath(to_node);
-
-	// continuous movement
-	//int to_node_idx = to_node->GetIndex();
-	//while (to_node_idx != -1)
-	//{
-	//	switch (direction)
-	//	{
-	//	case Direction::UP:
-	//		to_node_idx = m_pGraph->GetIndexUp(to_node_idx);
-	//		break;
-	//	case Direction::RIGHT:
-	//		to_node_idx = m_pGraph->GetIndexRight(to_node_idx);
-	//		break;
-	//	case Direction::DOWN:
-	//		to_node_idx = m_pGraph->GetIndexDown(to_node_idx);
-	//		break;
-	//	case Direction::LEFT:
-	//		to_node_idx = m_pGraph->GetIndexLeft(to_node_idx);
-	//		break;
-	//	default:
-	//		break;
-	//	}
-	//
-	//	if (to_node_idx != -1)
-	//	{
-	//		// Pac Navigation
-	//		if (m_pPacGrid->GetPacNodeInfo(to_node_idx).type == PacGridData::PacNodeType::Wall)
-	//			return;
-	//
-	//		to_node = m_pGraph->GetNode(to_node_idx);
-	//		AddMoveToPath(to_node);
-	//	}
-	//}
-
-	//// if we're moving, check if movement is possible from the next node instead from the one we came from
-	//const float dist_to_current = MathHelpers::glmDistanceSquared(m_gameObject.lock()->GetWorldPosition(), m_CurrentNode->GetPosition());
-	//const float dist_to_target = MathHelpers::glmDistanceSquared(m_gameObject.lock()->GetWorldPosition(), m_TargetNode->GetPosition());
-
-	//if (dist_to_target > m_QDistance * m_QDistance && !is_opposite) return;
-
-	//m_CurrentDirection = direction;
-
-	//auto from_node = dist_to_current < dist_to_target ? m_CurrentNode : m_TargetNode;
-	//GraphNode* to_node = m_pGraph->GetNode(GetNodeInDirection(direction, from_node->GetIndex()));
-
-
-	//if (m_Path.size() >= 1)
-	//{
-	//	m_Path.clear();
-	//};
-
-	//if(dist_to_target < (m_QDistance * m_QDistance) * .01f) m_gameObject.lock()->GetTransform()->SetLocalPosition(from_node->GetPosition());  //snap 
-
-	//to_node_idx = GetNodeInDirection(direction, from_node->GetIndex());
-
-	//if (to_node_idx == -1) return;
-
-	////// Pac Navigation
-	//if (m_pPacGrid->GetPacNodeInfo(to_node_idx).type == PacGridData::PacNodeType::Wall)
-	//	return;
-
-
-	////////////////////
-	//
-
+	return true;
 }
 
+void dae::PacNavigator::SetPathToNode(int nodeIdx)
+{
+	if(!IsValid(nodeIdx)) return;
+
+	const auto& path = m_pPathFinder->FindPath(m_CurrentNode, m_pGraph->GetNode(nodeIdx));
+	if (path.empty()) return;
+
+	m_DirectionQueue = std::queue<Direction>();
+	for (size_t i = 0; i < path.size() - 1; ++i)
+	{
+		auto from = path[i];
+		auto to = path[i + 1];
+		auto direction = m_pGraph->GetConnectionDirection(from->GetIndex(), to->GetIndex());
+		m_DirectionQueue.emplace(direction);
+	}
+}
+
+void dae::PacNavigator::SetPathToNode(const glm::vec2& position)
+{
+	auto nodeAtPos = m_pGraph->GetNodeAtWorldPos(position);
+	SetPathToNode(nodeAtPos->GetIndex());
+}
 
 int dae::PacNavigator::GetNodeInDirection(Direction direction, int fromNodeIdx)
 {
@@ -224,13 +167,6 @@ float dae::PacNavigator::SqrDistanceToTarget() const
 	return MathHelpers::glmDistanceSquared(m_gameObject.lock()->GetWorldPosition(), m_TargetNode->GetPosition());
 }
 
-void dae::PacNavigator::AddMoveToPath(GraphNode* toNode)
-{
-	if (m_Path.empty() || m_Path.front() != toNode)
-	{
-		m_Path.emplace(toNode);
-	}
-}
 
 bool dae::PacNavigator::IsValid(int i)
 {

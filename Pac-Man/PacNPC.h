@@ -11,9 +11,13 @@ namespace dae
 	public:
 		explicit PacNPC(std::shared_ptr<PacNavigator> pNavigator);
 		virtual ~PacNPC() = default;
+
 		virtual void Update() override;
+
+		void SetTarget(std::shared_ptr<GameObject> target);
 	private:
 		std::shared_ptr<PacNavigator> m_pNavigator;
+		std::shared_ptr<GameObject> m_pTarget;
 
 		enum class PacNPCState
 		{
@@ -22,8 +26,9 @@ namespace dae
 		};
 
 		PacNPCState m_State;
+		void OnArrive();
 
-
-		//std::shared_ptr<PacNPCState> m_pState;
+		void ChaseLogic();
+		void WanderLogic();
 	};
 }

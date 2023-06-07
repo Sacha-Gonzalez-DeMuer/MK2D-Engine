@@ -1,12 +1,13 @@
 #include "PacGrid.h"
 #include "PacData.h"
 #include "GraphNode.h"
-
+#include "GraphConnection.h"
 dae::PacGrid::PacGrid(const std::vector<std::string>& levelData)
 	: GridGraph(static_cast<int>(levelData.size()), static_cast<int>(levelData[0].size()), 50, false, false)
 	, m_NodeInfoMap(21*21)
 {
 	Initialize(levelData);
+	UpdateConnections();
 }
 
 dae::PacGridData::PacNodeInfo dae::PacGrid::GetPacNodeInfo(int nodeIdx) const
@@ -55,5 +56,32 @@ void dae::PacGrid::Initialize(const std::vector<std::string>& levelData)
 	}
 
 
+}
+
+void dae::PacGrid::UpdateConnections()
+{
+	auto& connectionsList = GetAllConnections();
+
+	for (auto& connections : connectionsList)
+	{
+		for (auto& connection : connections)
+		{
+			int toIdx = connection->GetTo();
+			int fromIdx = connection->GetFrom();
+
+			auto& toNodeInfo = m_NodeInfoMap[toIdx];
+			auto& fromNodeInfo = m_NodeInfoMap[fromIdx];
+
+			if (toNodeInfo.type == PacGridData::PacNodeType::Wall
+				|| fromNodeInfo.type == PacGridData::PacNodeType::Wall)
+			{
+				connection->SetCost(1000);
+			}
+			else
+			{
+				connection->SetCost(1);
+			}
+		}
+	}
 }
  

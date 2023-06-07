@@ -16,6 +16,15 @@ namespace dae
 			return ((1 - t) * from) + (t * to);
 		}
 
+		inline int GenerateRandomRange(int min, int max)
+		{
+			return rand() % (max - min + 1) + min;
+		}
+
+		inline float fGenerateRandomRange(float min, float max)
+		{
+			return min + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (max - min)));
+		}
 
 	}
 }

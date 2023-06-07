@@ -38,7 +38,6 @@ namespace dae
 
 	private:
 		float GetHeuristicCost(GraphNode* pStartNode, GraphNode* pEndNode) const;
-
 		std::shared_ptr<IGraph> m_pGraph;
 
 		NodeRecord GetLowestFScoreConnection(std::vector<NodeRecord> fromList) const;

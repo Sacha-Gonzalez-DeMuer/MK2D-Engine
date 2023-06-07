@@ -227,6 +227,9 @@
     <ClInclude Include="SoundSystem.h">
       <Filter>Sound</Filter>
     </ClInclude>
+    <ClInclude Include="Delegate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minigin.cpp">
@@ -345,6 +348,9 @@
     </ClCompile>
     <ClCompile Include="SoundSystem.cpp">
       <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Delegate.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -4,7 +4,6 @@
 #include "PacGrid.h"
 #include "Renderer.h"
 #include "GraphNode.h"
-
 namespace dae
 {
 	PacLevel::PacLevel(const std::vector<std::string>& levelPath)

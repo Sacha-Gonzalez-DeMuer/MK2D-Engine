@@ -19,11 +19,11 @@
 #include "ServiceLocator.h"
 #include "PacFilePaths.h"
 #include <memory>
-
 #include "PacLevel.h"
 #include "PacData.h"
 #include "PacNavigator.h"
 #include "PacGrid.h"
+#include "PacNPC.h"
 
 namespace dae
 {
@@ -42,6 +42,8 @@ namespace dae
 		auto ghost_go = std::make_shared<GameObject>();
 		ghost_go->AddComponent<RenderComponent>()->SetTexture("ghost.png");
 		auto ghost_navigator = ghost_go->AddComponent<PacNavigator>(level->GetPacGrid(), astar_pathfinder);
+		auto ghost_brain = ghost_go->AddComponent<PacNPC>(ghost_navigator);
+		ghost_brain->SetTarget(pacman_go);
 
 		auto pac_navigator = pacman_go->AddComponent<PacNavigator>(level->GetPacGrid(), astar_pathfinder);
 		pacman_go->AddComponent<PacController>(pac_navigator);

@@ -3,7 +3,7 @@
 
 namespace dae
 {
-	dae::PacMoveCommand::PacMoveCommand(std::shared_ptr<PacNavigator> navigator, PacData::Direction direction)
+	dae::PacMoveCommand::PacMoveCommand(std::shared_ptr<PacNavigator> navigator, Direction direction)
 		: m_Navigator(navigator)
 		, m_Direction(direction)
 	{

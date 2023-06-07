@@ -14,15 +14,13 @@ namespace dae
 
 	std::vector<GraphNode*> AStarPathFinder::FindPath(GraphNode* pStartNode, GraphNode* pDestinationNode)
 	{
-		if (pStartNode == pDestinationNode) return std::vector<GraphNode*>{pStartNode};
-
 		//2.D wrong check english slides! -> "Connection to the connections endNode => This connection already points to a previously visited node
 		std::vector<GraphNode*> path;
 		std::vector<NodeRecord> openList{}; //connections to be checked
 		std::vector<NodeRecord> closedList{}; //connections already checked
+		NodeRecord currentRecord{};
 
 		const NodeRecord startRecord{ pStartNode, nullptr, GetHeuristicCost(pStartNode, pDestinationNode) };
-		NodeRecord currentRecord{ startRecord };
 		openList.push_back(startRecord);
 
 		//--------------STEP 1 COMPLETE---------------\\
@@ -35,7 +33,7 @@ namespace dae
 
 			//check if that connection leads to the end node. if so, end loop
 			if (currentRecord.pConnection && currentRecord.pConnection->GetTo() == pDestinationNode->GetIndex()) break;
-			if (!currentRecord.pConnection) break;
+
 			//else get all connections current node, loop over them
 			const auto currentRecordConnections{ m_pGraph->GetNodeConnections(currentRecord.pNode) };
 
@@ -43,8 +41,8 @@ namespace dae
 			for (auto& connectionFromCurrentRecord : currentRecordConnections)
 			{
 				//---------------STEP 2.1 COMPLETE-----------------\\
-					// 
-					//calculate g-cost so far
+				// 
+				//calculate g-cost so far
 				GraphNode* nextNode{ m_pGraph->GetNode(connectionFromCurrentRecord->GetTo()) };
 				float gCost = currentRecord.costSoFar + 1 + GetHeuristicCost(currentRecord.pNode, pDestinationNode) + connectionFromCurrentRecord->GetCost();
 
@@ -112,8 +110,6 @@ namespace dae
 			//look in the closedList for a record where pNode == currentRecord connection startNode
 			for (auto& record : closedList)
 			{
-				if (!record.pConnection) continue;
-				
 				if (record.pNode->GetIndex() == currentRecord.pConnection->GetFrom()) // found record
 				{
 					currentRecord = record; //set new currentRecord to found record

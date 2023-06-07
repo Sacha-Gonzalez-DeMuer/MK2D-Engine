@@ -4,17 +4,6 @@
 
 namespace dae
 {
-    namespace PacData
-    {
-        enum class Direction
-        {
-            UP = 1, 
-            DOWN = -1,
-            LEFT = 2,
-            RIGHT = -2,
-            NONE = 0
-        };
-    }
     namespace LevelData
     {
         const char PacMan = 'P';

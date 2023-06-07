@@ -157,10 +157,29 @@ namespace dae
 		AddConnectionsToAdjacentCells((int)colRow.x, (int)colRow.y);
 	}
 
+	Direction GridGraph::GetConnectionDirection(int fromIdx, int toIdx) const
+	{
+		int fromRow = fromIdx % m_NrOfRows;    // Calculate row index from graph index
+		int fromCol = fromIdx / m_NrOfRows;    // Calculate column index from graph index
+
+		int toRow = toIdx % m_NrOfRows;        // Calculate row index from graph index
+		int toCol = toIdx / m_NrOfRows;        // Calculate column index from graph index
+
+		if (fromCol == toCol && fromRow + 1 == toRow)
+			return Direction::DOWN;
+		if (fromCol == toCol && fromRow - 1 == toRow)
+			return Direction::UP;
+		if (fromCol + 1 == toCol && fromRow == toRow)
+			return Direction::RIGHT;
+		if (fromCol - 1 == toCol && fromRow == toRow)
+			return Direction::LEFT;
+
+		return Direction::NONE;
+	}
 
 	void GridGraph::AddConnectionsInDirections(int idx, int col, int row, std::vector<glm::vec2> directions)
 	{
-		for (auto d : directions)
+		for (const auto& d : directions)
 		{
 			int neighborCol = col + (int)d.x;
 			int neighborRow = row + (int)d.y;
@@ -216,10 +235,10 @@ namespace dae
 	int GridGraph::GetNodeIdxAtWorldPos(const glm::vec2& pos) const
 	{
 		int idx = invalid_node_index;
-
+		float halfCellSize = static_cast<float>(m_CellSize) * .5f;
 		glm::vec2 position{ pos };
-		position.x -= m_Offset.x - m_CellSize / 2;
-		position.y -= m_Offset.y - m_CellSize / 2;
+		position.x -= m_Offset.x - halfCellSize;
+		position.y -= m_Offset.y - halfCellSize;
 		//Added extra check since  c = int(pos.x / m_CellSize); => doesnt work correcly when out of the lower bounds
 		//TODO add grid start point
 		if (position.x < 0 || position.y < 0)

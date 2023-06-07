@@ -81,6 +81,7 @@ dae::Minigin::~Minigin()
 void dae::Minigin::Run(const std::function<void()>& load)
 {
 	load();
+	srand(static_cast<unsigned int>(time(nullptr)));
 
 	constexpr float desired_FPS{ 144.0f };
 	constexpr float frame_time{ 1000 / desired_FPS };

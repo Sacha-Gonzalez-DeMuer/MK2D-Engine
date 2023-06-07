@@ -14,10 +14,10 @@ namespace dae
 	void PacController::InitializeInput()
 	{
 		// pacman commands
-		auto move_right_command{ std::make_shared<dae::PacMoveCommand>(m_pNavigator, PacData::Direction::RIGHT) };
-		auto move_left_command{ std::make_shared<dae::PacMoveCommand>(m_pNavigator, PacData::Direction::LEFT) };
-		auto move_up_command{ std::make_shared<dae::PacMoveCommand>(m_pNavigator, PacData::Direction::UP) };
-		auto move_down_command{ std::make_shared<dae::PacMoveCommand>(m_pNavigator, PacData::Direction::DOWN) };
+		auto move_right_command{ std::make_shared<dae::PacMoveCommand>(m_pNavigator, Direction::RIGHT) };
+		auto move_left_command{ std::make_shared<dae::PacMoveCommand>(m_pNavigator, Direction::LEFT) };
+		auto move_up_command{ std::make_shared<dae::PacMoveCommand>(m_pNavigator, Direction::UP) };
+		auto move_down_command{ std::make_shared<dae::PacMoveCommand>(m_pNavigator, Direction::DOWN) };
 
 		// keyboard binds
 		dae::Input::GetInstance().AddCommand(std::make_pair(SDL_SCANCODE_D, SDL_KEYDOWN), move_right_command);

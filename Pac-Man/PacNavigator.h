@@ -1,7 +1,8 @@
 #pragma once
 #include "Component.h"
-#include "PacData.h"
 #include <queue>
+#include "Delegate.h"
+#include "Datatypes.h"
 
 namespace dae
 {
@@ -9,6 +10,7 @@ namespace dae
 	class GridGraph;
 	class IPathFinder;
 	class GraphNode;
+	//forward declare templated delegate class
 	class PacNavigator final : public Component
 	{
 	public:
@@ -21,11 +23,15 @@ namespace dae
 		void Update() override;
 		GraphNode* GetCurrentNode() const { return m_CurrentNode; }
 		void SetMovementSpeed(float speed) { m_MoveSpeed = speed; }
-		void Move(PacData::Direction direction);
-		void SetDirection(PacData::Direction direction);
+		bool Move(Direction direction);
+		void SetPathToNode(int nodeIdx);
+		void SetPathToNode(const glm::vec2& position);
 
-		bool IsMoving() const { return !m_Path.empty(); }
+		bool HasTarget() const {return m_TargetNode != nullptr;}
 
+		Delegate<> OnArriveAtTarget;
+		Direction GetCurrentDirection() const { return m_CurrentDirection; }
+		bool HasPath() const { return !m_DirectionQueue.empty(); }
 	private:
 		std::shared_ptr<PacGrid> m_pPacGrid;
 		std::shared_ptr<GridGraph> m_pGraph;
@@ -33,18 +39,18 @@ namespace dae
 
 		GraphNode* m_CurrentNode;
 		GraphNode* m_TargetNode;
-		std::queue<GraphNode*> m_Path;
-		std::queue<PacData::Direction> m_DirectionQueue;
-		PacData::Direction m_CurrentDirection;
+		std::queue<Direction> m_DirectionQueue;
+		Direction m_CurrentDirection;
 
 		float m_MoveSpeed{ 50 };
 		float m_QDistance{}; // distance at which a move is allowed to be queued
 
-		int GetNodeInDirection(PacData::Direction direction, int fromNodeIdx);
+		int GetNodeInDirection(Direction direction, int fromNodeIdx);
 		float SqrDistanceToTarget() const;
-		void AddMoveToPath(GraphNode* toNode);
 
 		bool IsValid(int i);
+
+
 	};
 }
 

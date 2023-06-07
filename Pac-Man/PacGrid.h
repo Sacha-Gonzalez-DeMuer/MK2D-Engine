@@ -20,6 +20,7 @@ namespace dae
 
 	private:
 		void Initialize(const std::vector<std::string>& levelData);
+		void UpdateConnections();
 
 		int m_PacManSpawnNodeIdx{};
 		std::vector<PacGridData::PacNodeInfo> m_NodeInfoMap{};
