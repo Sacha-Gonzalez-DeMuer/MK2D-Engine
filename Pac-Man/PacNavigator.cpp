@@ -41,6 +41,16 @@ void dae::PacNavigator::Update()
 		m_TargetNode = nullptr;
 
 		OnArriveAtTarget.Invoke();
+		const auto& nodeInfo = m_pPacGrid->GetPacNodeInfo(m_CurrentNode->GetIndex());
+		if (nodeInfo.type == PacData::PacNodeType::DOT && nodeInfo.hasItem)
+		{
+			OnDotCollected.Invoke();
+
+		}
+		else if (nodeInfo.type == PacData::PacNodeType::POWERUP && nodeInfo.hasItem)
+		{
+			OnPowerUpFound.Invoke();
+		}
 
 		// find next node using direction queue
 		if (!m_DirectionQueue.empty())
@@ -158,7 +168,6 @@ int dae::PacNavigator::GetNodeInDirection(Direction direction, int fromNodeIdx)
 	default:
 		break;
 	}
-
 	return to_node_idx;
 }
 
@@ -170,5 +179,5 @@ float dae::PacNavigator::SqrDistanceToTarget() const
 
 bool dae::PacNavigator::IsValid(int i)
 {
-	return (i != -1 && m_pPacGrid->GetPacNodeInfo(i).type != PacGridData::PacNodeType::Wall);
+	return (i != -1 && m_pPacGrid->GetPacNodeInfo(i).type != PacData::PacNodeType::WALL);
 }

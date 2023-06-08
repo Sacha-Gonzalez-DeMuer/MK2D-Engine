@@ -5,6 +5,7 @@
 namespace dae
 {
 	class PacNavigator;
+	class PacNPCState;
 	//class PacNPCState;
 	class PacNPC final : public Component
 	{
@@ -15,20 +16,12 @@ namespace dae
 		virtual void Update() override;
 
 		void SetTarget(std::shared_ptr<GameObject> target);
+		std::shared_ptr<GameObject> GetTarget() const { return m_pTarget; }
+		std::shared_ptr<PacNavigator> GetNavigator() const { return m_pNavigator; }
+
 	private:
 		std::shared_ptr<PacNavigator> m_pNavigator;
+		std::shared_ptr<PacNPCState> m_State;
 		std::shared_ptr<GameObject> m_pTarget;
-
-		enum class PacNPCState
-		{
-			Chase,
-			Wander
-		};
-
-		PacNPCState m_State;
-		void OnArrive();
-
-		void ChaseLogic();
-		void WanderLogic();
 	};
 }

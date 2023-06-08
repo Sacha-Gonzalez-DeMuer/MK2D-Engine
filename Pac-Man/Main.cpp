@@ -24,6 +24,7 @@
 #include "PacNavigator.h"
 #include "PacGrid.h"
 #include "PacNPC.h"
+#include "PacJSONParser.h"
 
 namespace dae
 {
@@ -31,8 +32,12 @@ namespace dae
 	{
 		auto& scene = SceneManager::GetInstance().CreateScene("Pac-Man");
 
+		auto jsonParser = std::make_shared<PacJSONParser>(PacData::PacJSONpath);
+		PacData::PacLevelData level0{};
+		jsonParser->LoadLevel(0, level0);
+
 		auto map_go = std::make_shared<GameObject>();
-		auto level = map_go->AddComponent<PacLevel>(LevelData::PacLevels[0]);
+		auto level = map_go->AddComponent<PacLevel>(level0);
 
 		auto pacman_go = std::make_shared<GameObject>();
 		pacman_go->AddComponent<RenderComponent>()->SetTexture("pacman.png");
@@ -50,6 +55,7 @@ namespace dae
 
 		auto spawnPos = level->GetPacGrid()->GetSpawnPos();
 		pacman_go->GetTransform()->SetLocalPosition(spawnPos);
+
 
 
 		//auto goto_command{ std::make_shared<GoToCommand>(ghost_navigator, pac_navigator) };

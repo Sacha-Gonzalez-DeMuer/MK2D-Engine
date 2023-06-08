@@ -1,8 +1,9 @@
 #pragma once
 #include "Component.h"
-#include <queue>
 #include "Delegate.h"
 #include "Datatypes.h"
+#include "PacData.h"
+#include <queue>
 
 namespace dae
 {
@@ -14,9 +15,13 @@ namespace dae
 	class PacNavigator final : public Component
 	{
 	public:
-		PacNavigator() = delete;
 		explicit PacNavigator(std::shared_ptr<PacGrid> graph
 			,std::shared_ptr<IPathFinder> pathfinder);
+		PacNavigator() = delete;
+		PacNavigator(const PacNavigator& other) = delete;
+		PacNavigator(PacNavigator&& other) noexcept = delete;
+		PacNavigator& operator=(const PacNavigator& other) = delete;
+		PacNavigator& operator=(PacNavigator&& other) noexcept = delete;
 		virtual ~PacNavigator() = default;
 
 		void Start() override;
@@ -28,10 +33,14 @@ namespace dae
 		void SetPathToNode(const glm::vec2& position);
 
 		bool HasTarget() const {return m_TargetNode != nullptr;}
-
-		Delegate<> OnArriveAtTarget;
 		Direction GetCurrentDirection() const { return m_CurrentDirection; }
 		bool HasPath() const { return !m_DirectionQueue.empty(); }
+
+
+		Delegate<> OnArriveAtTarget;
+		Delegate<> OnDotCollected;
+		Delegate<> OnPowerUpFound;
+
 	private:
 		std::shared_ptr<PacGrid> m_pPacGrid;
 		std::shared_ptr<GridGraph> m_pGraph;

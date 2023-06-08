@@ -22,6 +22,12 @@
     <Filter Include="Character">
       <UniqueIdentifier>{e4689011-1ef6-4cd4-b06c-30222d136610}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Character\State">
+      <UniqueIdentifier>{56095727-a67d-42e4-b352-e8f4ae762604}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data">
+      <UniqueIdentifier>{1261c277-bcb8-4489-88ee-a4e2c75c5fd1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -48,21 +54,21 @@
     <ClCompile Include="PacNPC.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PacNPCChase.cpp">
+      <Filter>Character\State</Filter>
+    </ClCompile>
     <ClCompile Include="PacNPCState.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Character\State</Filter>
     </ClCompile>
     <ClCompile Include="PacNPCWander.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Character\State</Filter>
     </ClCompile>
-    <ClCompile Include="PacNPCChase.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="PacJSONParser.cpp">
+      <Filter>Data</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PacFilePaths.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PacCommands.h">
@@ -70,9 +76,6 @@
     </ClInclude>
     <ClInclude Include="PacSound.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PacData.h">
-      <Filter>Level</Filter>
     </ClInclude>
     <ClInclude Include="PacGrid.h">
       <Filter>Level</Filter>
@@ -86,17 +89,26 @@
     <ClInclude Include="PacNavigator.h">
       <Filter>Character</Filter>
     </ClInclude>
-    <ClInclude Include="PacNPC.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="PacNPCChase.h">
+      <Filter>Character\State</Filter>
     </ClInclude>
     <ClInclude Include="PacNPCState.h">
-      <Filter>Header Files</Filter>
+      <Filter>Character\State</Filter>
     </ClInclude>
     <ClInclude Include="PacNPCWander.h">
-      <Filter>Header Files</Filter>
+      <Filter>Character\State</Filter>
     </ClInclude>
-    <ClInclude Include="PacNPCChase.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="PacNPC.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="PacFilePaths.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="PacData.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="PacJSONParser.h">
+      <Filter>Data</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

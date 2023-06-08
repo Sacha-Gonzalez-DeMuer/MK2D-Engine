@@ -10,9 +10,14 @@ dae::PacGrid::PacGrid(const std::vector<std::string>& levelData)
 	UpdateConnections();
 }
 
-dae::PacGridData::PacNodeInfo dae::PacGrid::GetPacNodeInfo(int nodeIdx) const
+const PacData::PacNodeInfo& dae::PacGrid::GetPacNodeInfo(int nodeIdx) const
 {
 	return m_NodeInfoMap[nodeIdx];
+}
+
+void dae::PacGrid::SetPacNodeInfo(PacData::PacNodeInfo nodeInfo, int nodeIdx)
+{
+	m_NodeInfoMap[nodeIdx] = nodeInfo;
 }
 
 const glm::vec2& dae::PacGrid::GetSpawnPos() const
@@ -30,24 +35,24 @@ void dae::PacGrid::Initialize(const std::vector<std::string>& levelData)
             auto pNode = GetNode(row, column);
             switch (c)
             {
-            case dae::LevelData::PacMan:
-                m_NodeInfoMap[pNode->GetIndex()].type = PacGridData::PacNodeType::Spawn;
+            case PacData::PacMan:
+                m_NodeInfoMap[pNode->GetIndex()].type = PacData::PacNodeType::SPAWN;
 				m_PacManSpawnNodeIdx = pNode->GetIndex();
 				break;
-			case dae::LevelData::Dot:
-                m_NodeInfoMap[pNode->GetIndex()].type = PacGridData::PacNodeType::Dot;
+			case PacData::Dot:
+                m_NodeInfoMap[pNode->GetIndex()].type = PacData::PacNodeType::DOT;
 				break;
-			case dae::LevelData::Wall:
-                m_NodeInfoMap[pNode->GetIndex()].type = PacGridData::PacNodeType::Wall;
+			case PacData::Wall:
+                m_NodeInfoMap[pNode->GetIndex()].type = PacData::PacNodeType::WALL;
 				break;
-			case dae::LevelData::Empty:
-                m_NodeInfoMap[pNode->GetIndex()].type = PacGridData::PacNodeType::Empty;
+			case PacData::Empty:
+                m_NodeInfoMap[pNode->GetIndex()].type = PacData::PacNodeType::EMPTY;
 				break;
-			case dae::LevelData::PowerUp:
-                m_NodeInfoMap[pNode->GetIndex()].type = PacGridData::PacNodeType::PowerUp;
+			case PacData::PowerUp:
+                m_NodeInfoMap[pNode->GetIndex()].type = PacData::PacNodeType::POWERUP;
 				break;
-			case dae::LevelData::Gate:
-                m_NodeInfoMap[pNode->GetIndex()].type = PacGridData::PacNodeType::Gate;
+			case PacData::Gate:
+                m_NodeInfoMap[pNode->GetIndex()].type = PacData::PacNodeType::GATE;
 				break;
 			default:
 				break;
@@ -72,8 +77,8 @@ void dae::PacGrid::UpdateConnections()
 			auto& toNodeInfo = m_NodeInfoMap[toIdx];
 			auto& fromNodeInfo = m_NodeInfoMap[fromIdx];
 
-			if (toNodeInfo.type == PacGridData::PacNodeType::Wall
-				|| fromNodeInfo.type == PacGridData::PacNodeType::Wall)
+			if (toNodeInfo.type == PacData::PacNodeType::WALL
+				|| fromNodeInfo.type == PacData::PacNodeType::WALL)
 			{
 				connection->SetCost(1000);
 			}

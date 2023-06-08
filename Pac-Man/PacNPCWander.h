@@ -10,7 +10,7 @@ namespace dae
 		PacNPCWander(PacNPC* pPacNPC);
 		PacNPCWander() = delete;
 		virtual ~PacNPCWander() = default;
-		virtual void Update(PacNPC& npc) override;
+		virtual void OnArrive(const PacNPC& npc) override;
 		
 	private:
 		PacNPC* m_pPacNPC;

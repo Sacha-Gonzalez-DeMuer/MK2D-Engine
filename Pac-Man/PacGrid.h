@@ -11,10 +11,11 @@ namespace dae
 	class PacGrid final : public GridGraph
 	{
 	public:
-		PacGrid(const std::vector<std::string>& levelData);
+		PacGrid(const std::vector<std::string>& map);
 		~PacGrid() = default;
 
-		PacGridData::PacNodeInfo GetPacNodeInfo(int nodeIdx) const;
+		const PacData::PacNodeInfo& GetPacNodeInfo(int nodeIdx) const;
+		void SetPacNodeInfo(PacData::PacNodeInfo nodeInfo, int nodeIdx);
 		int GetSpawnIdx() const { return m_PacManSpawnNodeIdx; }
 		const glm::vec2& GetSpawnPos() const;
 
@@ -23,7 +24,7 @@ namespace dae
 		void UpdateConnections();
 
 		int m_PacManSpawnNodeIdx{};
-		std::vector<PacGridData::PacNodeInfo> m_NodeInfoMap{};
+		std::vector<PacData::PacNodeInfo> m_NodeInfoMap{};
 	};
 }
 

@@ -1,6 +1,6 @@
 #pragma once
 #include "Component.h"
-
+#include "PacData.h"
 namespace dae
 {
 	class RenderComponent;
@@ -9,7 +9,8 @@ namespace dae
 	class PacLevel final : public Component
 	{
 	public:
-		explicit PacLevel(const std::vector<std::string>& levelPath);
+		PacLevel() = delete;
+		explicit PacLevel(const PacData::PacLevelData& levelData);
 		~PacLevel() = default;
 
 		virtual void Render() const override;
@@ -17,6 +18,7 @@ namespace dae
 		std::shared_ptr<GridGraph> GetGrid() const;
 		std::shared_ptr<PacGrid> GetPacGrid() const { return m_pPacGrid; }
 	private:
+		PacData::PacLevelData m_LevelData;
 		std::shared_ptr<PacGrid> m_pPacGrid;
 	};
 }
