@@ -7,52 +7,55 @@
 #include "PacData.h"
 namespace dae
 {
-	PacLevel::PacLevel(const PacData::PacLevelData& levelData)
-		: m_pPacGrid(std::make_shared<PacGrid>(levelData.map))
+	PacLevel::PacLevel(const PacData::PacLevelData& levelData, std::shared_ptr<PacGrid> pacGrid)
+		: m_pPacGrid(pacGrid)
 		, m_LevelData{ levelData }
 	{ }
 
 	void PacLevel::Render() const
 	{
 		const auto& nodes = m_pPacGrid->GetAllNodes();
-		const float cellSize = static_cast<float>(m_pPacGrid->GetCellSize());
-		const float dotSize{ cellSize * .2f };
-		const float powerupSize{ cellSize * .3f };
+		const float cell_size = static_cast<float>(m_pPacGrid->GetCellSize());
+		const float dot_size{ cell_size * .2f };
+		const float powerup_size{ cell_size * .3f };
 
 		for (auto pNode : nodes)
 		{
-			const int nodeIdx = pNode->GetIndex();
-			const auto& nodeInfo = m_pPacGrid->GetPacNodeInfo(nodeIdx);
+			const int node_idx = pNode->GetIndex();
+			const auto& node_info = m_pPacGrid->GetPacNodeInfo(node_idx);
 
-			glm::vec4 cellColor{};
-			switch (nodeInfo.type)
+			glm::vec4 cell_color{};
+			switch (node_info.type)
 			{
 			case PacData::PacNodeType::WALL:
-				cellColor = PacData::WallColor;
+				cell_color = PacData::WallColor;
 				break;
 
 			default:
-				cellColor = PacData::WalkableColor;
+				cell_color = PacData::WalkableColor;
 			}
 			
+			const auto& node_pos = m_pPacGrid->GetNodePos(pNode);
 			Renderer::GetInstance()
 				.FillRect
-				(pNode->GetPosition() + GetOwner()->GetTransform()->GetWorldPosition(), cellSize, cellSize, cellColor);
+				(node_pos, cell_size, cell_size, cell_color);
 
-			if (nodeInfo.hasItem)
+
+
+			if (node_info.hasItem)
 			{
-				switch (nodeInfo.type)
+				switch (node_info.type)
 				{
 				case PacData::PacNodeType::DOT:	
 					Renderer::GetInstance()
 						.FillCircle
-						(pNode->GetPosition() + glm::vec2{ cellSize * .5f, cellSize * .5f }, static_cast<int>(dotSize), PacData::InteractableColor);
+						(node_pos + glm::vec2{ cell_size * .5f, cell_size * .5f }, static_cast<int>(dot_size), PacData::InteractableColor);
 					break;
 
 				case PacData::PacNodeType::POWERUP:
 					Renderer::GetInstance()
 						.FillCircle
-						(pNode->GetPosition() + glm::vec2{ cellSize * .5f, cellSize * .5f }, static_cast<int>(powerupSize), PacData::InteractableColor);
+						(node_pos + glm::vec2{ cell_size * .5f, cell_size * .5f }, static_cast<int>(powerup_size), PacData::InteractableColor);
 					break;
 				}
 			} 

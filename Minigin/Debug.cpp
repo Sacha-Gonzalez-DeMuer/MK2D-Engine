@@ -39,7 +39,7 @@ namespace dae
 		{
 			Renderer::GetInstance()
 				.DrawRect
-				(node->GetPosition()
+				(node->GetLocalPosition()
 				, static_cast<float>(grid->GetCellSize()), static_cast<float>(grid->GetCellSize())
 				, {255,255,255,255});
 

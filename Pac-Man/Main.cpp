@@ -43,9 +43,10 @@ namespace dae
 		PacData::PacLevelData level0{};
 		jsonParser->LoadLevel(0, level0);
 
-		auto map_go = std::make_shared<GameObject>();
-		auto level = map_go->AddComponent<PacLevel>(level0);
-		map_go->GetTransform()->SetLocalPosition(200, 200);
+		auto level_go = std::make_shared<GameObject>();
+		auto level_grid = level_go->AddComponent<PacGrid>(level0.map);
+		auto level = level_go->AddComponent<PacLevel>(level0, level_grid);
+		level_go->GetTransform()->SetLocalPosition(200, 200);
 		
 		auto pacman_go = std::make_shared<GameObject>();
 		pacman_go->AddComponent<RenderComponent>()->SetTexture("pacman.png");
@@ -130,7 +131,7 @@ namespace dae
 		//ServiceLocator::GetSoundSystem().AddSound(FilePath::WAKAWAKA_SOUND, 0);
 		//ServiceLocator::GetSoundSystem().PlaySound(0, 100, -1);
 
-		scene.Add(map_go);
+		scene.Add(level_go);
 		scene.Add(pacman_go);
 		scene.Add(ghost_go);
 		scene.Add(score_hud);

@@ -10,7 +10,7 @@ namespace dae
 	{
 	public:
 		PacLevel() = delete;
-		explicit PacLevel(const PacData::PacLevelData& levelData);
+		explicit PacLevel(const PacData::PacLevelData& levelData, std::shared_ptr<PacGrid> pacGrid);
 		~PacLevel() = default;
 
 		virtual void Render() const override;

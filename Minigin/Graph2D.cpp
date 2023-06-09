@@ -24,7 +24,7 @@ namespace dae
 
 	glm::vec2 Graph2D::GetNodePos(GraphNode* pNode) const
 	{
-		return pNode->GetPosition();
+		return pNode->GetLocalPosition();
 	}
 
 
@@ -35,7 +35,7 @@ namespace dae
 			[pos, posErrorMargin, this](GraphNode* pNode)
 			{
 				return pNode->GetIndex() != invalid_node_index
-					&& glm::length((pNode->GetPosition() - pos)) < std::pow(posErrorMargin * GetNodeRadius(), 2); });
+					&& glm::length((pNode->GetLocalPosition() - pos)) < std::pow(posErrorMargin * GetNodeRadius(), 2); });
 
 
 

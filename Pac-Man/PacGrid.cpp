@@ -28,7 +28,40 @@ void dae::PacGrid::SetPacNodeInfo(int idx, PacData::PacNodeType type, bool hasIt
 
 const glm::vec2& dae::PacGrid::GetSpawnPos() const
 {
-	return GetNode(m_PacManSpawnNodeIdx)->GetPosition();
+	return GetNode(m_PacManSpawnNodeIdx)->GetLocalPosition();
+}
+
+glm::vec2 dae::PacGrid::GetNodePos(GraphNode* pNode) const
+{
+	return pNode->GetLocalPosition() + GetOwner()->GetTransform()->GetWorldPosition();
+}
+
+int dae::PacGrid::GetNodeIdxAtWorldPos(const glm::vec2& worldPos) const
+{
+	int idx = invalid_node_index;
+	float cell_size = static_cast<float>(GetCellSize());
+	float halfCellSize = cell_size * .5f;
+	glm::vec2 position{ worldPos };
+	glm::vec2 grid_local_pos = GetOwner()->GetTransform()->GetLocalPosition();
+
+	position.x -= grid_local_pos.x - halfCellSize;
+	position.y -= grid_local_pos.y - halfCellSize;
+
+
+	if (position.x < 0 || position.y < 0)
+	{
+		return idx;
+	}
+
+	int r, c;
+
+	r = static_cast<int>(position.x / cell_size);
+	c = static_cast<int>(position.y / cell_size);
+
+	if (!IsWithinBounds(c, r))
+		return idx;
+
+	return GetIndex(c, r);
 }
 
 void dae::PacGrid::Initialize(const std::vector<std::string>& levelData)

@@ -17,7 +17,7 @@ namespace dae
 
         bool operator==(const GraphNode& other) const { return m_idx == other.m_idx; }
 
-        const glm::vec2& GetPosition() const { return m_position; }
+        const glm::vec2& GetLocalPosition() const { return m_position; }
         void SetPosition(const glm::vec2& pos) { m_position = pos; }
 
     protected:

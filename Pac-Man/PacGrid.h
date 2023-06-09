@@ -4,11 +4,12 @@
 #include <unordered_map>
 #include "PacData.h"
 #include <vector>
+#include "Component.h"
 
 namespace dae
 {
 	// struct that holds info about a node
-	class PacGrid final : public GridGraph
+	class PacGrid final : public GridGraph, public Component
 	{
 	public:
 		PacGrid(const std::vector<std::string>& map);
@@ -20,6 +21,9 @@ namespace dae
 
 		int GetSpawnIdx() const { return m_PacManSpawnNodeIdx; }
 		const glm::vec2& GetSpawnPos() const;
+		
+		virtual glm::vec2 GetNodePos(GraphNode* pNode) const override;
+		virtual int GetNodeIdxAtWorldPos(const glm::vec2& worldPos) const override;
 
 	private:
 		void Initialize(const std::vector<std::string>& levelData);

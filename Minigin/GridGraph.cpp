@@ -275,7 +275,7 @@ namespace dae
 			nodesToProcess.pop();
 
 			// Check if the current node is within the specified radius of the center point
-			if (idxCache.count(node) == 0 && MathHelpers::glmDistanceSquared(IGraph::GetNode(node)->GetPosition(), center) <= radius * radius)
+			if (idxCache.count(node) == 0 && MathHelpers::glmDistanceSquared(IGraph::GetNode(node)->GetLocalPosition(), center) <= radius * radius)
 			{
 				// Add the current node to the cache
 				idxCache.insert(node);
