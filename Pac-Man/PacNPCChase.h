@@ -8,11 +8,10 @@ namespace dae
 	class PacNPCChase final : public PacNPCState
 	{
 	public:
-		PacNPCChase(PacNPC* pPacNPC);
+		PacNPCChase();
 		virtual ~PacNPCChase() = default;
 		virtual void OnArrive(const PacNPC& npc) override;
 
 	private:
-		PacNPC* m_pPacNPC;
 	};
 }

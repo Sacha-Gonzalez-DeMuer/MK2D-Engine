@@ -22,11 +22,17 @@
     <Filter Include="Character">
       <UniqueIdentifier>{e4689011-1ef6-4cd4-b06c-30222d136610}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Character\State">
-      <UniqueIdentifier>{56095727-a67d-42e4-b352-e8f4ae762604}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Data">
       <UniqueIdentifier>{1261c277-bcb8-4489-88ee-a4e2c75c5fd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Score">
+      <UniqueIdentifier>{e483ae0e-08d5-4bc0-877b-5630b1c772b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Character\NPC">
+      <UniqueIdentifier>{da235138-4292-400f-93e3-d54462a1f7ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Character\NPC\State">
+      <UniqueIdentifier>{56095727-a67d-42e4-b352-e8f4ae762604}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -51,20 +57,29 @@
     <ClCompile Include="PacNavigator.cpp">
       <Filter>Character</Filter>
     </ClCompile>
-    <ClCompile Include="PacNPC.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PacNPCChase.cpp">
-      <Filter>Character\State</Filter>
+      <Filter>Character\NPC\State</Filter>
     </ClCompile>
     <ClCompile Include="PacNPCState.cpp">
-      <Filter>Character\State</Filter>
+      <Filter>Character\NPC\State</Filter>
     </ClCompile>
     <ClCompile Include="PacNPCWander.cpp">
-      <Filter>Character\State</Filter>
+      <Filter>Character\NPC\State</Filter>
     </ClCompile>
     <ClCompile Include="PacJSONParser.cpp">
       <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\PacScoreComponent.cpp">
+      <Filter>Score</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\PacScoreHUD.cpp">
+      <Filter>Score</Filter>
+    </ClCompile>
+    <ClCompile Include="PacNPC.cpp">
+      <Filter>Character\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="PacNPCArrivalHandler.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -90,16 +105,13 @@
       <Filter>Character</Filter>
     </ClInclude>
     <ClInclude Include="PacNPCChase.h">
-      <Filter>Character\State</Filter>
+      <Filter>Character\NPC\State</Filter>
     </ClInclude>
     <ClInclude Include="PacNPCState.h">
-      <Filter>Character\State</Filter>
+      <Filter>Character\NPC\State</Filter>
     </ClInclude>
     <ClInclude Include="PacNPCWander.h">
-      <Filter>Character\State</Filter>
-    </ClInclude>
-    <ClInclude Include="PacNPC.h">
-      <Filter>Character</Filter>
+      <Filter>Character\NPC\State</Filter>
     </ClInclude>
     <ClInclude Include="PacFilePaths.h">
       <Filter>Data</Filter>
@@ -109,6 +121,18 @@
     </ClInclude>
     <ClInclude Include="PacJSONParser.h">
       <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\PacScoreComponent.h">
+      <Filter>Score</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\PacScoreHUD.h">
+      <Filter>Score</Filter>
+    </ClInclude>
+    <ClInclude Include="PacNPC.h">
+      <Filter>Character\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="PacNPCArrivalHandler.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

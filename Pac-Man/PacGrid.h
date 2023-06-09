@@ -16,6 +16,8 @@ namespace dae
 
 		const PacData::PacNodeInfo& GetPacNodeInfo(int nodeIdx) const;
 		void SetPacNodeInfo(PacData::PacNodeInfo nodeInfo, int nodeIdx);
+		void SetPacNodeInfo(int idx, PacData::PacNodeType type, bool hasItem = false);
+
 		int GetSpawnIdx() const { return m_PacManSpawnNodeIdx; }
 		const glm::vec2& GetSpawnPos() const;
 

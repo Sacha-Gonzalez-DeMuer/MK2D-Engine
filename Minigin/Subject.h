@@ -11,7 +11,10 @@ namespace dae
     {
     public:
         Subject() = default;
-        virtual ~Subject() = default;
+        virtual ~Subject() {
+            for (const auto& observer : m_Observers)
+                observer->OnSubjectDestroy();
+        };
 
         void AddObserver(std::shared_ptr<IObserver<Args...>> observer)
         {
@@ -23,6 +26,10 @@ namespace dae
             m_Observers.erase(std::remove(m_Observers.begin(), m_Observers.end(), observer), m_Observers.end());
         }
 
+        void ClearObservers()
+        {
+            m_Observers.clear();
+        }
     protected:
         void NotifyObservers(Args... args) const
         {

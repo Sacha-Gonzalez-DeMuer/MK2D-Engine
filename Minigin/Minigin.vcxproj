@@ -254,8 +254,6 @@
     <ClInclude Include="IObserver.h" />
     <ClInclude Include="Orbiter.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="ScoreComponent.h" />
-    <ClInclude Include="ScoreHUD.h" />
     <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
@@ -324,8 +322,6 @@
     <ClCompile Include="IPathFinder.cpp" />
     <ClCompile Include="Minigin.cpp" />
     <ClCompile Include="Orbiter.cpp" />
-    <ClCompile Include="ScoreComponent.cpp" />
-    <ClCompile Include="ScoreHUD.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />

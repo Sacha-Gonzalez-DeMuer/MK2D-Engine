@@ -21,6 +21,7 @@ dae::PacNavigator::PacNavigator(std::shared_ptr<PacGrid> graph, std::shared_ptr<
 	m_QDistance = m_pGraph->GetCellSize() * 1.5f;
 }
 
+
 void dae::PacNavigator::Start()
 {
 	m_gameObject.lock()->SetLocalPosition(m_CurrentNode->GetPosition());
@@ -40,17 +41,7 @@ void dae::PacNavigator::Update()
 		m_CurrentNode = m_TargetNode;
 		m_TargetNode = nullptr;
 
-		OnArriveAtTarget.Invoke();
-		const auto& nodeInfo = m_pPacGrid->GetPacNodeInfo(m_CurrentNode->GetIndex());
-		if (nodeInfo.type == PacData::PacNodeType::DOT && nodeInfo.hasItem)
-		{
-			OnDotCollected.Invoke();
-
-		}
-		else if (nodeInfo.type == PacData::PacNodeType::POWERUP && nodeInfo.hasItem)
-		{
-			OnPowerUpFound.Invoke();
-		}
+		OnArriveAtTarget.Invoke(m_CurrentNode->GetIndex(), m_pPacGrid);
 
 		// find next node using direction queue
 		if (!m_DirectionQueue.empty())
@@ -105,7 +96,7 @@ void dae::PacNavigator::Update()
 
 bool dae::PacNavigator::Move(Direction direction)
 {
-	if (direction == m_CurrentDirection) return false;
+	if (direction == m_CurrentDirection && m_TargetNode) return false;
 
 	if (!m_TargetNode)
 	{
@@ -123,6 +114,19 @@ bool dae::PacNavigator::Move(Direction direction)
 
 	m_DirectionQueue.emplace(direction);
 	return true;
+}
+
+std::vector<Direction> dae::PacNavigator::GetLegalMoves() const
+{
+	std::vector<Direction> legal_moves{};
+	for (int i{ -2 }; i <= 2; ++i)
+	{
+		if (i == 0) continue;
+
+		const auto& node = GetNodeInDirection(static_cast<Direction>(i), m_CurrentNode->GetIndex());
+		if(IsValid(node)) legal_moves.emplace_back(static_cast<Direction>(i));
+	}
+	return legal_moves;
 }
 
 void dae::PacNavigator::SetPathToNode(int nodeIdx)
@@ -144,11 +148,11 @@ void dae::PacNavigator::SetPathToNode(int nodeIdx)
 
 void dae::PacNavigator::SetPathToNode(const glm::vec2& position)
 {
-	auto nodeAtPos = m_pGraph->GetNodeAtWorldPos(position);
-	SetPathToNode(nodeAtPos->GetIndex());
+	auto node_at_pos = m_pGraph->GetNodeAtWorldPos(position);
+	SetPathToNode(node_at_pos->GetIndex());
 }
 
-int dae::PacNavigator::GetNodeInDirection(Direction direction, int fromNodeIdx)
+int dae::PacNavigator::GetNodeInDirection(Direction direction, int fromNodeIdx) const
 {
 	int to_node_idx = -1;
 	switch (direction)
@@ -177,7 +181,7 @@ float dae::PacNavigator::SqrDistanceToTarget() const
 }
 
 
-bool dae::PacNavigator::IsValid(int i)
+bool dae::PacNavigator::IsValid(int i) const
 {
 	return (i != -1 && m_pPacGrid->GetPacNodeInfo(i).type != PacData::PacNodeType::WALL);
 }

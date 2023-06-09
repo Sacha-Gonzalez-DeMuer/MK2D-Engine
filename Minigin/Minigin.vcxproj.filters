@@ -164,16 +164,10 @@
     <ClInclude Include="Subject.h">
       <Filter>Events</Filter>
     </ClInclude>
-    <ClInclude Include="ScoreHUD.h">
-      <Filter>Components\CanvasElements</Filter>
-    </ClInclude>
     <ClInclude Include="ICollider.h">
       <Filter>Components\Physics</Filter>
     </ClInclude>
     <ClInclude Include="HealthComponent.h">
-      <Filter>Components\GameComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="ScoreComponent.h">
       <Filter>Components\GameComponents</Filter>
     </ClInclude>
     <ClInclude Include="TextObject.h">
@@ -304,13 +298,7 @@
     <ClCompile Include="HealthHUD.cpp">
       <Filter>Components\CanvasElements</Filter>
     </ClCompile>
-    <ClCompile Include="ScoreHUD.cpp">
-      <Filter>Components\CanvasElements</Filter>
-    </ClCompile>
     <ClCompile Include="HealthComponent.cpp">
-      <Filter>Components\GameComponents</Filter>
-    </ClCompile>
-    <ClCompile Include="ScoreComponent.cpp">
       <Filter>Components\GameComponents</Filter>
     </ClCompile>
     <ClCompile Include="TextObject.cpp">

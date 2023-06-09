@@ -29,6 +29,7 @@ namespace dae
 		GraphNode* GetCurrentNode() const { return m_CurrentNode; }
 		void SetMovementSpeed(float speed) { m_MoveSpeed = speed; }
 		bool Move(Direction direction);
+		std::vector<Direction> GetLegalMoves() const;
 		void SetPathToNode(int nodeIdx);
 		void SetPathToNode(const glm::vec2& position);
 
@@ -37,7 +38,7 @@ namespace dae
 		bool HasPath() const { return !m_DirectionQueue.empty(); }
 
 
-		Delegate<> OnArriveAtTarget;
+		Delegate<int, std::shared_ptr<PacGrid>> OnArriveAtTarget;
 		Delegate<> OnDotCollected;
 		Delegate<> OnPowerUpFound;
 
@@ -54,12 +55,10 @@ namespace dae
 		float m_MoveSpeed{ 50 };
 		float m_QDistance{}; // distance at which a move is allowed to be queued
 
-		int GetNodeInDirection(Direction direction, int fromNodeIdx);
+		int GetNodeInDirection(Direction direction, int fromNodeIdx) const;
 		float SqrDistanceToTarget() const;
 
-		bool IsValid(int i);
-
-
+		bool IsValid(int i) const;
 	};
 }
 

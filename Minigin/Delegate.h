@@ -1,14 +1,21 @@
 #pragma once
 #include <functional>
 #include <vector>
+#include <memory>	
+#include <algorithm>
+#include <utility>
+
 
 namespace dae
 {
 	template<typename ...Args>
 	class Delegate
 	{
+		using SharedFunc = std::shared_ptr<std::function<void(Args...)>>;
+		using ReferencedObjects = std::vector<std::weak_ptr<void>>;  /*  https://chat.openai.com/share/a6a127dd-762f-43b6-ad0d-fdc6bd8603f4   */
+		using MiniginDelegate = std::pair<SharedFunc, ReferencedObjects>;
+
 	public:
-		using MiniginDelegate = std::function<void(Args...)>;
 		Delegate() = default;
 		~Delegate() = default;
 		Delegate(const Delegate& other) = delete;
@@ -16,37 +23,61 @@ namespace dae
 		Delegate& operator=(const Delegate& other) = delete;
 		Delegate& operator=(Delegate&& other) noexcept = delete;
 
-		template <typename Callable>
-		void AddFunction(Callable&& function)
+
+		void AddFunction(std::function<void(Args...)> function)
 		{
-			static_assert(std::is_invocable_v<Callable, Args...>, "Invalid function signature"); /* https://chat.openai.com/share/3c873eaa-baa5-4637-b04b-485ef5c551a5 */ 
-			m_Functions.push_back(std::forward<Callable>(function));
+			m_Delegates.emplace_back(
+				std::make_pair(
+					std::make_shared<std::function<void(Args...)>> (std::move(function))
+					, ReferencedObjects{}));
 		}
+
+		void AddFunction(std::function<void(Args...)> function, const ReferencedObjects& referencedObject)
+		{
+			m_Delegates.emplace_back(std::make_pair(std::make_shared<std::function<void(Args...)>>(std::move(function)), ReferencedObjects{ std::move(referencedObject)}));
+		}
+
+		void RemoveFunction(std::function<void(Args...)> function)
+		{
+			m_Delegates.erase(std::remove_if(m_Delegates.begin(), m_Delegates.end(),
+				[&function](const MiniginDelegate& delegate)
+				{
+					return *(delegate.first) == function;
+				}), m_Delegates.end());
+		}
+
 
 		void Invoke(Args... args)
 		{
-			for (std::function<void(Args...)>& function : m_Functions)
+			for (auto it = m_Delegates.begin(); it != m_Delegates.end();)
 			{
-				function(args...);
+				const auto& shared_func = it->first;
+				const auto& referencedObjects = it->second;
+
+				// Make sure all referenced objects still exist
+				bool allObjectsExist = std::all_of(referencedObjects.begin(), referencedObjects.end(),
+					[](const std::weak_ptr<void>& wp) { return !wp.expired(); });
+
+				if (shared_func && allObjectsExist)
+				{
+					(*shared_func)(args...);
+					++it;
+				}
+				else
+				{
+					it = m_Delegates.erase(it);
+				}
 			}
 		}
 
-		/*void RemoveListener(const MiniginDelegate& callback) //jefs suggestion, need to look into it before implementing
-		{
-			auto it = std::find_if(m_Listeners.begin(), m_Listeners.end(), [&](const MiniginDelegate& cb) {
-				return cb.target_type() == callback.target_type() && cb.target<void(*)(Args...)>() == callback.target<void(*)(Args...)>();
-				});
-			if (it != m_Listeners.end())
-			{
-				m_Listeners.erase(it);
-			}
-		}*/
 
 		void Clear()
 		{
-			m_Functions.clear();
+			m_Delegates.clear();
 		}
+
 	private:
-		std::vector<MiniginDelegate> m_Functions;
+
+		std::vector<MiniginDelegate> m_Delegates;
 	};
 }

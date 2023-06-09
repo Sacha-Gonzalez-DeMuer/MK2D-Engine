@@ -1,6 +1,5 @@
 #pragma once
 
-
 namespace dae
 {
 	class PacNPC;
@@ -12,6 +11,6 @@ namespace dae
 		static PacNPCWander wander;
 
 		virtual ~PacNPCState() = default;
-		virtual void OnArrive(const PacNPC&) {}; // 
+		virtual void OnArrive(const PacNPC&) {}; 
 	};
 }

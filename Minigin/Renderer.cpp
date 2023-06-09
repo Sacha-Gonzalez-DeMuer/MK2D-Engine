@@ -117,5 +117,19 @@ void dae::Renderer::FillRect(const glm::vec2& pos, float width, float height, co
 	SDL_RenderFillRect(m_renderer, &r);
 }
 
+void dae::Renderer::FillCircle(const glm::vec2& pos, int radius, const glm::vec4& col) const
+{
+	SDL_SetRenderDrawColor(m_renderer, static_cast<Uint8 >(col.x), static_cast<Uint8>(col.y), static_cast<Uint8>(col.z), static_cast<Uint8>(col.w));
 
+	for (int y = -radius; y <= radius; y++)
+	{
+		for (int x = -radius; x <= radius; x++)
+		{
+			if (x * x + y * y <= radius * radius)
+			{
+				SDL_RenderDrawPoint(m_renderer, static_cast<int>(pos.x) + x, static_cast<int>(pos.y) + y);
+			}
+		}
+	}
+}
 inline SDL_Renderer* dae::Renderer::GetSDLRenderer() const { return m_renderer; }

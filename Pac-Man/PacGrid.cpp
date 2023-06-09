@@ -20,6 +20,12 @@ void dae::PacGrid::SetPacNodeInfo(PacData::PacNodeInfo nodeInfo, int nodeIdx)
 	m_NodeInfoMap[nodeIdx] = nodeInfo;
 }
 
+void dae::PacGrid::SetPacNodeInfo(int idx, PacData::PacNodeType type, bool hasItem)
+{
+	m_NodeInfoMap[idx].type = type;
+	m_NodeInfoMap[idx].hasItem = hasItem;
+}
+
 const glm::vec2& dae::PacGrid::GetSpawnPos() const
 {
 	return GetNode(m_PacManSpawnNodeIdx)->GetPosition();
@@ -27,32 +33,42 @@ const glm::vec2& dae::PacGrid::GetSpawnPos() const
 
 void dae::PacGrid::Initialize(const std::vector<std::string>& levelData)
 {
+	int gate_entry_idx = -1;
+
     for (int row = 0; row < GetRows(); ++row)
     {
         for (int column = 0; column < GetColumns(); ++column)
         {
 			char c = levelData[row][column];
             auto pNode = GetNode(row, column);
+			const auto& pNodeIdx = pNode->GetIndex();
             switch (c)
             {
             case PacData::PacMan:
-                m_NodeInfoMap[pNode->GetIndex()].type = PacData::PacNodeType::SPAWN;
-				m_PacManSpawnNodeIdx = pNode->GetIndex();
+                m_NodeInfoMap[pNodeIdx].type = PacData::PacNodeType::SPAWN;
+				m_PacManSpawnNodeIdx = pNodeIdx;
 				break;
 			case PacData::Dot:
-                m_NodeInfoMap[pNode->GetIndex()].type = PacData::PacNodeType::DOT;
+                m_NodeInfoMap[pNodeIdx].type = PacData::PacNodeType::DOT;
+				m_NodeInfoMap[pNodeIdx].hasItem = true;
 				break;
 			case PacData::Wall:
-                m_NodeInfoMap[pNode->GetIndex()].type = PacData::PacNodeType::WALL;
+                m_NodeInfoMap[pNodeIdx].type = PacData::PacNodeType::WALL;
 				break;
 			case PacData::Empty:
-                m_NodeInfoMap[pNode->GetIndex()].type = PacData::PacNodeType::EMPTY;
+                m_NodeInfoMap[pNodeIdx].type = PacData::PacNodeType::EMPTY;
 				break;
 			case PacData::PowerUp:
-                m_NodeInfoMap[pNode->GetIndex()].type = PacData::PacNodeType::POWERUP;
+                m_NodeInfoMap[pNodeIdx].type = PacData::PacNodeType::POWERUP;
+				m_NodeInfoMap[pNodeIdx].hasItem = true;
 				break;
 			case PacData::Gate:
-                m_NodeInfoMap[pNode->GetIndex()].type = PacData::PacNodeType::GATE;
+                m_NodeInfoMap[pNodeIdx].type = PacData::PacNodeType::GATE;
+				if(gate_entry_idx == -1)
+					gate_entry_idx = pNodeIdx;
+				else
+					AddConnection(new GraphConnection(gate_entry_idx, pNodeIdx, 1));
+
 				break;
 			default:
 				break;

@@ -25,6 +25,7 @@ namespace dae
 		void DrawLine(const glm::vec2& p1, const glm::vec2& p2, const glm::vec4& col) const;
 		void DrawRect(const glm::vec2& pos, float width, float height, const glm::vec4& col) const;
 		void FillRect(const glm::vec2& pos, float width, float height, const glm::vec4& col) const;
+		void FillCircle(const glm::vec2& pos, int radius, const glm::vec4& col) const;
 		SDL_Renderer* GetSDLRenderer() const;
 
 		const SDL_Color& GetBackgroundColor() const { return m_clearColor; }

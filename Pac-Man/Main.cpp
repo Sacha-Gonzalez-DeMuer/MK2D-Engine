@@ -22,9 +22,14 @@
 #include "PacLevel.h"
 #include "PacData.h"
 #include "PacNavigator.h"
+#include "PacNPCState.h"
 #include "PacGrid.h"
 #include "PacNPC.h"
 #include "PacJSONParser.h"
+#include "CircleCollider.h"
+#include "PacScoreComponent.h"
+#include <iostream>
+#include "PacScoreHUD.h"
 
 namespace dae
 {
@@ -38,24 +43,74 @@ namespace dae
 
 		auto map_go = std::make_shared<GameObject>();
 		auto level = map_go->AddComponent<PacLevel>(level0);
-
+		
 		auto pacman_go = std::make_shared<GameObject>();
 		pacman_go->AddComponent<RenderComponent>()->SetTexture("pacman.png");
-
+		
 		auto astar_pathfinder = std::make_shared<AStarPathFinder>(level->GetGrid());
-
+		
 		auto ghost_go = std::make_shared<GameObject>();
 		ghost_go->AddComponent<RenderComponent>()->SetTexture("ghost.png");
 		auto ghost_navigator = ghost_go->AddComponent<PacNavigator>(level->GetPacGrid(), astar_pathfinder);
 		auto ghost_brain = ghost_go->AddComponent<PacNPC>(ghost_navigator);
 		ghost_brain->SetTarget(pacman_go);
+		ghost_go->AddComponent<CircleCollider>(static_cast<float>(level->GetGrid()->GetCellSize()));
+
+		// Tell ghost what to do when he arrives at a node
+		std::weak_ptr weak_brain = ghost_brain;
+		ghost_navigator->OnArriveAtTarget.AddFunction([weak_brain](int, std::shared_ptr<PacGrid>) {
+			if (auto ghost_brain_locked = weak_brain.lock()) {
+				weak_brain.lock()->GetState()->OnArrive(*weak_brain.lock());
+			}});
+
 
 		auto pac_navigator = pacman_go->AddComponent<PacNavigator>(level->GetPacGrid(), astar_pathfinder);
-		pacman_go->AddComponent<PacController>(pac_navigator);
+		auto pac_controller = pacman_go->AddComponent<PacController>(pac_navigator);
+		pac_controller->OnPlayerDeath.AddFunction([](){std::cout << "Player died\n";});
+		auto pac_score = pacman_go->AddComponent<PacScoreComponent>(0);
+		
+		// Tell pacman what to do when he arrives at a node
+		std::weak_ptr weak_score = pac_score;
+		pac_navigator->OnArriveAtTarget.AddFunction([weak_score](int idx, std::shared_ptr<PacGrid> grid)
+			{ 
+				if (auto score = weak_score.lock(); score != nullptr)
+				{
+					// Collect Items
+					const auto& info = grid->GetPacNodeInfo(idx);
+					if (!info.hasItem) return;
 
-		auto spawnPos = level->GetPacGrid()->GetSpawnPos();
-		pacman_go->GetTransform()->SetLocalPosition(spawnPos);
+					switch (info.type)
+					{
+					case PacData::PacNodeType::DOT:
+						score->AddScore(PacData::PacDotScore);
+						grid->SetPacNodeInfo(idx, PacData::PacNodeType::DOT, false);
+						std::cout << "Collected dot!\n";
+						break;
 
+					case PacData::PacNodeType::POWERUP:
+						score->AddScore(PacData::PacPowerUpScore);
+						grid->SetPacNodeInfo(idx, PacData::PacNodeType::POWERUP, false);
+						std::cout << "Collected POWERUP!\n";
+
+						break;
+					default:
+						break;
+					}
+				}
+		}, { weak_score });
+
+
+		auto score_hud = std::make_shared<GameObject>();
+		score_hud->AddComponent<PacScoreHUD>(pac_score);
+	  
+
+
+		//pacman_go->AddComponent<CircleCollider>(static_cast<float>(level->GetGrid()->GetCellSize()));
+		//
+		//auto spawnPos = level->GetPacGrid()->GetSpawnPos();
+		//pacman_go->GetTransform()->SetLocalPosition(spawnPos);
+		//
+		
 
 
 		//auto goto_command{ std::make_shared<GoToCommand>(ghost_navigator, pac_navigator) };
@@ -68,9 +123,27 @@ namespace dae
 		scene.Add(map_go);
 		scene.Add(pacman_go);
 		scene.Add(ghost_go);
+		scene.Add(score_hud);
 	}
 
 }
+
+
+class ObjectToDestroy
+{
+public:
+	ObjectToDestroy() { std::cout << "ObjectToDestroy constructed\n"; }
+	~ObjectToDestroy() { std::cout << "ObjectToDestroy destroyed\n"; }
+};
+
+class TestClass
+{
+public:
+	void TestFunction() { std::cout << "TestFunction called\n"; }
+};
+
+
+
 
 int main(int, char* []) {
 	dae::Minigin engine("../Data/");
