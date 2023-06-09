@@ -155,9 +155,6 @@
     <ClInclude Include="XBox360Controller.h">
       <Filter>Input\Controllers</Filter>
     </ClInclude>
-    <ClInclude Include="HealthHUD.h">
-      <Filter>Components\CanvasElements</Filter>
-    </ClInclude>
     <ClInclude Include="IObserver.h">
       <Filter>Events</Filter>
     </ClInclude>
@@ -166,9 +163,6 @@
     </ClInclude>
     <ClInclude Include="ICollider.h">
       <Filter>Components\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="HealthComponent.h">
-      <Filter>Components\GameComponents</Filter>
     </ClInclude>
     <ClInclude Include="TextObject.h">
       <Filter>GameObjects</Filter>
@@ -294,12 +288,6 @@
     </ClCompile>
     <ClCompile Include="Commands.cpp">
       <Filter>Input</Filter>
-    </ClCompile>
-    <ClCompile Include="HealthHUD.cpp">
-      <Filter>Components\CanvasElements</Filter>
-    </ClCompile>
-    <ClCompile Include="HealthComponent.cpp">
-      <Filter>Components\GameComponents</Filter>
     </ClCompile>
     <ClCompile Include="TextObject.cpp">
       <Filter>GameObjects</Filter>

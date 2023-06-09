@@ -37,7 +37,7 @@ namespace dae
 			
 			Renderer::GetInstance()
 				.FillRect
-				(pNode->GetPosition() , cellSize, cellSize, cellColor);
+				(pNode->GetPosition() + GetOwner()->GetTransform()->GetWorldPosition(), cellSize, cellSize, cellColor);
 
 			if (nodeInfo.hasItem)
 			{

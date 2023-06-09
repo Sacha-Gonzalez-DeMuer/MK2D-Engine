@@ -34,6 +34,9 @@
     <Filter Include="Character\NPC\State">
       <UniqueIdentifier>{56095727-a67d-42e4-b352-e8f4ae762604}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Canvas">
+      <UniqueIdentifier>{fac4362c-7641-4e0f-8bb1-472aa6449b3c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -78,8 +81,11 @@
     <ClCompile Include="PacNPC.cpp">
       <Filter>Character\NPC</Filter>
     </ClCompile>
-    <ClCompile Include="PacNPCArrivalHandler.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\Minigin\PacHealthHUD.cpp">
+      <Filter>Canvas</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Minigin\PacHealthComponent.cpp">
+      <Filter>Character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -131,8 +137,11 @@
     <ClInclude Include="PacNPC.h">
       <Filter>Character\NPC</Filter>
     </ClInclude>
-    <ClInclude Include="PacNPCArrivalHandler.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\Minigin\PacHealthHUD.h">
+      <Filter>Canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Minigin\PacHealthComponent.h">
+      <Filter>Character</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

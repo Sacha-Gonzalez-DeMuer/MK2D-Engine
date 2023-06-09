@@ -30,6 +30,8 @@
 #include "PacScoreComponent.h"
 #include <iostream>
 #include "PacScoreHUD.h"
+#include "PacHealthHUD.h"
+#include "PacHealthComponent.h"
 
 namespace dae
 {
@@ -43,6 +45,7 @@ namespace dae
 
 		auto map_go = std::make_shared<GameObject>();
 		auto level = map_go->AddComponent<PacLevel>(level0);
+		map_go->GetTransform()->SetLocalPosition(200, 200);
 		
 		auto pacman_go = std::make_shared<GameObject>();
 		pacman_go->AddComponent<RenderComponent>()->SetTexture("pacman.png");
@@ -103,6 +106,13 @@ namespace dae
 		auto score_hud = std::make_shared<GameObject>();
 		score_hud->AddComponent<PacScoreHUD>(pac_score);
 	  
+		auto pac_health = pacman_go->AddComponent<PacHealthComponent>(3);
+
+		auto health_hud = std::make_shared<GameObject>();
+		health_hud->AddComponent<PacHealthHUD>(pac_health);
+		
+
+
 
 
 		//pacman_go->AddComponent<CircleCollider>(static_cast<float>(level->GetGrid()->GetCellSize()));
@@ -124,6 +134,7 @@ namespace dae
 		scene.Add(pacman_go);
 		scene.Add(ghost_go);
 		scene.Add(score_hud);
+		scene.Add(health_hud);
 	}
 
 }

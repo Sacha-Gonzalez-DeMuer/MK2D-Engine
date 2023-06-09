@@ -16,7 +16,7 @@ namespace dae
 
         void SetOwner(std::weak_ptr<GameObject> owner) { m_gameObject = owner; };
 
-        GameObject* GetOwner() {
+        GameObject* GetOwner() const {
             auto ownerPtr = m_gameObject.lock();
             if (!ownerPtr)
             {

@@ -27,18 +27,4 @@ namespace dae
 		glm::vec2 m_Direction;
 		float m_Speed;
 	};
-
-
-	class HealthComponent;
-	class KillCommand final : public Command
-	{
-	public:
-		KillCommand(std::shared_ptr<HealthComponent> health)
-			: m_Health(health) {};
-		virtual ~KillCommand() = default;
-		virtual void Execute() override;
-
-	private:
-		std::shared_ptr<HealthComponent> m_Health;
-	};
 }

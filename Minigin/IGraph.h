@@ -12,7 +12,7 @@ namespace dae
 {
 	class GraphNode;
 	class GraphConnection;
-	class IGraph
+	class IGraph 
 	{
 	public:
 		using NodeVector = std::vector<GraphNode*>;

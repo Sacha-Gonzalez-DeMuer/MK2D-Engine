@@ -234,8 +234,6 @@
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSCounter.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="HealthComponent.h" />
-    <ClInclude Include="HealthHUD.h" />
     <ClInclude Include="IGraph.h" />
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imgui.h" />
@@ -282,8 +280,6 @@
     <ClCompile Include="Graph2D.cpp" />
     <ClCompile Include="GraphConnectionTypes.cpp" />
     <ClCompile Include="GridGraph.cpp" />
-    <ClCompile Include="HealthComponent.cpp" />
-    <ClCompile Include="HealthHUD.cpp" />
     <ClCompile Include="IGraph.cpp" />
     <ClCompile Include="imgui.cpp">
       <TreatWarningAsError Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</TreatWarningAsError>

@@ -1,3 +1,4 @@
+#include "GameObject.h"
 #pragma once
 #include <string>
 #include "GameObject.h"

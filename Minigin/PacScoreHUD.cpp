@@ -10,7 +10,6 @@ namespace dae
 	PacScoreHUD::PacScoreHUD(std::shared_ptr<PacScoreComponent> scoreComponent)
 		: m_scoreComponent{ scoreComponent }, m_scoreText{ nullptr }
 	{
-		m_scoreComponent->OnScoreChanged.AddFunction([this]() { UpdateText(); });
 	}
 
 	void dae::PacScoreHUD::Update()
@@ -30,6 +29,9 @@ namespace dae
 
 	void dae::PacScoreHUD::Start()
 	{
-	}
+		m_scoreComponent->OnScoreChanged.AddFunction([this]() { UpdateText(); });
 
+		auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+		m_scoreText = GetOwner()->AddComponent<TextComponent>("Score: " + std::to_string(m_scoreComponent->GetScore()), font);
+	}
 }

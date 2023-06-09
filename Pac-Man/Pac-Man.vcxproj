@@ -19,12 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Minigin\PacHealthComponent.cpp" />
+    <ClCompile Include="..\Minigin\PacHealthHUD.cpp" />
     <ClCompile Include="..\Minigin\PacScoreComponent.cpp" />
     <ClCompile Include="..\Minigin\PacScoreHUD.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="PacController.cpp" />
     <ClCompile Include="PacJSONParser.cpp" />
-    <ClCompile Include="PacNPCArrivalHandler.cpp" />
     <ClCompile Include="PacNPCState.cpp" />
     <ClCompile Include="PacLevel.cpp" />
     <ClCompile Include="PacGrid.cpp" />
@@ -36,6 +37,8 @@
     <ClCompile Include="PacSound.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Minigin\PacHealthComponent.h" />
+    <ClInclude Include="..\Minigin\PacHealthHUD.h" />
     <ClInclude Include="..\Minigin\PacScoreComponent.h" />
     <ClInclude Include="..\Minigin\PacScoreHUD.h" />
     <ClInclude Include="PacData.h" />
@@ -43,7 +46,6 @@
     <ClInclude Include="PacController.h" />
     <ClInclude Include="PacFilePaths.h" />
     <ClInclude Include="PacJSONParser.h" />
-    <ClInclude Include="PacNPCArrivalHandler.h" />
     <ClInclude Include="PacNPCState.h" />
     <ClInclude Include="PacLevel.h" />
     <ClInclude Include="PacGrid.h" />
