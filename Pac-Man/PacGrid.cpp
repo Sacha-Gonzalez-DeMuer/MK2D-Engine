@@ -149,6 +149,14 @@ void dae::PacGrid::UpdateConnections()
 			{
 				connection->SetCost(FLT_MAX);
 			}
+			else if (toNodeInfo.type == PacData::PacNodeType::EMPTY && fromNodeInfo.type == PacData::PacNodeType::NPC_SPAWN)
+			{
+				connection->SetCost(0);
+			}
+			else if (toNodeInfo.type == PacData::PacNodeType::NPC_SPAWN && fromNodeInfo.type == PacData::PacNodeType::EMPTY)
+			{
+				connection->SetCost(1000);
+			}
 			else
 			{
 				connection->SetCost(FLT_MIN);

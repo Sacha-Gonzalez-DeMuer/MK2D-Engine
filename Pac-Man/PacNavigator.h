@@ -55,7 +55,7 @@ namespace dae
 		std::queue<Direction> m_DirectionQueue;
 		Direction m_CurrentDirection;
 
-		float m_MoveSpeed{ 50 };
+		float m_MoveSpeed{ 150 };
 		float m_QDistance{}; // distance at which a move is allowed to be queued
 
 		int GetNodeInDirection(Direction direction, int fromNodeIdx) const;

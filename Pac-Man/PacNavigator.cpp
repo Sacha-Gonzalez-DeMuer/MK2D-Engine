@@ -163,7 +163,7 @@ namespace dae
 
 	void dae::PacNavigator::SetPathToNode(int nodeIdx)
 	{
-		if (!IsValid(nodeIdx) || m_pPathFinder == nullptr) return;
+		if (!IsValid(nodeIdx) || m_pPathFinder == nullptr || m_CurrentNode->GetIndex() == nodeIdx) return;
 
 		const auto& path = m_pPathFinder->FindPath(m_CurrentNode, m_pGraph->GetNode(nodeIdx));
 		if (path.empty()) return;
