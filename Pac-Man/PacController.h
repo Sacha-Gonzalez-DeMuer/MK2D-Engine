@@ -1,7 +1,7 @@
 #pragma once
-#include "Subject.h"
 #include "Component.h"
 #include "Delegate.h"
+
 namespace dae
 {
 	enum class PacEvent
@@ -11,13 +11,13 @@ namespace dae
 	};
 
 	class PacNavigator;
-	class PacController : public Component, public Subject<PacController>
+	class PacController : public Component
 	{
 	public:
 		PacController(std::shared_ptr<PacNavigator> pNavigator);
 		~PacController() = default;
 
-		Delegate<> OnPlayerDeath;
+		Delegate<float> OnPowerup;
 
 		void PowerUp(float duration);
 		void Update() override;
@@ -25,7 +25,6 @@ namespace dae
 	private:
 		std::shared_ptr<PacNavigator> m_pNavigator;
 		void InitializeInput();
-		void OnCollision(ICollider& other) override;
 
 		float m_PowerUpTimer;
 	};

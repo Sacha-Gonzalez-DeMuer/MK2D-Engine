@@ -11,7 +11,7 @@ void dae::FPSCounter::Start()
 void dae::FPSCounter::Update()
 {
     // Calculate the FPS for the current frame
-    const float fps = 1.0f / GameTime::GetInstance().DeltaTime();
+    const float fps = 1.0f / GameTime::Get().DeltaTime();
 
     // Update the rolling average of the FPS
     const float alpha = 0.9f; // The weight to give the new value

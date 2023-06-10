@@ -13,6 +13,7 @@ namespace dae
 		explicit PacLevel(const PacData::PacLevelData& levelData, std::shared_ptr<PacGrid> pacGrid);
 		~PacLevel() = default;
 
+		virtual void Start() override;
 		virtual void Render() const override;
 
 		std::shared_ptr<GridGraph> GetGrid() const;

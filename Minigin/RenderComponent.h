@@ -13,7 +13,7 @@ namespace dae
 
 		void SetTexture(std::shared_ptr<Texture2D> texture) { m_texture = texture; };
 		void SetTexture(const std::string filename) {
-			m_texture = ResourceManager::GetInstance().LoadTexture(filename);
+			m_texture = ResourceManager::Get().LoadTexture(filename);
 		};
 
 		virtual void Render() const override;

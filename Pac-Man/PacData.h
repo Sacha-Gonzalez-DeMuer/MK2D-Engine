@@ -5,11 +5,16 @@
 
 namespace PacData
 {
-        const std::string PacJSONpath = "Resources/PacData.json";
+     const std::string PacJSONpath = "Resources/PacData.json";
      struct PacLevelData
      {
          std::vector<std::string> map;
-         int level;
+     };
+
+     struct PacGameData
+     {
+         using PacMap = std::vector<std::string>;
+         std::vector<PacMap> maps;
      };
 
      constexpr char PacMan = 'P';
@@ -33,34 +38,6 @@ namespace PacData
          const std::string PacMan = "PacMan";
          const std::string Ghost = "Ghost";
      }
-
-     //using PacLevelData = std::vector<std::string>;
-     //const std::vector<PacLevelData> PacLevels
-     //{
-     //    { // LEVEL 0 21x21
-     //        "#####################",
-     //        "##........#........##",
-     //        "##o##.###.#.###.##o##",
-     //        "##.................##",
-     //        "##.##.#.#####.#.##.##",
-     //        "##....#...#...#....##",
-     //        "#####.### # ###.#####",
-     //        "#####.#   0   #.#####",
-     //        "#####.# ##=## #.#####",
-     //        "     .  #123#  .     ",
-     //        "#####.# ##### #.#####",
-     //        "#####.#       #.#   #",
-     //        "#####.# ##### #.#####",
-     //        "##........#........##",
-     //        "##.##.###.#.###.##.##",
-     //        "##o.#.....P.....#.o##",
-     //        "###.#.#.#####.#.#.###",
-     //        "##....#...#...#....##",
-     //        "##.######.#.######.##",
-     //        "##.................##",
-     //        "#####################"
-     //    }
-     //};
 
      enum class PacNodeType
      {

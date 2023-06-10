@@ -14,7 +14,7 @@
 namespace dae
 {
 	Debug::Debug()
-		: m_font(dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 12))
+		: m_font(dae::ResourceManager::Get().LoadFont("Lingua.otf", 12))
 	{}
 
 	void Debug::PlotData(const char* title, const std::vector<float>& x, const std::vector<float>& y)
@@ -37,7 +37,7 @@ namespace dae
 
 		for (const auto& node : nodes)
 		{
-			Renderer::GetInstance()
+			Renderer::Get()
 				.DrawRect
 				(node->GetLocalPosition()
 				, static_cast<float>(grid->GetCellSize()), static_cast<float>(grid->GetCellSize())
@@ -48,9 +48,9 @@ namespace dae
 	void Debug::DrawDebugText(const std::string& text, const glm::vec2& pos) const
 	{
 		const auto surf = TTF_RenderText_Blended(m_font->GetFont(), text.c_str(), {255,255,255,255});
-		auto texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetSDLRenderer(), surf);
+		auto texture = SDL_CreateTextureFromSurface(Renderer::Get().GetSDLRenderer(), surf);
 		SDL_FreeSurface(surf);
 		auto textTex = std::make_shared<Texture2D>(texture);
-		Renderer::GetInstance().RenderTexture(*textTex, pos.x, pos.y);
+		Renderer::Get().RenderTexture(*textTex, pos.x, pos.y);
 	}
 }

@@ -25,6 +25,7 @@ namespace dae
 
 		void DeleteObjectsMarkedForDestruction();
 
+		const std::string& GetName() const { return m_name; }
 	private: 
 		explicit Scene(const std::string& name);
 

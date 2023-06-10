@@ -2,6 +2,15 @@
 #include <iostream>
 #include "ICollider.h"
 #include "PacData.h"
+#include "GameTime.h"
+void dae::PacHealthComponent::Update()
+{
+	if (m_InvincibilityTimer > 0)
+	{
+		m_InvincibilityTimer -= GameTime::Get().DeltaTime();
+	}
+}
+
 void dae::PacHealthComponent::Die()
 {
 	OnDeath.Invoke();
@@ -9,18 +18,24 @@ void dae::PacHealthComponent::Die()
 
 void dae::PacHealthComponent::TakeHit()
 {
+	if (m_InvincibilityTimer > 0)
+		return;
+
 	--m_RemainingLives;
 
-	if (m_RemainingLives <= 0)
+	if (m_RemainingLives < 0)
 		OnDeath.Invoke();
 	else
+	{
 		OnHitTaken.Invoke();
+		m_InvincibilityTimer = m_InvincibilityTime;
+	}
 }
 
 void dae::PacHealthComponent::OnCollision(ICollider& other)
 {
 	if (other.GetOwner()->GetTag() == PacData::PacTags::Ghost)
 	{
-		OnPlayerDeath.Invoke();
+		TakeHit();
 	}
 }

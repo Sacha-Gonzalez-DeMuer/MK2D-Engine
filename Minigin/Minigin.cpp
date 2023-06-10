@@ -12,7 +12,7 @@
 #include "ResourceManager.h"
 #include "GameTime.h"
 #include "Debug.h"
-
+#include "Datatypes.h"
 SDL_Window* g_window{};
 
 void PrintSDLVersion()
@@ -56,23 +56,24 @@ dae::Minigin::Minigin(const std::string &dataPath)
 		"Programming 4 assignment",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		1920,
-		1080,
+		static_cast<int>(g_WindowSize.x),
+		static_cast<int>(g_WindowSize.y),
 		SDL_WINDOW_OPENGL
 	);
+
 	if (g_window == nullptr) 
 	{
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
 
-	Renderer::GetInstance().Init(g_window);
+	Renderer::Get().Init(g_window);
 
-	ResourceManager::GetInstance().Init(dataPath);
+	ResourceManager::Get().Init(dataPath);
 }
 
 dae::Minigin::~Minigin()
 {
-	Renderer::GetInstance().Destroy();
+	Renderer::Get().Destroy();
 	SDL_DestroyWindow(g_window);
 	g_window = nullptr;
 	SDL_Quit();
@@ -86,10 +87,10 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	constexpr float desired_FPS{ 144.0f };
 	constexpr float frame_time{ 1000 / desired_FPS };
 
-	auto& renderer = Renderer::GetInstance();
-	auto& sceneManager = SceneManager::GetInstance();
-	auto& input = Input::GetInstance();
-	auto& time{ dae::GameTime::GetInstance() };
+	auto& renderer = Renderer::Get();
+	auto& sceneManager = SceneManager::Get();
+	auto& input = Input::Get();
+	auto& time{ dae::GameTime::Get() };
 
 	sceneManager.Start();
 

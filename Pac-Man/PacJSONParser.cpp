@@ -5,16 +5,16 @@
 #include "PacJSONParser.h"
 
 PacJSONParser::PacJSONParser(const std::string& dataFile)
-	: dataFile{dataFile}
+	: m_dataFile{dataFile}
 {}
 
 bool PacJSONParser::LoadLevel(int levelIdx, PacData::PacLevelData& levelContainer)
 {
 	using namespace rapidjson;
 
-	std::ifstream ifs(dataFile);
+	std::ifstream ifs(m_dataFile);
 	if (!ifs.is_open()) {
-		std::cerr << "Failed to open JSON file: " << dataFile << '\n';
+		std::cerr << "Failed to open JSON file: " << m_dataFile << '\n';
 		return false;
 	}
 
@@ -23,7 +23,7 @@ bool PacJSONParser::LoadLevel(int levelIdx, PacData::PacLevelData& levelContaine
 
 	doc.ParseStream(isw);
 	if (doc.HasParseError()) {
-		std::cerr << "Failed to parse JSON file: " << dataFile << '\n';
+		std::cerr << "Failed to parse JSON file: " << m_dataFile << '\n';
 		return false;
 	}
 
@@ -45,8 +45,6 @@ bool PacJSONParser::LoadLevel(int levelIdx, PacData::PacLevelData& levelContaine
 					levelContainer.map.emplace_back(mapRowString);
 				}
 			}
-
-			levelContainer.level = levelIdx;
 			return true; // level found and map read
 		}
 	}
@@ -54,61 +52,42 @@ bool PacJSONParser::LoadLevel(int levelIdx, PacData::PacLevelData& levelContaine
 	return false;
 }
 
-void PacJSONParser::ParseJSONData(const std::string& levelDataFile)
+bool PacJSONParser::LoadGameData(PacData::PacGameData& gameDataContainer)
 {
 	using namespace rapidjson;
 
-	std::ifstream ifs(levelDataFile);
+	std::ifstream ifs(m_dataFile);
 	if (!ifs.is_open()) {
-		std::cerr << "Failed to open JSON file: " << levelDataFile << '\n';
-		return;
+		std::cerr << "Failed to open JSON file: " << m_dataFile << '\n';
+		return false;
 	}
 
 	IStreamWrapper isw(ifs);
 	Document doc;
+
 	doc.ParseStream(isw);
-
 	if (doc.HasParseError()) {
-		std::cerr << "Failed to parse JSON file: " << levelDataFile << '\n';
-		return;
+		std::cerr << "Failed to parse JSON file: " << m_dataFile << '\n';
+		return false;
 	}
 
-	if (doc.IsObject()) {
-		std::cerr << "Array expected." << '\n';
-	}
 
-	std::vector<PacData::PacLevelData> pacLevels{};
+	const rapidjson::Value& levels = doc["levels"];
 
-	if (!doc.HasMember("levels") || doc["levels"].IsArray())
+	for (rapidjson::SizeType i = 0; i < levels.Size(); ++i)
 	{
-		const Value& levels = doc["levels"];
-		for (SizeType i = 0; i < levels.Size(); i++)
+		const rapidjson::Value& level = levels[i];
+		const rapidjson::Value& map = level["map"];
+		PacData::PacGameData::PacMap pacMap;
+
+		for (rapidjson::SizeType j = 0; j < map.Size(); ++j)
 		{
-			PacData::PacLevelData pacLevel{};
-
-			// level nr
-			const Value& level = levels[i];
-			if (level.HasMember("level") && level["level"].IsInt())
-			{
-				pacLevel.level = level["level"].GetInt();
-			}
-
-			// map
-			if (doc.HasMember("map") && doc["map"].IsArray())
-			{
-				const Value& mapArray = doc["map"];
-				for (SizeType j = 0; j < mapArray.Size(); j++)
-				{
-					if (mapArray[j].IsString())
-					{
-						char* mapRow = const_cast<char*>(mapArray[j].GetString());
-						std::string mapRowString(mapRow);
-						pacLevel.map.emplace_back(mapRowString);
-					}
-				}
-			}
-
-			pacLevels.emplace_back(pacLevel);
+			const std::string& row = map[j].GetString();
+			pacMap.push_back(row);
 		}
+
+		gameDataContainer.maps.push_back(pacMap);
 	}
+
+	return true;
 }

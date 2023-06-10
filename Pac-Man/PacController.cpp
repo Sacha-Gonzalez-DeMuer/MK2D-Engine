@@ -16,11 +16,12 @@ namespace dae
 	void PacController::PowerUp(float duration)
 	{
 		m_PowerUpTimer = duration;
+		OnPowerup.Invoke(duration);
 	}
 
 	void PacController::Update()
 	{
-		float dt = GameTime::GetInstance().DeltaTime();
+		float dt = GameTime::Get().DeltaTime();
 
 		if (m_PowerUpTimer > 0.f)
 		{
@@ -38,17 +39,10 @@ namespace dae
 		auto move_down_command{ std::make_shared<dae::PacMoveCommand>(m_pNavigator, Direction::DOWN) };
 
 		// keyboard binds
-		dae::Input::GetInstance().AddCommand(std::make_pair(SDL_SCANCODE_D, SDL_KEYDOWN), move_right_command);
-		dae::Input::GetInstance().AddCommand(std::make_pair(SDL_SCANCODE_A, SDL_KEYDOWN), move_left_command);
-		dae::Input::GetInstance().AddCommand(std::make_pair(SDL_SCANCODE_W, SDL_KEYDOWN), move_up_command);
-		dae::Input::GetInstance().AddCommand(std::make_pair(SDL_SCANCODE_S, SDL_KEYDOWN), move_down_command);
-	}
-	void PacController::OnCollision(ICollider& other)
-	{
-		if (other.GetOwner()->GetTag() == PacData::PacTags::Ghost)
-		{
-			OnPlayerDeath.Invoke();
-		}
+		dae::Input::Get().AddCommand(std::make_pair(SDL_SCANCODE_D, SDL_KEYDOWN), move_right_command);
+		dae::Input::Get().AddCommand(std::make_pair(SDL_SCANCODE_A, SDL_KEYDOWN), move_left_command);
+		dae::Input::Get().AddCommand(std::make_pair(SDL_SCANCODE_W, SDL_KEYDOWN), move_up_command);
+		dae::Input::Get().AddCommand(std::make_pair(SDL_SCANCODE_S, SDL_KEYDOWN), move_down_command);
 	}
 }
 

@@ -3,7 +3,7 @@
 #include "GraphNode.h"
 #include "GraphConnection.h"
 dae::PacGrid::PacGrid(const std::vector<std::string>& levelData)
-	: GridGraph(static_cast<int>(levelData.size()), static_cast<int>(levelData[0].size()), 50, false, false)
+	: GridGraph(static_cast<int>(levelData.size()), static_cast<int>(levelData[0].size()), 40, false, false)
 	, m_NodeInfoMap(21*21)
 {
 	Initialize(levelData);

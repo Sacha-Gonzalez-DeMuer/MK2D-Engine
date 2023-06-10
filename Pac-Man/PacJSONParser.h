@@ -8,9 +8,8 @@ public:
 	PacJSONParser(const std::string& dataFile);
 
 	bool LoadLevel(int levelIdx, PacData::PacLevelData& levelContainer);
+	bool LoadGameData(PacData::PacGameData& gameDataContainer);
 
 private:
-	void ParseJSONData(const std::string& dataFile);
-	std::string dataFile;
+	std::string m_dataFile;
 };
-

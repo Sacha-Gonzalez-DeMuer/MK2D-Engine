@@ -72,20 +72,24 @@
     <ClCompile Include="PacJSONParser.cpp">
       <Filter>Data</Filter>
     </ClCompile>
-    <ClCompile Include="..\Minigin\PacScoreComponent.cpp">
-      <Filter>Score</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Minigin\PacScoreHUD.cpp">
-      <Filter>Score</Filter>
-    </ClCompile>
     <ClCompile Include="PacNPC.cpp">
       <Filter>Character\NPC</Filter>
     </ClCompile>
-    <ClCompile Include="..\Minigin\PacHealthHUD.cpp">
-      <Filter>Canvas</Filter>
+    <ClCompile Include="PacHealthComponent.cpp" />
+    <ClCompile Include="PacHealthHUD.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Minigin\PacHealthComponent.cpp">
-      <Filter>Character</Filter>
+    <ClCompile Include="PacScoreHUD.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PacScoreComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PacNPCVulnerable.cpp">
+      <Filter>Character\NPC\State</Filter>
+    </ClCompile>
+    <ClCompile Include="PacGameManager.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -128,20 +132,24 @@
     <ClInclude Include="PacJSONParser.h">
       <Filter>Data</Filter>
     </ClInclude>
-    <ClInclude Include="..\Minigin\PacScoreComponent.h">
-      <Filter>Score</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Minigin\PacScoreHUD.h">
-      <Filter>Score</Filter>
-    </ClInclude>
     <ClInclude Include="PacNPC.h">
       <Filter>Character\NPC</Filter>
     </ClInclude>
-    <ClInclude Include="..\Minigin\PacHealthHUD.h">
-      <Filter>Canvas</Filter>
+    <ClInclude Include="PacHealthComponent.h" />
+    <ClInclude Include="PacHealthHUD.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Minigin\PacHealthComponent.h">
-      <Filter>Character</Filter>
+    <ClInclude Include="PacScoreHUD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PacScoreComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PacNPCVulnerable.h">
+      <Filter>Character\NPC\State</Filter>
+    </ClInclude>
+    <ClInclude Include="PacGameManager.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

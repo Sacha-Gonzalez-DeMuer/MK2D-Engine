@@ -17,11 +17,14 @@ namespace dae
 		virtual void Update() override;
 		virtual void Render() const override;
 
+		void SetActiveScene(const std::string& name);
 		void DeleteObjectsMarkedForDestruction();
 
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;
 		std::vector<std::shared_ptr<Scene>> m_scenes;
+
+		std::shared_ptr<Scene> m_ActiveScene{ nullptr };
 	};
 }

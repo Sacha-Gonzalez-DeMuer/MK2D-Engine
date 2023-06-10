@@ -1,7 +1,6 @@
 #include "Commands.h"
 #include "GameObject.h"
 #include "Time.h"
-#include "PacHealthComponent.h"
 
 namespace dae
 {
