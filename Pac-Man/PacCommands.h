@@ -1,5 +1,5 @@
 #pragma once
-#include "../Minigin/Commands.h"
+#include "Commands.h"
 #include "PacNavigator.h"
 #include "Datatypes.h"
 
@@ -16,5 +16,13 @@ namespace dae
 	private:
 		std::shared_ptr<PacNavigator> m_Navigator;
 		Direction m_Direction;
+	};
+
+	class PacSkipLevelCommand final : public Command
+	{
+	public:
+		PacSkipLevelCommand() = default;
+		virtual ~PacSkipLevelCommand() = default;
+		virtual void Execute() override;
 	};
 }

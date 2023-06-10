@@ -32,6 +32,17 @@ namespace dae
 		if (!m_TargetNode)
 			return;
 
+		if (!m_DirectionQueue.empty() && AreOpposites(m_DirectionQueue.front(), m_CurrentDirection))
+		{
+			auto next_node_idx = GetNodeInDirection(m_DirectionQueue.front(), m_CurrentNode->GetIndex());
+			if (IsValid(next_node_idx))
+			{
+				m_CurrentDirection = m_DirectionQueue.front();
+				m_DirectionQueue.pop();
+				m_TargetNode = m_pGraph->GetNode(next_node_idx);
+			}
+		}
+
 		constexpr float epsilon = 1.0f;
 		float distance_to_target = MathHelpers::glmDistanceSquared(m_gameObject.lock()->GetWorldPosition(), m_pPacGrid->GetNodePos(m_TargetNode));
 		// If we're close enough to the target node, snap to it and move on to the next one
@@ -131,7 +142,7 @@ namespace dae
 
 	void dae::PacNavigator::SetPathToNode(int nodeIdx)
 	{
-		if (!IsValid(nodeIdx)) return;
+		if (!IsValid(nodeIdx) || m_pPathFinder == nullptr) return;
 
 		const auto& path = m_pPathFinder->FindPath(m_CurrentNode, m_pGraph->GetNode(nodeIdx));
 		if (path.empty()) return;
@@ -150,6 +161,11 @@ namespace dae
 	{
 		auto node_at_pos = m_pGraph->GetNodeAtWorldPos(position);
 		SetPathToNode(node_at_pos->GetIndex());
+	}
+
+	bool PacNavigator::AreOpposites(Direction first, Direction second) const
+	{
+		return abs(static_cast<int>(first)) == abs(static_cast<int>(second));
 	}
 
 	int dae::PacNavigator::GetNodeInDirection(Direction direction, int fromNodeIdx) const

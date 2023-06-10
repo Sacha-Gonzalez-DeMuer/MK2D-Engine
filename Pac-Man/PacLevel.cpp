@@ -72,8 +72,29 @@ namespace dae
 			//Debug::GetInstance().DrawDebugText(std::to_string(pNode->GetIndex()), pNode->GetPosition());
 		}
 	}
+
+	void PacLevel::Update()
+	{
+		if (CheckWinConditions())
+			OnLevelCompleted.Invoke();
+	}
+
 	std::shared_ptr<GridGraph> PacLevel::GetGrid() const
 	{
 		return m_pPacGrid;
+	}
+
+	bool PacLevel::CheckWinConditions() const
+	{
+		const auto& nodesInfo = m_pPacGrid->GetPacNodeInfo();
+
+		for (const auto& nodeInfo : nodesInfo)
+		{
+			if ((nodeInfo.type == PacData::PacNodeType::DOT || nodeInfo.type == PacData::PacNodeType::POWERUP)
+				&& nodeInfo.hasItem)
+				return false;
+		}
+
+		return true;
 	}
 }

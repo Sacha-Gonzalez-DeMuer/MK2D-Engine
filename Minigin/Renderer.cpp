@@ -6,6 +6,7 @@
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_opengl2.h"
 #include <SDL_ttf.h>
+#include "../3rdParty/SDL2_gfx/SDL_gfxPrimitives.h"
 
 int GetOpenGLDriverIndex()
 {
@@ -105,6 +106,7 @@ void dae::Renderer::DrawRect(const glm::vec2& pos, float width, float height, co
 	r.h = static_cast<int>(height);
 	SDL_RenderDrawRect(m_renderer, &r);
 }
+
 void dae::Renderer::FillRect(const glm::vec2& pos, float width, float height, const glm::vec4& col) const
 {
 	SDL_SetRenderDrawColor(m_renderer, static_cast<Uint8>(col.x), static_cast<Uint8>(col.y), static_cast<Uint8>(col.z), static_cast<Uint8>(col.w));

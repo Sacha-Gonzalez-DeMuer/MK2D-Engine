@@ -1,5 +1,6 @@
 #include "PacCommands.h"
 #include "PacNavigator.h"
+#include "PacGameManager.h"
 
 namespace dae
 {
@@ -14,4 +15,8 @@ namespace dae
 		m_Navigator->Move(m_Direction);
 	}
 
+	void PacSkipLevelCommand::Execute()
+	{
+		PacGameManager::Get().LoadNextLevel(true);
+	}
 }

@@ -88,21 +88,20 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	constexpr float frame_time{ 1000 / desired_FPS };
 
 	auto& renderer = Renderer::Get();
-	auto& sceneManager = SceneManager::Get();
+	auto& scene_manager = SceneManager::Get();
 	auto& input = Input::Get();
 	auto& time{ dae::GameTime::Get() };
 
-	sceneManager.Start();
+	scene_manager.Start();
 
-	// todo: this update loop could use some work.
 	bool exit = false;
 	while (!exit)
 	{
 		time.Update();
 		exit = input.HandleInput();
-		sceneManager.Update();
+		scene_manager.Update();
 		renderer.Render();
-		sceneManager.DeleteObjectsMarkedForDestruction();
+		scene_manager.DeleteObjectsMarkedForDestruction();
 
 		const float sleep_time{ frame_time - time.DeltaTime() };
 		const auto& sleep_duration{ std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::duration<float, std::milli>(sleep_time)) };

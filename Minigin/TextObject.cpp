@@ -14,6 +14,7 @@ dae::TextComponent::TextComponent(const std::string& text, std::shared_ptr<Font>
 	: m_needsUpdate(true), m_text(text), m_font(std::move(font)), m_textTexture(nullptr)
 { }
 
+
 void dae::TextComponent::Update()
 {
 	if (m_needsUpdate)
@@ -49,4 +50,9 @@ void dae::TextComponent::SetText(const std::string& text)
 {
 	m_text = text;
 	m_needsUpdate = true;
+}
+
+glm::ivec2 dae::TextComponent::GetSize() const
+{
+	return m_textTexture->GetSize();
 }

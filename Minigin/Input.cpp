@@ -19,7 +19,7 @@ void dae::Input::AddCommand(const ControllerKey& key, std::shared_ptr<Command> c
 	m_ControllerCommands[key] = command;
 }
 
-void dae::Input::AddCommand(const KeyboardKey& key, std::shared_ptr<Command> command)
+void dae::Input::AddCommand(const SDL_Scancode& key, std::shared_ptr<Command> command)
 {
 	m_KeyboardCommands[key] = command;
 }
@@ -63,7 +63,7 @@ bool dae::Input::HandleInput() const
 	const Uint8* pKeys = SDL_GetKeyboardState(nullptr);
 	for (const auto& command : m_KeyboardCommands)
 	{
-		auto key = command.first.first;
+		auto key = command.first;
 
 		if (pKeys[key])
 			command.second->Execute();
@@ -71,5 +71,3 @@ bool dae::Input::HandleInput() const
 
 	return exit;
 }
-
-

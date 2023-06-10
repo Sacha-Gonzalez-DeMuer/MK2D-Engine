@@ -66,6 +66,8 @@ void dae::GameObject::Start()
 
 void dae::GameObject::Update()
 {
+	if (!m_isActive) return;
+
 	for (auto& child_gameobject : m_children)
 		child_gameobject->Update();
 
@@ -75,6 +77,8 @@ void dae::GameObject::Update()
 
 void dae::GameObject::Render() const
 {
+	if (!m_isActive) return;
+
 	for (auto& child_gameobject : m_children)
 		child_gameobject->Render();
 
@@ -84,6 +88,8 @@ void dae::GameObject::Render() const
 
 void dae::GameObject::OnCollision(ICollider& other)
 {
+	if (!m_isActive) return;
+
 	for (auto component : m_components)
 		component->OnCollision(other);
 }

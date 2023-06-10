@@ -16,6 +16,7 @@ namespace dae
 		void Render() const override;
 
 		void SetText(const std::string& text);
+		glm::ivec2 GetSize() const;
 
 		TextComponent();
 		TextComponent(const std::string& text, std::shared_ptr<Font> font);

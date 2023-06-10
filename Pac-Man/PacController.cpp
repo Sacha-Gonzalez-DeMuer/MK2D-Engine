@@ -39,10 +39,10 @@ namespace dae
 		auto move_down_command{ std::make_shared<dae::PacMoveCommand>(m_pNavigator, Direction::DOWN) };
 
 		// keyboard binds
-		dae::Input::Get().AddCommand(std::make_pair(SDL_SCANCODE_D, SDL_KEYDOWN), move_right_command);
-		dae::Input::Get().AddCommand(std::make_pair(SDL_SCANCODE_A, SDL_KEYDOWN), move_left_command);
-		dae::Input::Get().AddCommand(std::make_pair(SDL_SCANCODE_W, SDL_KEYDOWN), move_up_command);
-		dae::Input::Get().AddCommand(std::make_pair(SDL_SCANCODE_S, SDL_KEYDOWN), move_down_command);
+		dae::Input::Get().AddCommand(SDL_SCANCODE_D, move_right_command);
+		dae::Input::Get().AddCommand(SDL_SCANCODE_A, move_left_command);
+		dae::Input::Get().AddCommand(SDL_SCANCODE_W, move_up_command);
+		dae::Input::Get().AddCommand(SDL_SCANCODE_S, move_down_command);
 	}
 }
 

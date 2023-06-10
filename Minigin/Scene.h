@@ -29,11 +29,12 @@ namespace dae
 	private: 
 		explicit Scene(const std::string& name);
 
-		std::string m_name;
+		std::string m_name{};
 		std::vector <std::shared_ptr<GameObject>> m_objects{};
 		std::vector <std::shared_ptr<ICollider>> m_collisionObjects{};
 
-		static unsigned int m_idCounter; 
+		bool m_Started{};
+		static unsigned int m_idCounter;
 	};
 
 }

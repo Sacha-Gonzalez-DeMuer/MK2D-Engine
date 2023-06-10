@@ -4,6 +4,8 @@
 #include "Minigin.h"
 #include "ResourceManager.h"
 #include <memory>
+#include "Delegate.h"
+#include "PacData.h"
 
 namespace dae
 {
@@ -11,6 +13,7 @@ namespace dae
 		: m_healthComponent{ health }
 		, m_livesText{ nullptr }
 	{
+		m_healthComponent->OnDeath.AddFunction([this]() {m_livesText->SetText("Dead!"); });
 	}
 
 	void PacHealthHUD::Update()
@@ -33,7 +36,7 @@ namespace dae
 		m_healthComponent->OnHitTaken.AddFunction([this]() { UpdateHUD(); });
 		m_healthComponent->OnDeath.AddFunction([this]() { UpdateHUD(); });
 
-		auto font = ResourceManager::Get().LoadFont("Lingua.otf", 36);
+		auto font = ResourceManager::Get().LoadFont(PacData::PacFont, 36);
 		m_livesText = GetOwner()->AddComponent<TextComponent>("Lives: " + std::to_string(m_healthComponent->GetRemainingLives()), font);
 	}
 }

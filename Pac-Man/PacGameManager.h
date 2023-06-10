@@ -1,29 +1,26 @@
 #pragma once
-#include "Component.h"
 #include <vector>
 #include <memory>
 #include "PacData.h"
+#include "Singleton.h"
 
 namespace dae
 {
 	class Scene;
 	class PacLevel;
-	class PacGameManager final : public Component
+	class PacController;
+	class PacGameManager final : public Singleton<PacGameManager>
 	{
 	public:
-		PacGameManager(const PacData::PacGameData& gamedata);
-		~PacGameManager() = default;
+		PacGameManager() = default;
+		void Initialize(const PacData::PacGameData& gameData);
 
-		void Start() override;
-
-		void LoadLevel(int idx, Scene& toScene);
+		void LoadLevel(int idx);
+		void LoadNextLevel(bool unloadCurrent = false);
 
 	private:
-
-
+		int m_CurrentLevelIdx{};
 		PacData::PacGameData m_GameData;
 		std::vector<std::shared_ptr<PacLevel>> m_pLevels{};
-
-		std::shared_ptr<PacLevel> m_pCurrentLevel;
 	};
 }

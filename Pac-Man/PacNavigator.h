@@ -16,7 +16,7 @@ namespace dae
 	{
 	public:
 		explicit PacNavigator(std::shared_ptr<PacGrid> graph
-			,std::shared_ptr<IPathFinder> pathfinder);
+			,std::shared_ptr<IPathFinder> pathfinder = nullptr);
 		PacNavigator() = delete;
 		PacNavigator(const PacNavigator& other) = delete;
 		PacNavigator(PacNavigator&& other) noexcept = delete;
@@ -36,7 +36,7 @@ namespace dae
 		bool HasTarget() const {return m_TargetNode != nullptr;}
 		Direction GetCurrentDirection() const { return m_CurrentDirection; }
 		bool HasPath() const { return !m_DirectionQueue.empty(); }
-
+		bool AreOpposites(Direction first, Direction second) const;
 
 		Delegate<int, std::shared_ptr<PacGrid>> OnArriveAtTarget;
 		Delegate<> OnDotCollected;

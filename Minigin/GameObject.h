@@ -50,19 +50,18 @@ namespace dae
 		std::string GetTag() const { return m_tag; };
 
 		bool IsMarkedForDestruction() const { return m_toDestroy; };
+
+		void SetActive(bool active) { m_isActive = active; };
 		void Destroy() { m_toDestroy = true; };
 
 
 	private:
 		std::shared_ptr<Transform> m_transform;
-
 		std::weak_ptr<GameObject> m_parent;
-
 		std::vector<std::shared_ptr<GameObject>> m_children{};
 		std::vector<std::shared_ptr<Component>> m_components{};
-
 		std::string m_tag;
-
+		bool m_isActive{ true };
 		bool m_toDestroy{ false };
 	};
 

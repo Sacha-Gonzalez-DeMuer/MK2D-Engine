@@ -42,10 +42,15 @@ void Scene::RemoveAll()
 
 void dae::Scene::Start()
 {
+	if(m_Started)
+		return;
+
 	for (auto& object : m_objects)
 	{
 		object->Start();
 	}
+
+	m_Started = true;
 }
 
 void Scene::Update()

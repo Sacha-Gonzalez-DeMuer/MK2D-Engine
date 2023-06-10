@@ -16,6 +16,7 @@ namespace dae
 		~PacGrid() = default;
 
 		const PacData::PacNodeInfo& GetPacNodeInfo(int nodeIdx) const;
+		const std::vector<PacData::PacNodeInfo>& GetPacNodeInfo() const { return m_NodeInfoMap; }
 		void SetPacNodeInfo(PacData::PacNodeInfo nodeInfo, int nodeIdx);
 		void SetPacNodeInfo(int idx, PacData::PacNodeType type, bool hasItem = false);
 

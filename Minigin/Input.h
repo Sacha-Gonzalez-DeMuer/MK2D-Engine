@@ -15,8 +15,7 @@ namespace dae
 		using ControllerKey = std::pair<unsigned, XBox360Controller::ControllerButton>;
 		using ControllerCommandsMap = std::map<ControllerKey, std::shared_ptr<Command>>;
 
-		using KeyboardKey = std::pair<SDL_Scancode, SDL_EventType>;
-		using KeyboardCommandsMap = std::map<KeyboardKey, std::shared_ptr<Command>>;
+		using KeyboardCommandsMap = std::map<SDL_Scancode, std::shared_ptr<Command>>;
 
 		Input() {};
 		~Input() = default;
@@ -28,7 +27,7 @@ namespace dae
 		void AddController(std::shared_ptr<XBox360Controller> controller);
 		unsigned int Add360Controller(); // returns controller index
 		void AddCommand(const ControllerKey& key, std::shared_ptr<Command> command);
-		void AddCommand(const KeyboardKey& key, std::shared_ptr<Command> command);
+		void AddCommand(const SDL_Scancode& key, std::shared_ptr<Command> command);
 
 		bool HandleInput() const;
 

@@ -6,6 +6,7 @@
 namespace PacData
 {
      const std::string PacJSONpath = "Resources/PacData.json";
+     const std::string PacFont = "PacFont.otf";
      struct PacLevelData
      {
          std::vector<std::string> map;
