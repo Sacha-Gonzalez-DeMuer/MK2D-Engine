@@ -14,6 +14,7 @@ namespace dae
 
 	std::vector<GraphNode*> AStarPathFinder::FindPath(GraphNode* pStartNode, GraphNode* pDestinationNode)
 	{
+		if (pStartNode == pDestinationNode) return {};
 		//2.D wrong check english slides! -> "Connection to the connections endNode => This connection already points to a previously visited node
 		std::vector<GraphNode*> path;
 		std::vector<NodeRecord> openList{}; //connections to be checked
