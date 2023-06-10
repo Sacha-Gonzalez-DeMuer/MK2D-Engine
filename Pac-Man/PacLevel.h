@@ -7,6 +7,7 @@ namespace dae
 {
 	class RenderComponent;
 	class PacGrid;
+	class PacController;
 	class GridGraph;
 	class PacLevel final : public Component
 	{
@@ -23,9 +24,13 @@ namespace dae
 
 		std::shared_ptr<GridGraph> GetGrid() const;
 		std::shared_ptr<PacGrid> GetPacGrid() const { return m_pPacGrid; }
+
 	private:
 		PacData::PacLevelData m_LevelData;
 		std::shared_ptr<PacGrid> m_pPacGrid;
+
+		std::vector<std::shared_ptr<PacController>> m_pPlayers;
+
 
 		bool CheckWinConditions() const;
 	};

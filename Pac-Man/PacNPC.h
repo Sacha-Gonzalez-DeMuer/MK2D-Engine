@@ -15,6 +15,10 @@ namespace dae
 
 		virtual void Update() override;
 
+		void SetDefaultState(std::shared_ptr<PacNPCState> state, bool apply = true);
+		void SetState(std::shared_ptr<PacNPCState> state) { m_State = state; };
+		void ResetState() { SetState(m_DefaultState); }
+
 		void SetTarget(std::shared_ptr<GameObject> target);
 		std::shared_ptr<GameObject> GetTarget() const { return m_pTarget; }
 		std::shared_ptr<PacNavigator> GetNavigator() const { return m_pNavigator; }
@@ -27,6 +31,7 @@ namespace dae
 
 	private:
 		std::shared_ptr<PacNPCState> m_State;
+		std::shared_ptr<PacNPCState> m_DefaultState;
 		std::shared_ptr<PacNavigator> m_pNavigator;
 		std::shared_ptr<GameObject> m_pTarget;
 

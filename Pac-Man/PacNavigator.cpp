@@ -28,8 +28,16 @@ namespace dae
 
 	void dae::PacNavigator::Update()
 	{
-		if (!m_TargetNode)
-			return;
+		if (!m_TargetNode && !m_DirectionQueue.empty())
+		{
+			if(IsValid(GetNodeInDirection(m_DirectionQueue.front(), m_CurrentNode->GetIndex())))
+				m_TargetNode = m_pGraph->GetNode(GetNodeInDirection(m_DirectionQueue.front(), m_CurrentNode->GetIndex()));
+			else
+			{
+				m_DirectionQueue.pop();
+				return;
+			}
+		}
 
 		if (!m_DirectionQueue.empty() && AreOpposites(m_DirectionQueue.front(), m_CurrentDirection))
 		{
@@ -41,6 +49,10 @@ namespace dae
 				m_TargetNode = m_pGraph->GetNode(next_node_idx);
 			}
 		}
+
+
+		if(!m_TargetNode)
+			return;
 
 		constexpr float epsilon = 1.0f;
 		float distance_to_target = MathHelpers::glmDistanceSquared(m_gameObject.lock()->GetWorldPosition(), m_pPacGrid->GetNodePos(m_TargetNode));

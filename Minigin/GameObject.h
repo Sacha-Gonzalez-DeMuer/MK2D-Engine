@@ -34,7 +34,6 @@ namespace dae
 
 		template <typename TComponent, typename... Args> std::shared_ptr<TComponent> AddComponent(Args&&... args);
 		template <typename TComponent>	std::shared_ptr<TComponent> AddComponent();
-		void AddComponent(std::shared_ptr<Component> component); 
 		template <typename TComponent>  std::shared_ptr<TComponent> GetComponent() const;
 		template <typename TComponent>	void RemoveComponent();
 

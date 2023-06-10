@@ -12,7 +12,7 @@
 namespace dae
 {
 	PacNPC::PacNPC(std::shared_ptr<PacNavigator> pNavigator)
-		: m_pNavigator(pNavigator),m_Vulnerable{false}, m_State{std::make_shared<PacNPCWander>()}
+		: m_pNavigator(pNavigator),m_Vulnerable{false}, m_State{std::make_shared<PacNPCWander>()}, m_DefaultState{nullptr}
 	{
 	}
 
@@ -21,7 +21,11 @@ namespace dae
 		if (!m_pNavigator->HasTarget() || m_pNavigator->GetCurrentDirection() == Direction::NONE)
 			m_State->OnArrive(*this);
 	}
-
+	void PacNPC::SetDefaultState(std::shared_ptr<PacNPCState> state, bool apply)
+	{
+		m_DefaultState = state;
+		if (apply) m_State = m_DefaultState;
+	}
 	void dae::PacNPC::SetTarget(std::shared_ptr<GameObject> target)
 	{
 		m_pTarget = target;

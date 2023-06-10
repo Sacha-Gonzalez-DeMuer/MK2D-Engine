@@ -147,11 +147,11 @@ void dae::PacGrid::UpdateConnections()
 			if (toNodeInfo.type == PacData::PacNodeType::WALL
 				|| fromNodeInfo.type == PacData::PacNodeType::WALL)
 			{
-				connection->SetCost(1000);
+				connection->SetCost(FLT_MAX);
 			}
 			else
 			{
-				connection->SetCost(1);
+				connection->SetCost(FLT_MIN);
 			}
 		}
 	}

@@ -67,41 +67,35 @@ void dae::PacGameManager::LoadLevel(int idx)
 
 	// Tell pacman what to do when he arrives at a node
 	std::weak_ptr weak_score = pac_score;
-	pac_navigator->OnArriveAtTarget.AddFunction([weak_score](int idx, std::shared_ptr<PacGrid> grid)
-		{
-			if (auto score = weak_score.lock(); score != nullptr)
-			{
-				// Collect Items
-				const auto& info = grid->GetPacNodeInfo(idx);
-				if (!info.hasItem) return;
-
-				switch (info.type)
-				{
-				case PacData::PacNodeType::DOT:
-					score->AddScore(PacData::PacDotScore);
-					grid->SetPacNodeInfo(idx, PacData::PacNodeType::DOT, false);
-					break;
-
-				case PacData::PacNodeType::POWERUP:
-					score->AddScore(PacData::PacPowerUpScore);
-					grid->SetPacNodeInfo(idx, PacData::PacNodeType::POWERUP, false);
-					break;
-				default:
-					break;
-				}
-			}
-		}, { weak_score });
-
 	std::weak_ptr weak_controller = pac_controller;
-	pac_navigator->OnArriveAtTarget.AddFunction([weak_controller](int idx, std::shared_ptr<PacGrid> grid)
+	pac_navigator->OnArriveAtTarget.AddFunction([weak_score, weak_controller](int idx, std::shared_ptr<PacGrid> grid)
 		{
-			if (auto controller = weak_controller.lock(); controller != nullptr)
+			// Collect Items
+			const auto& info = grid->GetPacNodeInfo(idx);
+			if (!info.hasItem) return;
+
+			auto weak_score_locked = weak_score.lock();
+			auto weak_controller_locked = weak_controller.lock();
+
+			switch (info.type)
 			{
-				const auto& info = grid->GetPacNodeInfo(idx);
-				if (info.type == PacData::PacNodeType::POWERUP && info.hasItem)
-					controller->PowerUp(5.f);
+			case PacData::PacNodeType::DOT:
+				if(weak_score_locked) weak_score_locked->AddScore(PacData::PacDotScore);
+				grid->SetPacNodeInfo(idx, PacData::PacNodeType::DOT, false);
+				break;
+
+			case PacData::PacNodeType::POWERUP:
+				if (weak_score_locked) weak_score_locked->AddScore(PacData::PacPowerUpScore);
+				grid->SetPacNodeInfo(idx, PacData::PacNodeType::POWERUP, false);
+
+				if(weak_controller_locked) weak_controller_locked->PowerUp(5.f);
+
+				break;
+			default:
+				break;
 			}
-		}, { weak_controller });
+		}, { weak_score, weak_controller });
+
 
 	// Create HUD
 	const float margin = g_WindowSize.x * .02f;
@@ -134,12 +128,18 @@ void dae::PacGameManager::LoadLevel(int idx)
 	auto spawner = spawner_go->AddComponent<PacSpawner>(level);
 	spawner->Initialize();
 
-
 	// Set up ghost events
 	auto ghosts = spawner_go->GetComponent<PacSpawner>()->GetNPCs();
+	ghosts[static_cast<int>(PacData::PacGhosts::BLINKY)]
+		->GetComponent<PacNPC>()->SetTarget(pacman_go); // do this here instead of injecting a dependency in the spawner
+
 	for (auto pGhost : ghosts)
 	{
-		pac_controller->OnPowerup.AddFunction([pGhost](float duration) { pGhost->GetComponent<PacNPC>()->SetFrightened(duration); });
+		std::weak_ptr weak_ghost = pGhost;
+		pac_controller->OnPowerup.AddFunction([weak_ghost](float duration) {
+			if (auto weak_ghost_locked = weak_ghost.lock()) {
+				weak_ghost_locked->GetComponent<PacNPC>()->SetFrightened(duration);
+			}}, { weak_ghost });
 	}
 
 	scene.Add(level_go);

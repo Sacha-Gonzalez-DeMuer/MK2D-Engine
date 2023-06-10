@@ -7,7 +7,7 @@ namespace dae
 	{
 	public:
 		virtual ~PacNPCVulnerable() = default;
-		virtual void OnArrive(const PacNPC& npc) override;
+		virtual bool OnArrive(const PacNPC& npc) override;
 
 	};
 }

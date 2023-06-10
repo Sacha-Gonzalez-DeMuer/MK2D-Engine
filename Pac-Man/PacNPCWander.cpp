@@ -4,16 +4,17 @@
 #include "MathHelpers.h"
 #include "PacNavigator.h"
 #include <iostream>
-void dae::PacNPCWander::OnArrive(const PacNPC& npc)
+
+bool dae::PacNPCWander::OnArrive(const PacNPC& npc)
 {
-	PacNPCState::OnArrive(npc);
+	if(PacNPCState::OnArrive(npc)) return true;
 
 	int rndDir{ 0 };
 	int currDir = static_cast<int>(npc.GetNavigator()->GetCurrentDirection());
 
 	const auto& legal_moves = npc.GetNavigator()->GetLegalMoves();
 
-	if (legal_moves.empty()) return;
+	if (legal_moves.empty()) return false;
 
 	if (legal_moves.size() >= 2)
 	{
@@ -25,4 +26,6 @@ void dae::PacNPCWander::OnArrive(const PacNPC& npc)
 	else rndDir = static_cast<int>(legal_moves[0]);
 
 	npc.GetNavigator()->Move(static_cast<Direction>(rndDir));
+
+	return true;
 }

@@ -28,7 +28,6 @@ namespace dae
 		int m_From;
 		int m_To;
 
-		// the cost of traversing the edge
 		float m_Cost;
 	};
 }

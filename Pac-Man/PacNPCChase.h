@@ -10,7 +10,7 @@ namespace dae
 	public:
 		PacNPCChase();
 		virtual ~PacNPCChase() = default;
-		virtual void OnArrive(const PacNPC& npc) override;
+		virtual bool OnArrive(const PacNPC& npc) override;
 
 	private:
 	};

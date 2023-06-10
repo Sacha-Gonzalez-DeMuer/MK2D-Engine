@@ -1,7 +1,9 @@
 #include "PacNPCVulnerable.h"
 
 
-void dae::PacNPCVulnerable::OnArrive(const PacNPC& npc)
+bool dae::PacNPCVulnerable::OnArrive(const PacNPC& npc)
 {
-	PacNPCState::OnArrive(npc);
+	if(PacNPCState::OnArrive(npc)) return true;
+
+	return false;
 }

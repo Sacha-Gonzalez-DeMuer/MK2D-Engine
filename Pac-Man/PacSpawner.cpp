@@ -13,6 +13,8 @@
 #include "PacGrid.h"
 #include "MathHelpers.h"
 
+#include "PacNPCChase.h"
+
 namespace dae
 {
 	PacSpawner::PacSpawner(std::shared_ptr<PacLevel> level)
@@ -22,9 +24,9 @@ namespace dae
 	void PacSpawner::Initialize()
 	{
 		m_pNPCs[static_cast<int>(PacData::PacGhosts::BLINKY)] = InitializeBlinky();
-		m_pNPCs[static_cast<int>(PacData::PacGhosts::PINKY)] = InitializePinky();
-		m_pNPCs[static_cast<int>(PacData::PacGhosts::INKY)] = InitializeInky();
-		m_pNPCs[static_cast<int>(PacData::PacGhosts::CLYDE)] = InitializeClyde();
+		//m_pNPCs[static_cast<int>(PacData::PacGhosts::PINKY)] = InitializePinky();
+		//m_pNPCs[static_cast<int>(PacData::PacGhosts::INKY)] = InitializeInky();
+		//m_pNPCs[static_cast<int>(PacData::PacGhosts::CLYDE)] = InitializeClyde();
 
 		for (auto& npc : m_pNPCs)
 			GetOwner()->AddChild(npc);
@@ -38,7 +40,7 @@ namespace dae
 		auto ghost_brain = ghost_go->AddComponent<PacNPC>(ghost_navigator);
 
 		ghost_go->SetTag(PacData::PacTags::Ghost);
-		ghost_go->AddComponent<CircleCollider>(static_cast<float>(m_ghostSize));
+		ghost_go->AddComponent<CircleCollider>(static_cast<float>(m_ghostSize * .5f));
 		ghost_navigator->SetCurrentNode(m_spawnIndices[
 			MathHelpers::GenerateRandomRange(0, static_cast<int>(m_spawnIndices.size()-1))]);
 
@@ -52,6 +54,7 @@ namespace dae
 		auto ghost_navigator = blinky->GetComponent<PacNavigator>();
 		auto blinky_img = blinky->AddComponent<RenderComponent>();
 
+		blinkys_brain->SetDefaultState(std::make_shared<PacNPCChase>());
 		blinky_img->SetTexture("Blinky.png");
 		blinky_img->SetSize({ m_ghostSize, m_ghostSize });
 
