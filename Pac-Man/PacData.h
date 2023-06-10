@@ -7,6 +7,7 @@ namespace PacData
 {
      const std::string PacJSONpath = "Resources/PacData.json";
      const std::string PacFont = "PacFont.otf";
+     
      struct PacLevelData
      {
          std::vector<std::string> map;
@@ -18,7 +19,7 @@ namespace PacData
          std::vector<PacMap> maps;
      };
 
-     constexpr char PacMan = 'P';
+     constexpr char PacSpawn = 'P';
      constexpr char Dot = '.';
      constexpr char Wall = '#';
      constexpr char Empty = ' ';
@@ -47,7 +48,16 @@ namespace PacData
          DOT,
          POWERUP,
          GATE,
-         SPAWN
+         PAC_SPAWN,
+         NPC_SPAWN
+     };
+
+     enum class PacGhosts
+     {
+         BLINKY,
+         PINKY,
+         INKY,
+         CLYDE
      };
 
      struct PacNodeInfo

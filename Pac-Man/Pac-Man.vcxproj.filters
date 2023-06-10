@@ -91,6 +91,9 @@
     <ClCompile Include="PacGameManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PacSpawner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h">
@@ -149,6 +152,9 @@
       <Filter>Character\NPC\State</Filter>
     </ClInclude>
     <ClInclude Include="PacGameManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PacSpawner.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -6,8 +6,7 @@
 #include <iostream>
 void dae::PacNPCWander::OnArrive(const PacNPC& npc)
 {
-	std::cout << "Arrived pog\n";
-
+	PacNPCState::OnArrive(npc);
 
 	int rndDir{ 0 };
 	int currDir = static_cast<int>(npc.GetNavigator()->GetCurrentDirection());

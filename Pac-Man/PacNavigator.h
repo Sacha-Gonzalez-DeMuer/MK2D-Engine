@@ -27,11 +27,14 @@ namespace dae
 		void Start() override;
 		void Update() override;
 		GraphNode* GetCurrentNode() const { return m_CurrentNode; }
+		const PacData::PacNodeInfo& GetCurrentNodeInfo() const;
+		void SetCurrentNode(int idx);
 		void SetMovementSpeed(float speed) { m_MoveSpeed = speed; }
 		bool Move(Direction direction);
 		std::vector<Direction> GetLegalMoves() const;
 		void SetPathToNode(int nodeIdx);
 		void SetPathToNode(const glm::vec2& position);
+		void ExitSpawn();
 
 		bool HasTarget() const {return m_TargetNode != nullptr;}
 		Direction GetCurrentDirection() const { return m_CurrentDirection; }

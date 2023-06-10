@@ -27,7 +27,10 @@ namespace dae
 		m_pTarget = target;
 	}
 
-
+	void PacNPC::SetFrightened(float /*duration*/)
+	{
+		std::cout << "AAAAAAA\n";
+	}
 
 	void dae::PacNPC::OnCollision(ICollider& other)
 	{

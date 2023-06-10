@@ -79,11 +79,11 @@ void dae::GameObject::Render() const
 {
 	if (!m_isActive) return;
 
-	for (auto& child_gameobject : m_children)
-		child_gameobject->Render();
-
 	for (auto& component : m_components)
 		component->Render();
+
+	for (auto& child_gameobject : m_children)
+		child_gameobject->Render();
 }
 
 void dae::GameObject::OnCollision(ICollider& other)

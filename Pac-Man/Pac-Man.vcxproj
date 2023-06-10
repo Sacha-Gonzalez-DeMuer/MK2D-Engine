@@ -37,6 +37,7 @@
     <ClCompile Include="PacScoreComponent.cpp" />
     <ClCompile Include="PacScoreHUD.cpp" />
     <ClCompile Include="PacSound.cpp" />
+    <ClCompile Include="PacSpawner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PacData.h" />
@@ -59,6 +60,7 @@
     <ClInclude Include="PacScoreComponent.h" />
     <ClInclude Include="PacScoreHUD.h" />
     <ClInclude Include="PacSound.h" />
+    <ClInclude Include="PacSpawner.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

@@ -6,7 +6,6 @@
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_opengl2.h"
 #include <SDL_ttf.h>
-#include "../3rdParty/SDL2_gfx/SDL_gfxPrimitives.h"
 
 int GetOpenGLDriverIndex()
 {
@@ -43,7 +42,6 @@ void dae::Renderer::Render() const
 	const auto& color = GetBackgroundColor();
 	SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
 	SDL_RenderClear(m_renderer);
-
 
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplSDL2_NewFrame(m_window);

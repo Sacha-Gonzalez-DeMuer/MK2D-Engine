@@ -2,6 +2,9 @@
 #include "PacData.h"
 #include "GraphNode.h"
 #include "GraphConnection.h"
+#include "MathHelpers.h"
+#include <cctype>
+
 dae::PacGrid::PacGrid(const std::vector<std::string>& levelData)
 	: GridGraph(static_cast<int>(levelData.size()), static_cast<int>(levelData[0].size()), 40, false, false)
 	, m_NodeInfoMap(21*21)
@@ -24,6 +27,17 @@ void dae::PacGrid::SetPacNodeInfo(int idx, PacData::PacNodeType type, bool hasIt
 {
 	m_NodeInfoMap[idx].type = type;
 	m_NodeInfoMap[idx].hasItem = hasItem;
+}
+
+int dae::PacGrid::GetRandomWalkableNodeIdx() const
+{
+	const int nr_nodes{ static_cast<int>(m_NodeInfoMap.size()) - 1 };
+	int rnd{ MathHelpers::GenerateRandomRange(0, nr_nodes) };
+
+	while (m_NodeInfoMap[rnd].type == PacData::PacNodeType::WALL || m_NodeInfoMap[rnd].type == PacData::PacNodeType::NPC_SPAWN)
+		rnd = MathHelpers::GenerateRandomRange(0, nr_nodes);
+	
+	return rnd;
 }
 
 const glm::vec2& dae::PacGrid::GetSpawnPos() const
@@ -77,8 +91,8 @@ void dae::PacGrid::Initialize(const std::vector<std::string>& levelData)
 			const auto& pNodeIdx = pNode->GetIndex();
             switch (c)
             {
-            case PacData::PacMan:
-                m_NodeInfoMap[pNodeIdx].type = PacData::PacNodeType::SPAWN;
+            case PacData::PacSpawn:
+                m_NodeInfoMap[pNodeIdx].type = PacData::PacNodeType::PAC_SPAWN;
 				m_PacManSpawnNodeIdx = pNodeIdx;
 				break;
 			case PacData::Dot:
@@ -101,9 +115,13 @@ void dae::PacGrid::Initialize(const std::vector<std::string>& levelData)
 					gate_entry_idx = pNodeIdx;
 				else
 					AddConnection(new GraphConnection(gate_entry_idx, pNodeIdx, 1));
-
 				break;
 			default:
+				if (std::isdigit(c))
+				{
+					m_NodeInfoMap[pNodeIdx].type = PacData::PacNodeType::NPC_SPAWN;
+					m_NPCSpawnNodeIdxs.emplace_back(pNodeIdx);
+				}
 				break;
 			}
 		}

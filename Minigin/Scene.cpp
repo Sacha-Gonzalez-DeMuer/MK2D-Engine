@@ -22,8 +22,15 @@ Scene::~Scene() = default;
 
 void Scene::Add(std::shared_ptr<GameObject> object)
 {
+	for (auto child : object->GetChildren())
+	{
+		auto collider = child->GetComponent<ICollider>();
+		if (collider)
+			m_collisionObjects.emplace_back(std::move(collider));
+	}
+
 	if (auto collider = object->GetComponent<ICollider>())
-		m_collisionObjects.emplace_back(collider);
+		m_collisionObjects.emplace_back(std::move(collider));
 
 	m_objects.emplace_back(std::move(object));
 }
@@ -61,10 +68,8 @@ void Scene::Update()
 	}
 
 
-	// for each collision object
 	for (size_t i = 0; i < m_collisionObjects.size(); i++)
 	{
-		// check collision with all other collision objects
 		for (size_t j = i + 1; j < m_collisionObjects.size(); j++)
 		{
 			if (m_collisionObjects[i]->Intersects(m_collisionObjects[j]))

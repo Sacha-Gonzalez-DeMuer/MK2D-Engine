@@ -21,6 +21,7 @@
 #include <memory>
 #include "SceneManager.h"
 #include "TextObject.h"
+#include "PacSpawner.h"
 
 void dae::PacGameManager::Initialize(const PacData::PacGameData& gameData)
 {
@@ -30,12 +31,12 @@ void dae::PacGameManager::Initialize(const PacData::PacGameData& gameData)
 void dae::PacGameManager::LoadLevel(int idx)
 {
 	m_CurrentLevelIdx = idx;
+
 	const std::string scene_name{ std::to_string(idx) };
-
 	auto& scene_manager = SceneManager::Get();
+	bool scene_exists = scene_manager.HasScene(scene_name);
 
-	bool hasScene = scene_manager.HasScene(scene_name);
-	if (hasScene)
+	if (scene_exists)
 	{
 		scene_manager.SetActiveScene(scene_name);
 		return;
@@ -62,8 +63,7 @@ void dae::PacGameManager::LoadLevel(int idx)
 	auto pac_controller = pacman_go->AddComponent<PacController>(pac_navigator);
 	auto pac_score = pacman_go->AddComponent<PacScoreComponent>(0);
 	auto pac_health = pacman_go->AddComponent<PacHealthComponent>(3);
-
-	pacman_go->AddComponent<CircleCollider>(static_cast<float>(level->GetGrid()->GetCellSize()));
+	pacman_go->AddComponent<CircleCollider>(static_cast<float>(level->GetGrid()->GetCellSize() * .5f));
 
 	// Tell pacman what to do when he arrives at a node
 	std::weak_ptr weak_score = pac_score;
@@ -103,25 +103,6 @@ void dae::PacGameManager::LoadLevel(int idx)
 			}
 		}, { weak_controller });
 
-
-
-	// Create ghost
-	auto astar_pathfinder = std::make_shared<AStarPathFinder>(level->GetGrid());
-	auto ghost_go = std::make_shared<GameObject>();
-	ghost_go->SetTag(PacData::PacTags::Ghost);
-	ghost_go->AddComponent<RenderComponent>()->SetTexture("ghost.png");
-	auto ghost_navigator = ghost_go->AddComponent<PacNavigator>(level->GetPacGrid(), astar_pathfinder);
-	auto ghost_brain = ghost_go->AddComponent<PacNPC>(ghost_navigator);
-	ghost_brain->SetTarget(pacman_go);
-	ghost_go->AddComponent<CircleCollider>(static_cast<float>(level->GetGrid()->GetCellSize()));
-
-	// Tell ghost what to do when he arrives at a node
-	std::weak_ptr weak_brain = ghost_brain;
-	ghost_navigator->OnArriveAtTarget.AddFunction([weak_brain](int, std::shared_ptr<PacGrid>) {
-		if (auto ghost_brain_locked = weak_brain.lock()) {
-			weak_brain.lock()->GetState()->OnArrive(*weak_brain.lock());
-		}});
-
 	// Create HUD
 	const float margin = g_WindowSize.x * .02f;
 	auto score_hud = std::make_shared<GameObject>();
@@ -138,9 +119,32 @@ void dae::PacGameManager::LoadLevel(int idx)
 	gameover_hud->GetTransform()->SetLocalPosition(g_WindowSize.x * .5f - (gameover_text_size.x * .5f), g_WindowSize.y * .5f - (gameover_text_size.x * .5f));
 	gameover_hud->SetActive(false);
 
+	std::weak_ptr weak_pacman = pacman_go;
+	pac_health->OnDeath.AddFunction([gameover_hud, weak_pacman]() {
+
+		if (auto weak_pacman_locked = weak_pacman.lock())
+		{
+			gameover_hud->SetActive(true);
+			weak_pacman_locked->SetActive(false);
+		}}, { weak_pacman });
+	
+
+	// Spawner initializes ghosts	
+	auto spawner_go = std::make_shared<GameObject>();
+	auto spawner = spawner_go->AddComponent<PacSpawner>(level);
+	spawner->Initialize();
+
+
+	// Set up ghost events
+	auto ghosts = spawner_go->GetComponent<PacSpawner>()->GetNPCs();
+	for (auto pGhost : ghosts)
+	{
+		pac_controller->OnPowerup.AddFunction([pGhost](float duration) { pGhost->GetComponent<PacNPC>()->SetFrightened(duration); });
+	}
+
 	scene.Add(level_go);
+	scene.Add(spawner_go);
 	scene.Add(pacman_go);
-	scene.Add(ghost_go);
 	scene.Add(score_hud);
 	scene.Add(health_hud);
 	scene.Add(gameover_hud);

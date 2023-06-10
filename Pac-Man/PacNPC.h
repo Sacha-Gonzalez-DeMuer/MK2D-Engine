@@ -18,6 +18,7 @@ namespace dae
 		void SetTarget(std::shared_ptr<GameObject> target);
 		std::shared_ptr<GameObject> GetTarget() const { return m_pTarget; }
 		std::shared_ptr<PacNavigator> GetNavigator() const { return m_pNavigator; }
+		void SetFrightened(float duration);
 
 		Delegate<> OnNPCDeath;
 

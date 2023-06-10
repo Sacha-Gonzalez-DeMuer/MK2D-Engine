@@ -7,6 +7,6 @@ namespace dae
 	{
 	public:
 		virtual ~PacNPCState() = default;
-		virtual void OnArrive(const PacNPC&) {}; 
+		virtual void OnArrive(const PacNPC& npc); 
 	};
 }

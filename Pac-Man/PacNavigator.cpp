@@ -17,10 +17,9 @@ namespace dae
 		: m_pGraph{ graph }, m_pPathFinder{ pathfinder }, m_pPacGrid{ graph }, m_CurrentDirection{ Direction::NONE }
 		, m_TargetNode{ nullptr }, m_CurrentNode{ nullptr }, m_QDistance{ 50 }
 	{
-		m_CurrentNode = graph->GetNode(graph->GetSpawnIdx());
+		m_CurrentNode = graph->GetNode(graph->GetSpawnIdx()); // default spawn
 		m_QDistance = m_pGraph->GetCellSize() * 1.5f;
 	}
-
 
 	void dae::PacNavigator::Start()
 	{
@@ -105,6 +104,16 @@ namespace dae
 		}
 	}
 
+	const PacData::PacNodeInfo& PacNavigator::GetCurrentNodeInfo() const
+	{
+		return m_pPacGrid->GetPacNodeInfo(m_CurrentNode->GetIndex());
+	}
+
+	void PacNavigator::SetCurrentNode(int idx)
+	{
+		m_CurrentNode = m_pGraph->GetNode(idx);
+	}
+
 	bool dae::PacNavigator::Move(Direction direction)
 	{
 		if (direction == m_CurrentDirection && m_TargetNode) return false;
@@ -161,6 +170,11 @@ namespace dae
 	{
 		auto node_at_pos = m_pGraph->GetNodeAtWorldPos(position);
 		SetPathToNode(node_at_pos->GetIndex());
+	}
+
+	void PacNavigator::ExitSpawn()
+	{
+		SetPathToNode(m_pPacGrid->GetRandomWalkableNodeIdx());
 	}
 
 	bool PacNavigator::AreOpposites(Direction first, Direction second) const

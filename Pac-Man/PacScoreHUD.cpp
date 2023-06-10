@@ -1,6 +1,6 @@
 #include "PacScoreHUD.h"
 #include "PacScoreComponent.h"
-#include "TextComponent.h"
+#include "TextObject.h"
 #include <memory>
 #include "ResourceManager.h"
 #include "PacData.h"
