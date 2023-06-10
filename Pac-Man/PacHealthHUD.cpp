@@ -36,7 +36,7 @@ namespace dae
 		m_healthComponent->OnHitTaken.AddFunction([this]() { UpdateHUD(); });
 		m_healthComponent->OnDeath.AddFunction([this]() { UpdateHUD(); });
 
-		auto font = ResourceManager::Get().LoadFont(PacData::PacFont, 36);
+		auto font = ResourceManager::Get().LoadFont(PacData::PacFiles::PacFont, 36);
 		m_livesText = GetOwner()->AddComponent<TextComponent>("Lives: " + std::to_string(m_healthComponent->GetRemainingLives()), font);
 	}
 }

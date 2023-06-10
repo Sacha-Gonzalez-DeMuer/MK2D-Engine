@@ -55,7 +55,7 @@ namespace dae
 		auto blinky_img = blinky->AddComponent<RenderComponent>();
 
 		blinkys_brain->SetDefaultState(std::make_shared<PacNPCChase>());
-		blinky_img->SetTexture("Blinky.png");
+		blinky_img->SetTexture(PacData::PacFiles::Blinky);
 		blinky_img->SetSize({ m_ghostSize, m_ghostSize });
 
 		// Blinky behavior
@@ -76,7 +76,7 @@ namespace dae
 		auto ghost_navigator = pinky->GetComponent<PacNavigator>();
 		auto pinky_img = pinky->AddComponent<RenderComponent>();
 
-		pinky_img->SetTexture("Pinky.png");
+		pinky_img->SetTexture(PacData::PacFiles::Pinky);
 		pinky_img->SetSize({ m_ghostSize, m_ghostSize });
 
 		// Pinky behavior
@@ -96,7 +96,7 @@ namespace dae
 		auto ghost_navigator = inky->GetComponent<PacNavigator>();
 		auto inky_img = inky->AddComponent<RenderComponent>();
 
-		inky_img->SetTexture("Inky.png");
+		inky_img->SetTexture(PacData::PacFiles::Inky);
 		inky_img->SetSize({ m_ghostSize, m_ghostSize });
 
 		// Inky behavior
@@ -116,7 +116,7 @@ namespace dae
 		auto ghost_navigator = clyde->GetComponent<PacNavigator>();
 		auto clyde_img = clyde->AddComponent<RenderComponent>();
 
-		clyde_img->SetTexture("Clyde.png");
+		clyde_img->SetTexture(PacData::PacFiles::Clyde);
 		clyde_img->SetSize({ m_ghostSize, m_ghostSize });
 
 		// Clyde behavior

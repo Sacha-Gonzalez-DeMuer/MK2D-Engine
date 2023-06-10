@@ -216,6 +216,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AStarPathFinder.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="CacheTrashDebugger.h" />
     <ClInclude Include="CacheTrasher.h" />
     <ClInclude Include="Delegate.h" />
@@ -269,6 +270,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AStarPathFinder.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="Delegate.cpp" />
     <ClCompile Include="GridInteractionComponent.cpp" />
     <ClCompile Include="CircleCollider.cpp" />

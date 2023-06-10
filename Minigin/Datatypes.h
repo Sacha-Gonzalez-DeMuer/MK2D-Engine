@@ -10,5 +10,5 @@ namespace dae
 		RIGHT = 2, LEFT = -2,
 	};
 
-	const glm::vec2 g_WindowSize{ 1080.f, 1080.f };
+	constexpr glm::vec2 g_WindowSize{ 1080.f, 1080.f };
 }

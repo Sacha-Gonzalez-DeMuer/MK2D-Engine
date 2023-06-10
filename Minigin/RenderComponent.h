@@ -20,7 +20,7 @@ namespace dae
 
 		virtual void Render() const override;
 
-	private:
+	protected:
 		std::shared_ptr<Texture2D> m_texture;
 		glm::vec2 m_size;
 	};

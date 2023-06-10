@@ -10,14 +10,16 @@
 #include "PacJSONParser.h"
 #include "PacData.h"
 #include "PacGameManager.h"
-
+#include "ResourceManager.h"
 #include "PacCommands.h"
 #include "Input.h"
 namespace dae
 {
 	void LoadPacMan()
 	{
-		auto jsonParser = std::make_shared<PacJSONParser>(PacData::PacJSONpath);
+		ResourceManager::Get().Init("../Data/PacResources/");
+
+		auto jsonParser = std::make_shared<PacJSONParser>(PacData::PacFiles::PacJSON);
 		PacData::PacGameData game_data{};
 		jsonParser->LoadGameData(game_data);
 
@@ -25,7 +27,7 @@ namespace dae
 		Input::Get().AddCommand(SDL_SCANCODE_L, skipLevel);
 
 		PacGameManager::Get().Initialize(game_data);
-		PacGameManager::Get().LoadLevel(0);
+		PacGameManager::Get().LoadGamemodeSelect();
 	}
 }
 

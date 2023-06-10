@@ -2,14 +2,17 @@
 #include <string>
 #include "PacData.h"
 
-class PacJSONParser final
+namespace dae
 {
-public:
-	PacJSONParser(const std::string& dataFile);
+	class PacJSONParser final
+	{
+	public:
+		PacJSONParser(const std::string& dataFile);
 
-	bool LoadLevel(int levelIdx, PacData::PacLevelData& levelContainer);
-	bool LoadGameData(PacData::PacGameData& gameDataContainer);
+		bool LoadLevel(int levelIdx, PacData::PacLevelData& levelContainer);
+		bool LoadGameData(PacData::PacGameData& gameDataContainer);
 
-private:
-	std::string m_dataFile;
-};
+	private:
+		std::string m_dataFile;
+	};
+}

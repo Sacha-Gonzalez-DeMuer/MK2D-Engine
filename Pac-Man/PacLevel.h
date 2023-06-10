@@ -29,9 +29,6 @@ namespace dae
 		PacData::PacLevelData m_LevelData;
 		std::shared_ptr<PacGrid> m_pPacGrid;
 
-		std::vector<std::shared_ptr<PacController>> m_pPlayers;
-
-
 		bool CheckWinConditions() const;
 	};
 }

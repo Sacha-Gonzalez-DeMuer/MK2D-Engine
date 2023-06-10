@@ -30,7 +30,7 @@ namespace dae
 	{
 		m_scoreComponent->OnScoreChanged.AddFunction([this]() { UpdateText(); });
 
-		auto font = ResourceManager::Get().LoadFont(PacData::PacFont, 36);
+		auto font = ResourceManager::Get().LoadFont(PacData::PacFiles::PacFont, 36);
 		m_scoreText = GetOwner()->AddComponent<TextComponent>("Score: " + std::to_string(m_scoreComponent->GetScore()), font);
 	} 
 }

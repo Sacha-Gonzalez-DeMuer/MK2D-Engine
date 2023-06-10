@@ -1,7 +1,9 @@
 #pragma once
 #include "Component.h"
-#include <memory>
 #include "Delegate.h"
+#include <memory>
+#include <vector>
+
 namespace dae
 {
 	class PacNavigator;
@@ -9,6 +11,9 @@ namespace dae
 	//class PacNPCState;
 	class PacNPC final : public Component
 	{
+		using Target = std::shared_ptr<GameObject>;
+		using TargetVector = std::vector<Target>;
+
 	public:
 		explicit PacNPC(std::shared_ptr<PacNavigator> pNavigator);
 		virtual ~PacNPC() {};
@@ -20,7 +25,8 @@ namespace dae
 		void ResetState() { SetState(m_DefaultState); }
 
 		void SetTarget(std::shared_ptr<GameObject> target);
-		std::shared_ptr<GameObject> GetTarget() const { return m_pTarget; }
+		void AddTarget(std::shared_ptr<GameObject> target);
+		Target GetTarget() const { return m_pTarget; }
 		std::shared_ptr<PacNavigator> GetNavigator() const { return m_pNavigator; }
 		void SetFrightened(float duration);
 
@@ -33,7 +39,9 @@ namespace dae
 		std::shared_ptr<PacNPCState> m_State;
 		std::shared_ptr<PacNPCState> m_DefaultState;
 		std::shared_ptr<PacNavigator> m_pNavigator;
-		std::shared_ptr<GameObject> m_pTarget;
+
+		Target m_pTarget;
+		TargetVector m_pTargets;
 
 		bool m_Vulnerable;
 		void OnCollision(ICollider& other);

@@ -26,9 +26,15 @@ namespace dae
 		m_DefaultState = state;
 		if (apply) m_State = m_DefaultState;
 	}
+
 	void dae::PacNPC::SetTarget(std::shared_ptr<GameObject> target)
 	{
 		m_pTarget = target;
+	}
+
+	void PacNPC::AddTarget(std::shared_ptr<GameObject> target)
+	{
+		m_pTargets.emplace_back(target);
 	}
 
 	void PacNPC::SetFrightened(float /*duration*/)
