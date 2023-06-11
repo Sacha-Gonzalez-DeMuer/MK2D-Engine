@@ -7,10 +7,8 @@ namespace dae
 	class PacNPCWander final : public PacNPCState
 	{
 	public:
-		PacNPCWander() {};
+		PacNPCWander() : PacNPCState(nullptr) {};
 		virtual ~PacNPCWander() = default;
 		virtual bool OnArrive(const PacNPC& npc) override;
-		
-	private:
 	};
 }

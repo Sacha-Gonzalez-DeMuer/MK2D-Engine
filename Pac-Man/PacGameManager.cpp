@@ -111,39 +111,53 @@ namespace dae
 		// Create level
 		auto level_go = std::make_shared<GameObject>();
 		auto level_grid = level_go->AddComponent<PacGrid>(map);
+		scene.Add(level_go);
 
 		PacData::PacLevelData levelData{};
 		levelData.map = map;
 		auto level = level_go->AddComponent<PacLevel>(levelData, level_grid);
 
-		auto pacman_go_default = AddPlayer(level, scene);
-		AddSpawner(level, scene);
+		level->OnLevelCompleted.AddFunction([this]() {
+				LoadNextLevel();
+			});
+		//*************
+		// Create HUD
+		auto gameover_hud = std::make_shared<GameObject>();
+		auto gameover_text = gameover_hud->AddComponent<TextComponent>("GAME OVER", ResourceManager::Get().LoadFont(PacData::PacFiles::PacFont, 36));
+		const auto& gameover_text_size = gameover_text->GetSize();
+		gameover_hud->GetTransform()->SetLocalPosition(g_WindowSize.x * .5f - (gameover_text_size.x * .5f), g_WindowSize.y * .5f - (gameover_text_size.x * .5f));
+		gameover_hud->SetActive(false);
+		scene.Add(gameover_hud);
+
+
+		//***************
+		// Create players
+		auto pacman_go_default = AddPlayer(scene, level, gameover_hud);
+		AddSpawner(scene, level);
 
 		switch (m_GameData.mode)
 		{
 		case PacData::PacGameMode::COOP:
-			AddPlayer(level, scene);
+			AddPlayer(scene, level, gameover_hud);
 			break;
 
 		case PacData::PacGameMode::VERSUS:
 			break;
 		}
 
-		scene.Add(level_go);
-
+		
 		scene.Start();
 	}
 
 	void PacGameManager::LoadNextLevel(bool unloadCurrent)
 	{
-		// unload last level
 		if (unloadCurrent) SceneManager::Get().RemoveScene(std::to_string(m_CurrentLevelIdx));
 		if (m_CurrentLevelIdx >= m_GameData.maps.size() - 1) return;
 
 		LoadLevel(++m_CurrentLevelIdx);
 	}
 
-	std::shared_ptr<GameObject> PacGameManager::AddPlayer(std::shared_ptr<PacLevel> level, Scene& scene)
+	std::shared_ptr<GameObject> PacGameManager::AddPlayer(Scene& scene, std::shared_ptr<PacLevel> level, std::shared_ptr<GameObject> gameoverHUD)
 	{
 		//**************
 		// Create pacman
@@ -161,7 +175,8 @@ namespace dae
 		// Tell pacman what to do when he arrives at a node
 		std::weak_ptr weak_score = pac_score;
 		std::weak_ptr weak_controller = pac_controller;
-		pac_navigator->OnArriveAtTarget.AddFunction([weak_score, weak_controller](int idx, std::shared_ptr<PacGrid> grid)
+		std::weak_ptr weak_level = level;
+		pac_navigator->OnArriveAtTarget.AddFunction([weak_score, weak_controller, weak_level](int idx, std::shared_ptr<PacGrid> grid)
 			{
 				// Collect Items
 				const auto& info = grid->GetPacNodeInfo(idx);
@@ -169,23 +184,26 @@ namespace dae
 
 				auto weak_score_locked = weak_score.lock();
 				auto weak_controller_locked = weak_controller.lock();
+				auto weak_level_locked = weak_level.lock();
 
 				switch (info.type)
 				{
 				case PacData::PacNodeType::DOT:
 					if (weak_score_locked) weak_score_locked->AddScore(PacData::PacDotScore);
 					grid->SetPacNodeInfo(idx, PacData::PacNodeType::DOT, false);
+					if (weak_level_locked) weak_level_locked->RemoveDot();
 					break;
 
 				case PacData::PacNodeType::POWERUP:
 					if (weak_score_locked) weak_score_locked->AddScore(PacData::PacPowerUpScore);
 					grid->SetPacNodeInfo(idx, PacData::PacNodeType::POWERUP, false);
 					if (weak_controller_locked) weak_controller_locked->PowerUp(5.f);
-
+					if (weak_level_locked) weak_level_locked->RemovePowerup();
 					break;
 				default:
 					break;
 				}
+
 			}, { weak_score, weak_controller });
 
 
@@ -199,32 +217,32 @@ namespace dae
 		health_hud->AddComponent<PacHealthHUD>(pac_health);
 		health_hud->GetTransform()->SetLocalPosition(margin, margin + 50.f);
 
-		auto gameover_hud = std::make_shared<GameObject>();
-		auto gameover_text = gameover_hud->AddComponent<TextComponent>("GAME OVER", ResourceManager::Get().LoadFont(PacData::PacFiles::PacFont, 36));
-		const auto& gameover_text_size = gameover_text->GetSize();
-		gameover_hud->GetTransform()->SetLocalPosition(g_WindowSize.x * .5f - (gameover_text_size.x * .5f), g_WindowSize.y * .5f - (gameover_text_size.x * .5f));
-		gameover_hud->SetActive(false);
-
 		std::weak_ptr weak_pacman = pacman_go;
-		pac_health->OnDeath.AddFunction([gameover_hud, weak_pacman]() {
+		pac_health->OnDeath.AddFunction([gameoverHUD, weak_pacman]() {
 
 			if (auto weak_pacman_locked = weak_pacman.lock())
 			{
-				gameover_hud->SetActive(true);
+				gameoverHUD->SetActive(true);
 				weak_pacman_locked->SetActive(false);
 			}}, { weak_pacman });
+
+		pac_health->OnHitTaken.AddFunction([weak_pacman]() {
+			if (auto weak_pacman_locked = weak_pacman.lock())
+			{
+				weak_pacman_locked->GetComponent<PacNavigator>()->SetSpawn(-1);
+			}
+			}, { weak_pacman });
 
 		m_pPlayers.emplace_back(pacman_go);
 
 		scene.Add(pacman_go);
 		scene.Add(score_hud);
 		scene.Add(health_hud);
-		scene.Add(gameover_hud);
 
 		return pacman_go;
 	}
 
-	std::shared_ptr<PacSpawner> PacGameManager::AddSpawner(std::shared_ptr<PacLevel> level, Scene& scene)
+	std::shared_ptr<PacSpawner> PacGameManager::AddSpawner(Scene& scene, std::shared_ptr<PacLevel> level)
 	{
 		// Spawner initializes ghosts	
 		auto spawner_go = std::make_shared<GameObject>();

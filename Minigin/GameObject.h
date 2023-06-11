@@ -5,7 +5,7 @@
 #include "IObject.h"
 #include <vector>
 #include <string>
-
+#include <iostream>
 namespace dae
 {
 	class Texture2D;
@@ -25,7 +25,7 @@ namespace dae
 		virtual void Start() override;
 		virtual void Update() override;
 		virtual void Render() const override;
-		virtual void OnCollision(ICollider& other) override;
+		virtual void OnCollisionEnter(ICollider& other) override;
 
 		void SetLocalPosition(float x, float y);
 		void SetLocalPosition(const glm::vec2& position);
@@ -52,7 +52,6 @@ namespace dae
 
 		void SetActive(bool active) { m_isActive = active; };
 		void Destroy() { m_toDestroy = true; };
-
 
 	private:
 		std::shared_ptr<Transform> m_transform;
@@ -92,11 +91,14 @@ namespace dae
 	template<typename TComponent>
 	inline std::shared_ptr<TComponent> GameObject::GetComponent() const
 	{
+		if (m_components.empty())
+			return nullptr;
+
 		static_assert(std::is_base_of<Component, TComponent>::value, "Template type must be a component.");
 
-		// Find the first component in the vector that is of type T*
+
 		auto it = std::find_if(m_components.begin(), m_components.end(), [](std::shared_ptr<Component> component) {
-			return std::dynamic_pointer_cast<TComponent>(component) != nullptr;
+			return component && std::dynamic_pointer_cast<TComponent>(component) != nullptr;
 			});
 
 		// If a component of type T* is found, return it

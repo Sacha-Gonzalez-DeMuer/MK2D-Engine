@@ -17,7 +17,7 @@ namespace dae
 		: m_pGraph{ graph }, m_pPathFinder{ pathfinder }, m_pPacGrid{ graph }, m_CurrentDirection{ Direction::NONE }
 		, m_TargetNode{ nullptr }, m_CurrentNode{ nullptr }, m_QDistance{ 50 }
 	{
-		m_CurrentNode = graph->GetNode(graph->GetSpawnIdx()); // default spawn
+		SetSpawn(graph->GetSpawnIdx()); // default spawn
 		m_QDistance = m_pGraph->GetCellSize() * 1.5f;
 	}
 
@@ -39,6 +39,7 @@ namespace dae
 			}
 		}
 
+		// Let navigator switch directions without queueing
 		if (!m_DirectionQueue.empty() && AreOpposites(m_DirectionQueue.front(), m_CurrentDirection))
 		{
 			auto next_node_idx = GetNodeInDirection(m_DirectionQueue.front(), m_CurrentNode->GetIndex());
@@ -50,15 +51,15 @@ namespace dae
 			}
 		}
 
-
 		if(!m_TargetNode)
 			return;
 
 		constexpr float epsilon = 1.0f;
 		float distance_to_target = MathHelpers::glmDistanceSquared(m_gameObject.lock()->GetWorldPosition(), m_pPacGrid->GetNodePos(m_TargetNode));
-		// If we're close enough to the target node, snap to it and move on to the next one
+		// If we're close enough to the target node
 		if (abs(distance_to_target) <= epsilon)
 		{
+			//, snap to it and move on to the next one
 			m_gameObject.lock()->GetTransform()->SetLocalPosition(m_pPacGrid->GetNodePos(m_TargetNode));
 			m_CurrentNode = m_TargetNode;
 			m_TargetNode = nullptr;
@@ -68,8 +69,8 @@ namespace dae
 			// find next node using direction queue
 			if (!m_DirectionQueue.empty())
 			{
-				auto next_node_idx = GetNodeInDirection(m_DirectionQueue.front(), m_CurrentNode->GetIndex());
 
+				auto next_node_idx = GetNodeInDirection(m_DirectionQueue.front(), m_CurrentNode->GetIndex());
 				if (IsValid(next_node_idx))
 				{
 					m_CurrentDirection = m_DirectionQueue.front();
@@ -79,6 +80,7 @@ namespace dae
 				else
 				{
 					m_CurrentDirection = Direction::NONE;
+					m_DirectionQueue = std::queue<Direction>();
 					m_TargetNode = nullptr;
 					return;
 				}
@@ -136,7 +138,7 @@ namespace dae
 			if (IsValid(target))
 			{
 				m_TargetNode = m_pGraph->GetNode(target);
-				return true;
+				//return true;
 			}
 			else return false;
 		}
@@ -146,6 +148,11 @@ namespace dae
 
 		m_DirectionQueue.emplace(direction);
 		return true;
+	}
+
+	int PacNavigator::GetCurrentNodeIdx() const
+	{
+		return m_CurrentNode->GetIndex();
 	}
 
 	std::vector<Direction> dae::PacNavigator::GetLegalMoves() const
@@ -187,6 +194,24 @@ namespace dae
 	void PacNavigator::ExitSpawn()
 	{
 		SetPathToNode(m_pPacGrid->GetRandomWalkableNodeIdx());
+	}
+
+	void PacNavigator::SetCurrentDirection(Direction dir)
+	{
+		m_DirectionQueue = std::queue<Direction>();
+		m_DirectionQueue.emplace(dir);
+	}
+
+	void PacNavigator::SetSpawn(int nodeIdx = -1)
+	{
+		if (nodeIdx != -1) m_SpawnNode = nodeIdx;
+		SetCurrentNode(m_SpawnNode);
+		if (nodeIdx == -1) SetPosOnNode(m_CurrentNode);
+	}
+
+	void PacNavigator::SetPosOnNode(GraphNode* node)
+	{
+		m_gameObject.lock()->SetLocalPosition(m_pPacGrid->GetNodePos(node));
 	}
 
 	bool PacNavigator::AreOpposites(Direction first, Direction second) const

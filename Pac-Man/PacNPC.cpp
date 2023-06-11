@@ -7,24 +7,41 @@
 #include "PacNPCState.h"
 #include "PacNPCWander.h"
 #include "PacNPCChase.h"
+#include "PacNPCEyes.h"
+#include "PacNPCVulnerable.h"
 #include <iostream>
+#include "GameTime.h"
 
 namespace dae
 {
 	PacNPC::PacNPC(std::shared_ptr<PacNavigator> pNavigator)
-		: m_pNavigator(pNavigator),m_Vulnerable{false}, m_State{std::make_shared<PacNPCWander>()}, m_DefaultState{nullptr}
-	{
-	}
+		: m_pNavigator(pNavigator),
+		m_State{std::make_shared<PacNPCWander>()}, m_DefaultState{nullptr}
+	{}
 
 	void dae::PacNPC::Update()
 	{
-		if (!m_pNavigator->HasTarget() || m_pNavigator->GetCurrentDirection() == Direction::NONE)
+		m_State->UpdateState();
+
+		if (!m_pNavigator->HasTarget())
 			m_State->OnArrive(*this);
 	}
+
 	void PacNPC::SetDefaultState(std::shared_ptr<PacNPCState> state, bool apply)
 	{
 		m_DefaultState = state;
 		if (apply) m_State = m_DefaultState;
+	}
+
+	void PacNPC::SetState(std::shared_ptr<PacNPCState> state, bool onExit)
+	{
+		if(onExit) m_State->OnExit();
+		m_State = state;
+	}
+
+	void PacNPC::ResetState(bool onExit)
+	{
+		SetState(m_DefaultState, onExit);
 	}
 
 	void dae::PacNPC::SetTarget(std::shared_ptr<GameObject> target)
@@ -37,15 +54,19 @@ namespace dae
 		m_pTargets.emplace_back(target);
 	}
 
-	void PacNPC::SetFrightened(float /*duration*/)
+	void PacNPC::SetFrightened(float duration)
 	{
-		std::cout << "AAAAAAA\n";
+		m_State = std::make_shared<PacNPCVulnerable>(GetOwner(), duration);
 	}
 
-	void dae::PacNPC::OnCollision(ICollider& other)
+	void dae::PacNPC::OnCollisionEnter(ICollider& other)
 	{
-		if (other.GetOwner()->GetTag() == PacData::PacTags::PacMan && m_Vulnerable)
+		std::cout << "Collision enter!\n";
+		bool isVulnerable = std::dynamic_pointer_cast<PacNPCVulnerable>(m_State) != nullptr;
+
+		if (other.GetOwner()->GetTag() == PacData::PacTags::PacMan && isVulnerable)
 		{
+			SetState(std::make_shared<PacNPCEyes>(GetOwner()));
 			OnNPCDeath.Invoke();
 		}
 	}

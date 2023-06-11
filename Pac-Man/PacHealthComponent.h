@@ -25,6 +25,6 @@ namespace dae
 		float m_InvincibilityTime;
 		float m_InvincibilityTimer;
 
-		void OnCollision(ICollider& other) override;
+		void OnCollisionEnter(ICollider& other) override;
 	};
 }

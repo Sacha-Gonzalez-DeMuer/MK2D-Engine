@@ -24,7 +24,10 @@ void dae::PacHealthComponent::TakeHit()
 	--m_RemainingLives;
 
 	if (m_RemainingLives < 0)
+	{
+		m_RemainingLives = 0;
 		OnDeath.Invoke();
+	}
 	else
 	{
 		OnHitTaken.Invoke();
@@ -32,7 +35,7 @@ void dae::PacHealthComponent::TakeHit()
 	}
 }
 
-void dae::PacHealthComponent::OnCollision(ICollider& other)
+void dae::PacHealthComponent::OnCollisionEnter(ICollider& other)
 {
 	if (other.GetOwner()->GetTag() == PacData::PacTags::Ghost)
 	{

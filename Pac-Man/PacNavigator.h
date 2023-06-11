@@ -26,24 +26,33 @@ namespace dae
 
 		void Start() override;
 		void Update() override;
-		GraphNode* GetCurrentNode() const { return m_CurrentNode; }
-		const PacData::PacNodeInfo& GetCurrentNodeInfo() const;
-		void SetCurrentNode(int idx);
-		void SetMovementSpeed(float speed) { m_MoveSpeed = speed; }
 		bool Move(Direction direction);
-		std::vector<Direction> GetLegalMoves() const;
-		void SetPathToNode(int nodeIdx);
-		void SetPathToNode(const glm::vec2& position);
 		void ExitSpawn();
 
-		bool HasTarget() const {return m_TargetNode != nullptr;}
+		void SetPathToNode(int nodeIdx);
+		void SetPathToNode(const glm::vec2& position);
+		void SetCurrentNode(int idx);
+		void SetMovementSpeed(float speed) { m_MoveSpeed = speed; }
+		void SetCurrentDirection(Direction dir);
+		void SetSpawn(int nodeIdx);
+		void SetPosOnNode(GraphNode* node);
+
+
 		Direction GetCurrentDirection() const { return m_CurrentDirection; }
+		const PacData::PacNodeInfo& GetCurrentNodeInfo() const;
+		GraphNode* GetCurrentNode() const { return m_CurrentNode; }
+		int GetCurrentNodeIdx() const;
+		std::vector<Direction> GetLegalMoves() const;
+		std::shared_ptr<PacGrid> GetPacGrid() const { return m_pPacGrid; }
+
 		bool HasPath() const { return !m_DirectionQueue.empty(); }
+		bool HasTarget() const { return m_TargetNode != nullptr; }
 		bool AreOpposites(Direction first, Direction second) const;
 
 		Delegate<int, std::shared_ptr<PacGrid>> OnArriveAtTarget;
 		Delegate<> OnDotCollected;
 		Delegate<> OnPowerUpFound;
+
 
 	private:
 		std::shared_ptr<PacGrid> m_pPacGrid;
@@ -55,8 +64,9 @@ namespace dae
 		std::queue<Direction> m_DirectionQueue;
 		Direction m_CurrentDirection;
 
-		float m_MoveSpeed{ 150 };
+		float m_MoveSpeed{ 1000 };
 		float m_QDistance{}; // distance at which a move is allowed to be queued
+		int m_SpawnNode;
 
 		int GetNodeInDirection(Direction direction, int fromNodeIdx) const;
 		float SqrDistanceToTarget() const;

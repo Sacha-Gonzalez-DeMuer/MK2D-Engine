@@ -7,7 +7,7 @@
 
 dae::PacGrid::PacGrid(const std::vector<std::string>& levelData)
 	: GridGraph(static_cast<int>(levelData.size()), static_cast<int>(levelData[0].size()), 40, false, false)
-	, m_NodeInfoMap(21*21)
+	, m_NodeInfoMap(21*21), m_totalDots{0}, m_totalPowerups{0}
 {
 	Initialize(levelData);
 	UpdateConnections();
@@ -98,6 +98,7 @@ void dae::PacGrid::Initialize(const std::vector<std::string>& levelData)
 			case PacData::Dot:
                 m_NodeInfoMap[pNodeIdx].type = PacData::PacNodeType::DOT;
 				m_NodeInfoMap[pNodeIdx].hasItem = true;
+				++m_totalDots;
 				break;
 			case PacData::Wall:
                 m_NodeInfoMap[pNodeIdx].type = PacData::PacNodeType::WALL;
@@ -108,6 +109,7 @@ void dae::PacGrid::Initialize(const std::vector<std::string>& levelData)
 			case PacData::PowerUp:
                 m_NodeInfoMap[pNodeIdx].type = PacData::PacNodeType::POWERUP;
 				m_NodeInfoMap[pNodeIdx].hasItem = true;
+				++m_totalPowerups;
 				break;
 			case PacData::Gate:
                 m_NodeInfoMap[pNodeIdx].type = PacData::PacNodeType::GATE;
@@ -159,7 +161,7 @@ void dae::PacGrid::UpdateConnections()
 			}
 			else
 			{
-				connection->SetCost(FLT_MIN);
+				connection->SetCost(-1000);
 			}
 		}
 	}

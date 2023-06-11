@@ -10,11 +10,12 @@
 #include <stdexcept>
 #include "Texture2D.h"
 #include "ResourceManager.h"
+#include "../Pac-Man/PacData.h"
 
 namespace dae
 {
 	Debug::Debug()
-		: m_font(dae::ResourceManager::Get().LoadFont("Lingua.otf", 12))
+		: m_font(dae::ResourceManager::Get().LoadFont(PacData::PacFiles::PacFont, 12))
 	{}
 
 	void Debug::PlotData(const char* title, const std::vector<float>& x, const std::vector<float>& y)

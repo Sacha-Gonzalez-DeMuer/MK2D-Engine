@@ -66,19 +66,46 @@ void Scene::Update()
 	{
 		object->Update();
 	}
+	
+	// expanded my simple collision with chatgpt :D
+	// /* https://chat.openai.com/share/c3a54e7a-3945-484f-85b4-569ff38adc47 */
+	// Check for collisions and trigger events
 
-
+	// Check for collisions and trigger events
 	for (size_t i = 0; i < m_collisionObjects.size(); i++)
 	{
 		for (size_t j = i + 1; j < m_collisionObjects.size(); j++)
 		{
 			if (m_collisionObjects[i]->Intersects(m_collisionObjects[j]))
 			{
-				m_collisionObjects[i]->GetOwner()->OnCollision(*m_collisionObjects[j]);
-				m_collisionObjects[j]->GetOwner()->OnCollision(*m_collisionObjects[i]);
+				// Object i collides with object j
+				Scene::CollisionPair collisionPair(m_collisionObjects[i], m_collisionObjects[j]);
+				m_currentCollisions.insert(collisionPair);
+
+				if (m_previousCollisions.find(collisionPair) == m_previousCollisions.end())
+				{
+					// Collision just started (OnCollisionEnter)
+					m_collisionObjects[i]->GetOwner()->OnCollisionEnter(*m_collisionObjects[j]);
+					m_collisionObjects[j]->GetOwner()->OnCollisionEnter(*m_collisionObjects[i]);
+				}
+			}
+			else
+			{
+				// Object i no longer collides with object j
+				Scene::CollisionPair collisionPair(m_collisionObjects[i], m_collisionObjects[j]);
+
+				if (m_previousCollisions.find(collisionPair) != m_previousCollisions.end())
+				{
+					// Collision ended (OnCollisionExit)
+					m_collisionObjects[i]->GetOwner()->OnCollisionExit(*m_collisionObjects[j]);
+					m_collisionObjects[j]->GetOwner()->OnCollisionExit(*m_collisionObjects[i]);
+				}
 			}
 		}
 	}
+	m_previousCollisions.clear();
+	m_previousCollisions.insert(m_currentCollisions.begin(), m_currentCollisions.end());
+	m_currentCollisions.clear();
 }
 
 void Scene::Render() const

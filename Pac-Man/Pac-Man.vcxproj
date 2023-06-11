@@ -25,6 +25,7 @@
     <ClCompile Include="PacHealthComponent.cpp" />
     <ClCompile Include="PacHealthHUD.cpp" />
     <ClCompile Include="PacJSONParser.cpp" />
+    <ClCompile Include="PacNPCEyes.cpp" />
     <ClCompile Include="PacNPCState.cpp" />
     <ClCompile Include="PacLevel.cpp" />
     <ClCompile Include="PacGrid.cpp" />
@@ -48,6 +49,7 @@
     <ClInclude Include="PacHealthComponent.h" />
     <ClInclude Include="PacHealthHUD.h" />
     <ClInclude Include="PacJSONParser.h" />
+    <ClInclude Include="PacNPCEyes.h" />
     <ClInclude Include="PacNPCState.h" />
     <ClInclude Include="PacLevel.h" />
     <ClInclude Include="PacGrid.h" />

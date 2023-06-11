@@ -12,20 +12,22 @@ namespace dae
 		: m_pPacGrid(pacGrid)
 		, m_LevelData{ levelData }
 	{ 
+		m_LevelData.dotCount = pacGrid->GetTotalDots();
+		m_LevelData.powerupCount = pacGrid->GetTotalPowerups();
 	}
 
 	void PacLevel::Start()
 	{
-		float gridWidth = static_cast<float>(m_pPacGrid->GetCellSize() * m_pPacGrid->GetRows());
-		float gridHeight = static_cast<float>(m_pPacGrid->GetCellSize() * m_pPacGrid->GetColumns());
-		GetOwner()->GetTransform()->SetLocalPosition(g_WindowSize.x*.5f - gridWidth * .5f, g_WindowSize.y *.5f- gridHeight * .5f);
+		float grid_width = static_cast<float>(m_pPacGrid->GetCellSize() * m_pPacGrid->GetRows());
+		float grid_height = static_cast<float>(m_pPacGrid->GetCellSize() * m_pPacGrid->GetColumns());
+		GetOwner()->GetTransform()->SetLocalPosition(g_WindowSize.x*.5f - grid_width * .5f, g_WindowSize.y *.5f- grid_height * .5f);
 	}
 
 	void PacLevel::Render() const
 	{
 		const auto& nodes = m_pPacGrid->GetAllNodes();
 		const float cell_size = static_cast<float>(m_pPacGrid->GetCellSize());
-		const float dot_size{ cell_size * .2f };
+		const float dot_size{ cell_size * .1f };
 		const float powerup_size{ cell_size * .3f };
 
 		for (auto pNode : nodes)
@@ -60,7 +62,7 @@ namespace dae
 						.FillCircle
 						(node_pos + glm::vec2{ cell_size * .5f, cell_size * .5f }, static_cast<int>(dot_size), PacData::InteractableColor);
 					break;
-
+			
 				case PacData::PacNodeType::POWERUP:
 					Renderer::Get()
 						.FillCircle
@@ -69,32 +71,31 @@ namespace dae
 				}
 			} 
 
-			//Debug::GetInstance().DrawDebugText(std::to_string(pNode->GetIndex()), pNode->GetPosition());
+			//Debug::Get().DrawDebugText(std::to_string(pNode->GetIndex()), m_pPacGrid->GetNodePos(pNode));
 		}
 	}
 
-	void PacLevel::Update()
-	{
-		if (CheckWinConditions())
-			OnLevelCompleted.Invoke();
-	}
 
 	std::shared_ptr<GridGraph> PacLevel::GetGrid() const
 	{
 		return m_pPacGrid;
 	}
 
-	bool PacLevel::CheckWinConditions() const
+	void PacLevel::RemoveDot()
 	{
-		const auto& nodesInfo = m_pPacGrid->GetPacNodeInfo();
+		--m_LevelData.dotCount;
+		CheckWinConditions();
+	}
 
-		for (const auto& nodeInfo : nodesInfo)
-		{
-			if ((nodeInfo.type == PacData::PacNodeType::DOT || nodeInfo.type == PacData::PacNodeType::POWERUP)
-				&& nodeInfo.hasItem)
-				return false;
-		}
+	void PacLevel::RemovePowerup()
+	{
+		--m_LevelData.powerupCount;
+	 	CheckWinConditions();
+	}
 
-		return true;
+	void PacLevel::CheckWinConditions()
+	{
+		if(m_LevelData.dotCount == 0 && m_LevelData.powerupCount == 0)
+			OnLevelCompleted.Invoke();
 	}
 }

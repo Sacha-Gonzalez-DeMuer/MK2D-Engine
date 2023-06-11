@@ -18,17 +18,19 @@ namespace dae
 
 		virtual void Start() override;
 		virtual void Render() const override;
-		virtual void Update() override;
 
 		Delegate<> OnLevelCompleted;
 
 		std::shared_ptr<GridGraph> GetGrid() const;
 		std::shared_ptr<PacGrid> GetPacGrid() const { return m_pPacGrid; }
 
+		void RemoveDot();
+		void RemovePowerup();
+
 	private:
 		PacData::PacLevelData m_LevelData;
 		std::shared_ptr<PacGrid> m_pPacGrid;
 
-		bool CheckWinConditions() const;
+		void CheckWinConditions();
 	};
 }

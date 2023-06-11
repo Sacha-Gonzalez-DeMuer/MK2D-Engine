@@ -2,6 +2,7 @@
 #include "PacNPC.h"
 #include "PacNavigator.h"
 
+
 bool dae::PacNPCState::OnArrive(const PacNPC& npc)
 {
 	if (npc.GetNavigator()->GetCurrentNodeInfo().type == PacData::PacNodeType::NPC_SPAWN)

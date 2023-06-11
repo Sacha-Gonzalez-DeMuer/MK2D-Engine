@@ -9,6 +9,7 @@ namespace dae
 		virtual void Start() {};
 		virtual void Update() {};
 		virtual void Render() const {};
-		virtual void OnCollision(ICollider& /*other*/) {};
+		virtual void OnCollisionEnter(ICollider& /*other*/) {};
+		virtual void OnCollisionExit(ICollider& /*other*/) {};
 	};
 }

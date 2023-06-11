@@ -86,12 +86,12 @@ void dae::GameObject::Render() const
 		child_gameobject->Render();
 }
 
-void dae::GameObject::OnCollision(ICollider& other)
+void dae::GameObject::OnCollisionEnter(ICollider& other)
 {
 	if (!m_isActive) return;
 
 	for (auto component : m_components)
-		component->OnCollision(other);
+		component->OnCollisionEnter(other);
 }
 
 void dae::GameObject::SetLocalPosition(float x, float y)

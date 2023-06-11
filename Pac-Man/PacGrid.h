@@ -8,7 +8,6 @@
 
 namespace dae
 {
-	// struct that holds info about a node
 	class PacGrid final : public GridGraph, public Component
 	{
 	public:
@@ -28,6 +27,8 @@ namespace dae
 		virtual glm::vec2 GetNodePos(GraphNode* pNode) const override;
 		virtual int GetNodeIdxAtWorldPos(const glm::vec2& worldPos) const override;
 
+		int GetTotalDots() const { return m_totalDots; }
+		int GetTotalPowerups() const { return m_totalPowerups; }
 	private:
 		void Initialize(const std::vector<std::string>& levelData);
 		void UpdateConnections();
@@ -35,6 +36,8 @@ namespace dae
 		int m_PacManSpawnNodeIdx{};
 		std::vector<int> m_NPCSpawnNodeIdxs{};
 		std::vector<PacData::PacNodeInfo> m_NodeInfoMap{};
+		int m_totalDots;
+		int m_totalPowerups;
 	};
 }
 

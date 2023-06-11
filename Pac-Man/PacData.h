@@ -17,7 +17,9 @@ namespace PacData
         const std::string Pinky = "Img/Pinky.png";
         const std::string Inky = "Img/Inky.png";
         const std::string Clyde = "Img/Clyde.png";
-
+        const std::string VulnerableGhost = "Img/VulnerableGhost.png";
+        const std::string InvertedGhost = "Img/InvertedGhost.png";
+        const std::string NPCEyes = "Img/NPCEyes.png";
     }
 
 
@@ -58,7 +60,7 @@ namespace PacData
          BLINKY,
          PINKY,
          INKY,
-         CLYDE
+         CLYDE,
      };
 
      struct PacNodeInfo
@@ -78,6 +80,8 @@ namespace PacData
      struct PacLevelData
      {
          std::vector<std::string> map;
+         int dotCount;
+         int powerupCount;
      };
 
      struct PacGameData
