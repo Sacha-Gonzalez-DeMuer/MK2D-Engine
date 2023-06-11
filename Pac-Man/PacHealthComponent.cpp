@@ -3,6 +3,8 @@
 #include "ICollider.h"
 #include "PacData.h"
 #include "GameTime.h"
+#include "PacNPC.h"
+
 void dae::PacHealthComponent::Update()
 {
 	if (m_InvincibilityTimer > 0)
@@ -35,10 +37,13 @@ void dae::PacHealthComponent::TakeHit()
 	}
 }
 
-void dae::PacHealthComponent::OnCollisionEnter(ICollider& other)
-{
-	if (other.GetOwner()->GetTag() == PacData::PacTags::Ghost)
-	{
-		TakeHit();
-	}
-}
+//void dae::PacHealthComponent::OnCollisionEnter(ICollider& other)
+//{
+//	if (other.GetOwner()->GetTag() == PacData::PacTags::Ghost)
+//	{
+//		std::shared_ptr<PacNPC> pNPC = std::dynamic_pointer_cast<PacNPC>(other.GetOwner()->GetComponent<PacNPC>());
+//		if (pNPC && pNPC->IsFrightened())
+//			pNPC->Die();
+//		else TakeHit();
+//	}
+//}

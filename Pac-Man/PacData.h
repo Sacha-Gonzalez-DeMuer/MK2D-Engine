@@ -20,8 +20,10 @@ namespace PacData
         const std::string VulnerableGhost = "Img/VulnerableGhost.png";
         const std::string InvertedGhost = "Img/InvertedGhost.png";
         const std::string NPCEyes = "Img/NPCEyes.png";
+        const std::string ImpostorGhost = "Img/ImpostorGhost.png";
+        const std::string PacDeathSound = "Audio/pacdeath.mp3";
+        const std::string WAKAWAKAWAKA = "Audio/wakawakawaka.mp3";
     }
-
 
      constexpr char PacSpawn = 'P';
      constexpr char Dot = '.';
@@ -67,6 +69,12 @@ namespace PacData
      {
          PacNodeType type;
          bool hasItem;
+     };
+
+     struct PacPlayerInfo
+     {
+         char name[3];
+         int score;
      };
 
      enum class PacGameMode

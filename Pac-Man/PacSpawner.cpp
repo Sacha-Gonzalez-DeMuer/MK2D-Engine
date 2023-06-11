@@ -44,6 +44,14 @@ namespace dae
 		ghost_navigator->SetCurrentNode(m_spawnIndices[
 			MathHelpers::GenerateRandomRange(0, static_cast<int>(m_spawnIndices.size()-1))]);
 
+		// Blinky behavior
+		std::weak_ptr weak_brain = ghost_brain;
+		ghost_navigator->OnArriveAtTarget.AddFunction([weak_brain](int, std::shared_ptr<PacGrid>) {
+
+			if (auto ghost_brain_locked = weak_brain.lock()) {
+				weak_brain.lock()->GetState()->OnArrive(*weak_brain.lock());
+			}});
+
 		return ghost_go;
 	}
 
@@ -58,13 +66,7 @@ namespace dae
 		blinky_img->SetTexture(PacData::PacFiles::Blinky);
 		blinky_img->SetSize({ m_ghostSize, m_ghostSize });
 
-		// Blinky behavior
-		std::weak_ptr weak_brain = blinkys_brain;
-		ghost_navigator->OnArriveAtTarget.AddFunction([weak_brain](int, std::shared_ptr<PacGrid>) {
 
-			if (auto ghost_brain_locked = weak_brain.lock()) {
-				weak_brain.lock()->GetState()->OnArrive(*weak_brain.lock());
-			}});
 
 		return blinky;
 	}
@@ -79,12 +81,6 @@ namespace dae
 		pinky_img->SetTexture(PacData::PacFiles::Pinky);
 		pinky_img->SetSize({ m_ghostSize, m_ghostSize });
 
-		// Pinky behavior
-		std::weak_ptr weak_brain = pinkys_brain;
-		ghost_navigator->OnArriveAtTarget.AddFunction([weak_brain](int, std::shared_ptr<PacGrid>) {
-			if (auto ghost_brain_locked = weak_brain.lock()) {
-				weak_brain.lock()->GetState()->OnArrive(*weak_brain.lock());
-			}});
 
 		return pinky;
 	}
@@ -99,13 +95,6 @@ namespace dae
 		inky_img->SetTexture(PacData::PacFiles::Inky);
 		inky_img->SetSize({ m_ghostSize, m_ghostSize });
 
-		// Inky behavior
-		std::weak_ptr weak_brain = inkys_brain;
-		ghost_navigator->OnArriveAtTarget.AddFunction([weak_brain](int, std::shared_ptr<PacGrid>) {
-			if (auto ghost_brain_locked = weak_brain.lock()) {
-				weak_brain.lock()->GetState()->OnArrive(*weak_brain.lock());
-			}});
-
 		return inky;
 	}
 
@@ -119,12 +108,6 @@ namespace dae
 		clyde_img->SetTexture(PacData::PacFiles::Clyde);
 		clyde_img->SetSize({ m_ghostSize, m_ghostSize });
 
-		// Clyde behavior
-		std::weak_ptr weak_brain = clydes_brain;
-		ghost_navigator->OnArriveAtTarget.AddFunction([weak_brain](int, std::shared_ptr<PacGrid>) {
-			if (auto ghost_brain_locked = weak_brain.lock()) {
-				weak_brain.lock()->GetState()->OnArrive(*weak_brain.lock());
-			}});
 
 		return clyde;
 	}

@@ -47,8 +47,6 @@ namespace dae
             m_Running = false;
             m_qCondtionVariable.notify_all();
             m_SoundThread.join();
-
-
 		}
 
         void PlaySound(const PlayRequest& request)
@@ -105,6 +103,8 @@ namespace dae
 
         void AddSound(const std::string& filePath, const sound_id soundId)
         {
+            std::unique_lock<std::mutex> lock(m_qMutex);
+
             if (auto sound = Mix_LoadWAV(filePath.c_str()))
                 m_Sounds[soundId] = sound;
             else
@@ -113,6 +113,8 @@ namespace dae
 
         bool IsSoundPlaying(const sound_id soundId)
         {
+            std::lock_guard<std::mutex> lock(m_qMutex);
+
             Mix_Chunk* sound = GetSound(soundId);
             if (sound == nullptr) return false;
 

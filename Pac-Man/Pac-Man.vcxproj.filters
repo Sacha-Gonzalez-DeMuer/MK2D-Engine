@@ -37,6 +37,9 @@
     <Filter Include="Canvas">
       <UniqueIdentifier>{fac4362c-7641-4e0f-8bb1-472aa6449b3c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Character\Impostor">
+      <UniqueIdentifier>{0f597e7d-2bde-410d-b2bc-984e003348a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -96,6 +99,15 @@
     </ClCompile>
     <ClCompile Include="PacNPCEyes.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PacImpostorState.cpp">
+      <Filter>Character\Impostor</Filter>
+    </ClCompile>
+    <ClCompile Include="PacImpostorEyesState.cpp">
+      <Filter>Character\Impostor</Filter>
+    </ClCompile>
+    <ClCompile Include="PacImpostorVulnerableState.cpp">
+      <Filter>Character\Impostor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -162,6 +174,15 @@
     </ClInclude>
     <ClInclude Include="PacNPCEyes.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PacImpostorState.h">
+      <Filter>Character\Impostor</Filter>
+    </ClInclude>
+    <ClInclude Include="PacImpostorEyesState.h">
+      <Filter>Character\Impostor</Filter>
+    </ClInclude>
+    <ClInclude Include="PacImpostorVulnerableState.h">
+      <Filter>Character\Impostor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

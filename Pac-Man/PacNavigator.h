@@ -29,12 +29,13 @@ namespace dae
 		bool Move(Direction direction);
 		void ExitSpawn();
 
+		void SetPathFinder(std::shared_ptr<IPathFinder> pathfinder) { m_pPathFinder = pathfinder; }
 		void SetPathToNode(int nodeIdx);
 		void SetPathToNode(const glm::vec2& position);
 		void SetCurrentNode(int idx);
 		void SetMovementSpeed(float speed) { m_MoveSpeed = speed; }
 		void SetCurrentDirection(Direction dir);
-		void SetSpawn(int nodeIdx);
+		void SetSpawn(int nodeIdx, bool apply = false);
 		void SetPosOnNode(GraphNode* node);
 
 
@@ -64,7 +65,7 @@ namespace dae
 		std::queue<Direction> m_DirectionQueue;
 		Direction m_CurrentDirection;
 
-		float m_MoveSpeed{ 1000 };
+		float m_MoveSpeed{ 200 };
 		float m_QDistance{}; // distance at which a move is allowed to be queued
 		int m_SpawnNode;
 

@@ -2,16 +2,20 @@
 #include <algorithm>
 #include "imgui_impl_sdl2.h"
 
-void dae::Input::AddController(std::shared_ptr<XBox360Controller> controller)
+void dae::Input::AddController(std::shared_ptr<GenericController> controller)
 {
-	m_Controllers.push_back(controller);
+	if (controller->GetControllerIndex() >= m_Controllers.size())
+		m_Controllers.resize(controller->GetControllerIndex() + 1);
+
+	m_Controllers[controller->GetControllerIndex()] = controller;
 }
 
-unsigned int dae::Input::Add360Controller()
+std::shared_ptr<dae::GenericController> dae::Input::AddController()
 {
-	int idx = static_cast<int>(m_Controllers.size()) + 1;
-	m_Controllers.push_back(std::make_shared<XBox360Controller>(idx));
-	return idx;
+	int idx = static_cast<int>(m_Controllers.size());
+	auto controller = std::make_shared<GenericController>(idx);
+	m_Controllers.push_back(controller);
+	return controller;
 }
 
 void dae::Input::AddCommand(const ControllerKey& key, std::shared_ptr<Command> command)
@@ -24,6 +28,18 @@ void dae::Input::AddCommand(const SDL_Scancode& key, std::shared_ptr<Command> co
 	m_KeyboardCommands[key] = command;
 }
 
+unsigned int dae::Input::GetNrControllers() const
+{
+	return static_cast<unsigned int>(m_Controllers.size());
+}
+
+void dae::Input::SetControllerActive(unsigned int idx, bool active)
+{
+	if (idx >= m_Controllers.size() || idx < 0) return;
+
+	m_Controllers[idx]->SetActive(active);
+}
+
 bool dae::Input::HandleInput() const
 {
 	bool exit{ false };
@@ -31,13 +47,13 @@ bool dae::Input::HandleInput() const
 	// update controllers
 	for (const auto& controller : m_Controllers)
 	{
-		controller->Update();
+		if(controller) controller->Update();
 	}
 
 	// poll controller commands
 	for (const auto& command : m_ControllerCommands)
 	{
-		auto& controller = m_Controllers[command.first.first];
+ 		auto& controller = m_Controllers[command.first.first];
 		auto button = command.first.second;
 
 		if (controller->IsDown(button))
@@ -48,7 +64,6 @@ bool dae::Input::HandleInput() const
 
 		if (controller->IsReleased(button))
 			command.second->Execute();
-
 	}
 
 	SDL_Event e;

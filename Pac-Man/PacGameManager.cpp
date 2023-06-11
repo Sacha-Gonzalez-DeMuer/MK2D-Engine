@@ -24,7 +24,8 @@
 #include "PacSpawner.h"
 #include "Button.h"
 #include "MathHelpers.h"
-
+#include "PacImpostorState.h"
+#include "PacImpostorVulnerableState.h"
 
 namespace dae
 {
@@ -118,7 +119,7 @@ namespace dae
 		auto level = level_go->AddComponent<PacLevel>(levelData, level_grid);
 
 		level->OnLevelCompleted.AddFunction([this]() {
-				LoadNextLevel();
+			LoadNextLevel();
 			});
 		//*************
 		// Create HUD
@@ -133,6 +134,7 @@ namespace dae
 		//***************
 		// Create players
 		auto pacman_go_default = AddPlayer(scene, level, gameover_hud);
+
 		AddSpawner(scene, level);
 
 		switch (m_GameData.mode)
@@ -142,10 +144,10 @@ namespace dae
 			break;
 
 		case PacData::PacGameMode::VERSUS:
+			AddImpostor(scene, level);
 			break;
 		}
 
-		
 		scene.Start();
 	}
 
@@ -153,6 +155,8 @@ namespace dae
 	{
 		if (unloadCurrent) SceneManager::Get().RemoveScene(std::to_string(m_CurrentLevelIdx));
 		if (m_CurrentLevelIdx >= m_GameData.maps.size() - 1) return;
+
+		m_pPlayers.clear();
 
 		LoadLevel(++m_CurrentLevelIdx);
 	}
@@ -167,7 +171,7 @@ namespace dae
 
 		// Add components
 		auto pac_navigator = pacman_go->AddComponent<PacNavigator>(level->GetPacGrid());
-		auto pac_controller = pacman_go->AddComponent<PacController>(pac_navigator);
+		auto pac_controller = pacman_go->AddComponent<PacController>(pac_navigator, static_cast<int>(m_pPlayers.size()));
 		auto pac_score = pacman_go->AddComponent<PacScoreComponent>(0);
 		auto pac_health = pacman_go->AddComponent<PacHealthComponent>(3);
 		pacman_go->AddComponent<CircleCollider>(static_cast<float>(level->GetGrid()->GetCellSize() * .5f));
@@ -209,6 +213,10 @@ namespace dae
 
 		// Create HUD
 		const float margin = g_WindowSize.x * .02f;
+		const float offset = 100.f;
+
+		auto player_hud = std::make_shared<GameObject>();
+
 		auto score_hud = std::make_shared<GameObject>();
 		score_hud->AddComponent<PacScoreHUD>(pac_score);
 		score_hud->GetTransform()->SetLocalPosition(margin, margin);
@@ -217,15 +225,21 @@ namespace dae
 		health_hud->AddComponent<PacHealthHUD>(pac_health);
 		health_hud->GetTransform()->SetLocalPosition(margin, margin + 50.f);
 
+		player_hud->AddChild(score_hud);
+		player_hud->AddChild(health_hud);
+		player_hud->GetTransform()->SetLocalPosition(margin, margin + (offset * m_pPlayers.size()));
+
 		std::weak_ptr weak_pacman = pacman_go;
-		pac_health->OnDeath.AddFunction([gameoverHUD, weak_pacman]() {
+		if (gameoverHUD)
+		{
+			pac_health->OnDeath.AddFunction([gameoverHUD, weak_pacman]() {
 
-			if (auto weak_pacman_locked = weak_pacman.lock())
-			{
-				gameoverHUD->SetActive(true);
-				weak_pacman_locked->SetActive(false);
-			}}, { weak_pacman });
-
+				if (auto weak_pacman_locked = weak_pacman.lock())
+				{
+					gameoverHUD->SetActive(true);
+					weak_pacman_locked->SetActive(false);
+				}}, { weak_pacman });
+		}
 		pac_health->OnHitTaken.AddFunction([weak_pacman]() {
 			if (auto weak_pacman_locked = weak_pacman.lock())
 			{
@@ -240,6 +254,40 @@ namespace dae
 		scene.Add(health_hud);
 
 		return pacman_go;
+	}
+
+	std::shared_ptr<GameObject> PacGameManager::AddImpostor(Scene& scene, std::shared_ptr<PacLevel> level)
+	{
+		AddPlayer(scene, level, nullptr);
+		auto impostor_player = m_pPlayers[1];
+		auto impostor_renderer = impostor_player->GetComponent<RenderComponent>();
+		impostor_renderer->SetTexture(PacData::PacFiles::ImpostorGhost);
+
+		float size = static_cast<float>(level->GetGrid()->GetCellSize());
+		impostor_renderer->SetSize({ size, size });
+		impostor_player->SetTag("Ghost");
+
+		auto impostor_navigator = impostor_player->GetComponent<PacNavigator>();
+		impostor_navigator->SetSpawn(level->GetPacGrid()->GetNPCSpawnIdxs()[0], true);
+		//impostor_navigator->OnArriveAtTarget.Clear();
+
+		auto astar_pathfinder = std::make_shared<AStarPathFinder>(level->GetGrid());
+		impostor_navigator->SetPathFinder(astar_pathfinder);
+
+		auto impostor_npc = impostor_player->AddComponent<PacNPC>(impostor_navigator);
+		impostor_npc->SetState(std::make_shared<PacImpostorState>(nullptr));
+		impostor_npc->SetDefaultState(std::make_shared<PacImpostorState>(nullptr));
+
+		std::weak_ptr weak_impostor_npc = impostor_npc;
+		m_pPlayers[0]->GetComponent<PacController>()->OnPowerup.AddFunction(
+			[weak_impostor_npc](float time) {
+			if (auto weak_impostor_locked = weak_impostor_npc.lock(); weak_impostor_locked)
+			{
+				auto gameobject = weak_impostor_locked->GetOwner();
+				weak_impostor_locked->SetState(std::make_shared<PacImpostorVulnerableState>(gameobject, time));
+			}}, { weak_impostor_npc });
+
+		return impostor_player;
 	}
 
 	std::shared_ptr<PacSpawner> PacGameManager::AddSpawner(Scene& scene, std::shared_ptr<PacLevel> level)

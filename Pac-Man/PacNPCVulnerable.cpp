@@ -6,6 +6,7 @@
 #include "PacNPCEyes.h"
 #include "GameTime.h"
 #include "ResourceManager.h"
+#include "ICollider.h"
 
 dae::PacNPCVulnerable::PacNPCVulnerable(GameObject* npc_go, float duration)
 	: PacNPCState(npc_go) , m_switchedDir(false), m_defaultTexturePath(""), m_timer(duration), m_duration(duration), m_toggleInvertTimer(0.0f)
@@ -56,6 +57,15 @@ void dae::PacNPCVulnerable::UpdateState()
 	{
 		OnExit();
 		m_pNPC->GetComponent<PacNPC>()->ResetState(false);
+	}
+}
+
+void dae::PacNPCVulnerable::HandleCollision(PacNPC& npc, ICollider& other)
+{
+	if (other.GetOwner()->GetTag() == PacData::PacTags::PacMan)
+	{
+		npc.SetState(std::make_shared<PacNPCEyes>(npc.GetOwner()));
+		npc.OnNPCDeath.Invoke();
 	}
 }
 

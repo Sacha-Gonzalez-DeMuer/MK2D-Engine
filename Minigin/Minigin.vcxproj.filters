@@ -152,7 +152,7 @@
     <ClInclude Include="Input.h">
       <Filter>Input</Filter>
     </ClInclude>
-    <ClInclude Include="XBox360Controller.h">
+    <ClInclude Include="GenericController.h">
       <Filter>Input\Controllers</Filter>
     </ClInclude>
     <ClInclude Include="IObserver.h">
@@ -283,7 +283,7 @@
     <ClCompile Include="imgui_plot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="XBox360Controller.cpp">
+    <ClCompile Include="GenericController.cpp">
       <Filter>Input\Controllers</Filter>
     </ClCompile>
     <ClCompile Include="Input.cpp">

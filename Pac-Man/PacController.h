@@ -11,10 +11,11 @@ namespace dae
 	};
 
 	class PacNavigator;
+	class GenericController;
 	class PacController : public Component
 	{
 	public:
-		PacController(std::shared_ptr<PacNavigator> pNavigator);
+		PacController(std::shared_ptr<PacNavigator> pNavigator, int playerIdx);
 		~PacController() = default;
 
 		Delegate<float> OnPowerup;
@@ -22,10 +23,14 @@ namespace dae
 		void PowerUp(float duration);
 		void Update() override;
 
-	private:
-		std::shared_ptr<PacNavigator> m_pNavigator;
-		void InitializeInput();
+		void SetGenericControllerActive(bool active);
 
+	private:
+		std::shared_ptr<GenericController> m_pGenericController;
+		std::shared_ptr<PacNavigator> m_pNavigator;
+		void InitializeInput(unsigned int playerIdx);
+
+		int m_PlayerIdx;
 		float m_PowerUpTimer;
 	};
 }

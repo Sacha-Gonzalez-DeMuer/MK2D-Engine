@@ -23,7 +23,7 @@ namespace dae
 	{
 		m_State->UpdateState();
 
-		if (!m_pNavigator->HasTarget())
+		if (m_pNavigator && !m_pNavigator->HasTarget())
 			m_State->OnArrive(*this);
 	}
 
@@ -59,16 +59,19 @@ namespace dae
 		m_State = std::make_shared<PacNPCVulnerable>(GetOwner(), duration);
 	}
 
-	void dae::PacNPC::OnCollisionEnter(ICollider& other)
+	bool PacNPC::IsFrightened() const
 	{
-		std::cout << "Collision enter!\n";
-		bool isVulnerable = std::dynamic_pointer_cast<PacNPCVulnerable>(m_State) != nullptr;
-
-		if (other.GetOwner()->GetTag() == PacData::PacTags::PacMan && isVulnerable)
-		{
-			SetState(std::make_shared<PacNPCEyes>(GetOwner()));
-			OnNPCDeath.Invoke();
-		}
+		return std::dynamic_pointer_cast<PacNPCVulnerable>(m_State) != nullptr;
 	}
 
+	void PacNPC::Die()
+	{
+		SetState(std::make_shared<PacNPCEyes>(GetOwner()));
+		OnNPCDeath.Invoke();
+	}
+
+	void dae::PacNPC::OnCollisionEnter(ICollider& other)
+	{
+		m_State->HandleCollision(*this, other);
+	}
 }

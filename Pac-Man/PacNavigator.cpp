@@ -202,11 +202,11 @@ namespace dae
 		m_DirectionQueue.emplace(dir);
 	}
 
-	void PacNavigator::SetSpawn(int nodeIdx = -1)
+	void PacNavigator::SetSpawn(int nodeIdx = -1, bool apply)
 	{
 		if (nodeIdx != -1) m_SpawnNode = nodeIdx;
 		SetCurrentNode(m_SpawnNode);
-		if (nodeIdx == -1) SetPosOnNode(m_CurrentNode);
+		if (nodeIdx == -1 || apply) SetPosOnNode(m_CurrentNode);
 	}
 
 	void PacNavigator::SetPosOnNode(GraphNode* node)

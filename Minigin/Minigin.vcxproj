@@ -266,7 +266,7 @@
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="Transform.h" />
-    <ClInclude Include="XBox360Controller.h" />
+    <ClInclude Include="GenericController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AStarPathFinder.cpp" />
@@ -330,7 +330,7 @@
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="XBox360Controller.cpp" />
+    <ClCompile Include="GenericController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

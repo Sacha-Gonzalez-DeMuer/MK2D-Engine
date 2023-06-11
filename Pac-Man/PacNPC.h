@@ -19,16 +19,19 @@ namespace dae
 		virtual ~PacNPC() {};
 
 		virtual void Update() override;
-
-		void SetDefaultState(std::shared_ptr<PacNPCState> state, bool apply = true);
-		void SetState(std::shared_ptr<PacNPCState> state, bool onExit = true);
 		void ResetState(bool onExit = true);
 
-		void SetTarget(std::shared_ptr<GameObject> target);
 		void AddTarget(std::shared_ptr<GameObject> target);
 		Target GetTarget() const { return m_pTarget; }
 		std::shared_ptr<PacNavigator> GetNavigator() const { return m_pNavigator; }
+
+		void SetTarget(std::shared_ptr<GameObject> target);
 		void SetFrightened(float duration);
+		void SetDefaultState(std::shared_ptr<PacNPCState> state, bool apply = true);
+		void SetState(std::shared_ptr<PacNPCState> state, bool onExit = true);
+
+		bool IsFrightened() const;
+		void Die();
 
 		Delegate<> OnNPCDeath;
 

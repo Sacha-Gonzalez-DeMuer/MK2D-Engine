@@ -5,12 +5,14 @@
 #include "PacData.h"
 #include "ICollider.h"
 #include "GameTime.h"
+#include "GenericController.h"
+
 namespace dae
 {
-	PacController::PacController(std::shared_ptr<PacNavigator> pNavigator)
-		: m_pNavigator{pNavigator}
+	PacController::PacController(std::shared_ptr<PacNavigator> pNavigator, int playerIdx)
+		: m_pNavigator{ pNavigator }, m_PlayerIdx{ playerIdx }, m_PowerUpTimer{ 0.f }
 	{
-		InitializeInput();
+		InitializeInput(playerIdx);
 	}
 
 	void PacController::PowerUp(float duration)
@@ -30,19 +32,33 @@ namespace dae
 		}
 	}
 
-	void PacController::InitializeInput()
+	void PacController::SetGenericControllerActive(bool active)
 	{
-		// pacman commands
+		m_pGenericController->SetActive(active);
+	}
+
+	void PacController::InitializeInput(unsigned int playerIdx)
+	{
 		auto move_right_command{ std::make_shared<dae::PacMoveCommand>(m_pNavigator, Direction::RIGHT) };
 		auto move_left_command{ std::make_shared<dae::PacMoveCommand>(m_pNavigator, Direction::LEFT) };
 		auto move_up_command{ std::make_shared<dae::PacMoveCommand>(m_pNavigator, Direction::UP) };
 		auto move_down_command{ std::make_shared<dae::PacMoveCommand>(m_pNavigator, Direction::DOWN) };
 
-		// keyboard binds
-		dae::Input::Get().AddCommand(SDL_SCANCODE_D, move_right_command);
-		dae::Input::Get().AddCommand(SDL_SCANCODE_A, move_left_command);
-		dae::Input::Get().AddCommand(SDL_SCANCODE_W, move_up_command);
-		dae::Input::Get().AddCommand(SDL_SCANCODE_S, move_down_command);
+		if (playerIdx == 0)
+		{
+			dae::Input::Get().AddCommand(SDL_SCANCODE_D, move_right_command);
+			dae::Input::Get().AddCommand(SDL_SCANCODE_A, move_left_command);
+			dae::Input::Get().AddCommand(SDL_SCANCODE_W, move_up_command);
+			dae::Input::Get().AddCommand(SDL_SCANCODE_S, move_down_command);
+
+			return;
+		}
+
+		m_pGenericController = dae::Input::Get().AddController();
+		dae::Input::Get().AddCommand(std::make_pair(m_pGenericController->GetControllerIndex(), GenericController::ControllerButton::DPadRight), move_right_command);
+		dae::Input::Get().AddCommand(std::make_pair(m_pGenericController->GetControllerIndex(), GenericController::ControllerButton::DPadLeft), move_left_command);
+		dae::Input::Get().AddCommand(std::make_pair(m_pGenericController->GetControllerIndex(), GenericController::ControllerButton::DPadUp), move_up_command);
+		dae::Input::Get().AddCommand(std::make_pair(m_pGenericController->GetControllerIndex(), GenericController::ControllerButton::DPadDown), move_down_command);
 	}
 }
 

@@ -4,12 +4,12 @@
 #include <Xinput.h>
 #pragma comment(lib, "xinput.lib")
 
-#include "Xbox360Controller.h"
+#include "GenericController.h"
 #include <cmath>
 
 using namespace dae;
 
-class XBox360Controller::XBox360ControllerImpl
+class GenericController::GenericControllerImpl
 {
 	XINPUT_STATE previousState{};
 	XINPUT_STATE currentState{};
@@ -23,17 +23,21 @@ class XBox360Controller::XBox360ControllerImpl
 	float deadzoneX = 0.2f;
 	float deadzoneY = 0.2f;
 
+	bool isActive{ true };
+
 public:
-	XBox360ControllerImpl(unsigned int controllerIndex)
+	GenericControllerImpl(unsigned int controllerIndex)
 		: _controllerIndex(controllerIndex)
 	{
 		ZeroMemory(&previousState, sizeof(XINPUT_STATE));
 		ZeroMemory(&currentState, sizeof(XINPUT_STATE));
 	}
-	~XBox360ControllerImpl() = default;
+	~GenericControllerImpl() = default;
 
 	void Update()
 	{
+		if (!isActive) return;
+
 		CopyMemory(&previousState, &currentState, sizeof(XINPUT_STATE)); 
 		ZeroMemory(&currentState, sizeof(XINPUT_STATE)); 
 		XInputGetState(_controllerIndex, &currentState); 
@@ -53,43 +57,49 @@ public:
 	}
 
 	unsigned int GetControllerIndex() const {return _controllerIndex;}
+	void SetActive(bool active) { isActive = active; };
 
 	bool IsDownThisFrame(unsigned int button) const {return buttonsPressedThisFrame & button;}
 	bool IsReleased(unsigned int button) const {return buttonsReleasedThisFrame & button;}
 	bool IsDown(unsigned int button) const {return currentState.Gamepad.wButtons & button;}
 };
 
-void dae::XBox360Controller::Update()
+void dae::GenericController::Update()
 {
 	pImpl->Update();
 }
 
-bool dae::XBox360Controller::IsDown(const ControllerButton& button) const
+bool dae::GenericController::IsDown(const ControllerButton& button) const
 {
 	return pImpl->IsDown(static_cast<unsigned int>(button));
 }
 
-bool dae::XBox360Controller::IsDownThisFrame(const ControllerButton& button) const
+bool dae::GenericController::IsDownThisFrame(const ControllerButton& button) const
 {
 	return pImpl->IsDownThisFrame(static_cast<unsigned int>(button));
 }
 
-bool dae::XBox360Controller::IsReleased(const ControllerButton& button) const
+bool dae::GenericController::IsReleased(const ControllerButton& button) const
 {
 	return pImpl->IsReleased(static_cast<unsigned int>(button));
 }
 
-unsigned int dae::XBox360Controller::GetControllerIndex() const
+void dae::GenericController::SetActive(bool active)
+{
+	pImpl->SetActive(active);
+}
+
+unsigned int dae::GenericController::GetControllerIndex() const
 {
 	return pImpl->GetControllerIndex();
 }
 
-dae::XBox360Controller::XBox360Controller(int controllerIndex)
-	: pImpl(new XBox360ControllerImpl(controllerIndex))
+dae::GenericController::GenericController(int controllerIndex)
+	: pImpl(new GenericControllerImpl(controllerIndex))
 {
 }
 
-dae::XBox360Controller::~XBox360Controller()
+dae::GenericController::~GenericController()
 {
 	delete pImpl;
 	pImpl = nullptr;

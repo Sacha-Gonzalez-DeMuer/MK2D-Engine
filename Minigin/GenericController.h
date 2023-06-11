@@ -2,10 +2,10 @@
 
 namespace dae
 {
-	class XBox360Controller final
+	class GenericController final
 	{
-		class XBox360ControllerImpl;
-		XBox360ControllerImpl* pImpl;
+		class GenericControllerImpl;
+		GenericControllerImpl* pImpl;
 	public:
 		enum class ControllerButton
 		{
@@ -37,10 +37,11 @@ namespace dae
 		bool IsDownThisFrame(const ControllerButton& button) const;
 		bool IsReleased(const ControllerButton& button) const;
 
+		void SetActive(bool active);
 		unsigned int GetControllerIndex() const;
 
-		explicit XBox360Controller(int controllerIndex);
-		~XBox360Controller();
+		explicit GenericController(int controllerIndex);
+		~GenericController();
 	};
 
 }

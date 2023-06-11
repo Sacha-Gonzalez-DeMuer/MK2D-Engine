@@ -4,6 +4,7 @@
 
 namespace dae
 {
+	class PacNPC;
 	class PacHealthComponent final : public Component
 	{
 	public:
@@ -18,6 +19,7 @@ namespace dae
 		void TakeHit();
 		Delegate<> OnHitTaken;
 		Delegate<> OnDeath;
+		Delegate<PacNPC> OnCollisionWithGhost;
 
 	private:
 		int m_RemainingLives;
@@ -25,6 +27,6 @@ namespace dae
 		float m_InvincibilityTime;
 		float m_InvincibilityTimer;
 
-		void OnCollisionEnter(ICollider& other) override;
+		//void OnCollisionEnter(ICollider& other) override;
 	};
 }
