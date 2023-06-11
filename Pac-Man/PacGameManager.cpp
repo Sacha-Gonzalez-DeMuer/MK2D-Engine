@@ -210,6 +210,10 @@ namespace dae
 
 			}, { weak_score, weak_controller });
 
+		scene.Add(pacman_go);
+		m_pPlayers.emplace_back(pacman_go);
+
+		if(!gameoverHUD) return pacman_go;
 
 		// Create HUD
 		const float margin = g_WindowSize.x * .02f;
@@ -247,9 +251,7 @@ namespace dae
 			}
 			}, { weak_pacman });
 
-		m_pPlayers.emplace_back(pacman_go);
 
-		scene.Add(pacman_go);
 		scene.Add(score_hud);
 		scene.Add(health_hud);
 
@@ -286,6 +288,13 @@ namespace dae
 				auto gameobject = weak_impostor_locked->GetOwner();
 				weak_impostor_locked->SetState(std::make_shared<PacImpostorVulnerableState>(gameobject, time));
 			}}, { weak_impostor_npc });
+
+		std::weak_ptr weak_brain = impostor_npc;
+		impostor_navigator->OnArriveAtTarget.AddFunction([weak_brain](int, std::shared_ptr<PacGrid>) {
+			if (auto ghost_brain_locked = weak_brain.lock()) {
+				weak_brain.lock()->GetState()->OnArrive(*weak_brain.lock());
+			}}, { weak_brain });
+
 
 		return impostor_player;
 	}
