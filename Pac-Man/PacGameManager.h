@@ -27,8 +27,10 @@ namespace dae
 		std::vector<std::shared_ptr<PacLevel>> m_pLevels{};
 		std::vector<std::shared_ptr<GameObject>> m_pPlayers{};
 
+		
 		std::shared_ptr<GameObject> AddPlayer(Scene& scene, std::shared_ptr<PacLevel> level, std::shared_ptr<GameObject> gameoverHUD);
 		std::shared_ptr<GameObject> AddImpostor(Scene& scene, std::shared_ptr<PacLevel> level);
 		std::shared_ptr<PacSpawner> AddSpawner(Scene& scene, std::shared_ptr<PacLevel> level);
+		
 	};
 }

@@ -24,9 +24,9 @@ namespace dae
 	void PacSpawner::Initialize()
 	{
 		m_pNPCs[static_cast<int>(PacData::PacGhosts::BLINKY)] = InitializeBlinky();
-		//m_pNPCs[static_cast<int>(PacData::PacGhosts::PINKY)] = InitializePinky();
-		//m_pNPCs[static_cast<int>(PacData::PacGhosts::INKY)] = InitializeInky();
-		//m_pNPCs[static_cast<int>(PacData::PacGhosts::CLYDE)] = InitializeClyde();
+		m_pNPCs[static_cast<int>(PacData::PacGhosts::PINKY)] = InitializePinky();
+		m_pNPCs[static_cast<int>(PacData::PacGhosts::INKY)] = InitializeInky();
+		m_pNPCs[static_cast<int>(PacData::PacGhosts::CLYDE)] = InitializeClyde();
 
 		for (auto& npc : m_pNPCs)
 			GetOwner()->AddChild(npc);

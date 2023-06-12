@@ -13,11 +13,14 @@
 #include "ResourceManager.h"
 #include "PacCommands.h"
 #include "Input.h"
+
 namespace dae
 {
 	void LoadPacMan()
 	{
-		ResourceManager::Get().Init("../Data/PacResources/");
+		const std::string& dataPath = "../Data/PacResources/";
+		ResourceManager::Get().Init(dataPath);
+
 
 		auto jsonParser = std::make_shared<PacJSONParser>(PacData::PacFiles::PacJSON);
 		PacData::PacGameData game_data{};

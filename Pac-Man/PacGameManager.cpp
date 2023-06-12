@@ -26,6 +26,8 @@
 #include "MathHelpers.h"
 #include "PacImpostorState.h"
 #include "PacImpostorVulnerableState.h"
+#include "ServiceLocator.h"
+#include "Toggle.h"
 
 namespace dae
 {
@@ -33,6 +35,22 @@ namespace dae
 	void PacGameManager::Initialize(const PacData::PacGameData& gameData)
 	{
 		m_GameData = gameData;
+
+		const auto& dataPath = ResourceManager::Get().GetDataPath();
+
+		ServiceLocator::RegisterSoundSystem(std::make_unique<SDL_SoundSystem>());
+
+		ServiceLocator::GetSoundSystem().AddSound(dataPath + PacData::PacFiles::WAKAWAKAWAKA,
+			static_cast<int>(PacData::PacSound::WAKA));
+
+		ServiceLocator::GetSoundSystem().AddSound(dataPath + PacData::PacFiles::PacDeathSound,
+			static_cast<int>(PacData::PacSound::DEATH));
+
+		ServiceLocator::GetSoundSystem().AddSound(dataPath + PacData::PacFiles::PacEatSound,
+			static_cast<int>(PacData::PacSound::EAT));
+
+		ServiceLocator::GetSoundSystem().AddSound(dataPath + PacData::PacFiles::PacIntro,
+			static_cast<int>(PacData::PacSound::INTRO));
 
 	}
 
@@ -63,13 +81,16 @@ namespace dae
 		versus_button->SetTexture(PacData::PacFiles::VersusBtn);
 
 		single_button->OnClick.AddFunction([this]()
-			{ m_GameData.mode = PacData::PacGameMode::SINGLE; LoadLevel(0); });
+			{ m_GameData.mode = PacData::PacGameMode::SINGLE; LoadLevel(0); 
+		ServiceLocator::GetSoundSystem().PlaySound(static_cast<int>(PacData::PacSound::INTRO), 50); });
 
 		coop_button->OnClick.AddFunction([this]()
-			{ m_GameData.mode = PacData::PacGameMode::COOP; LoadLevel(0); });
+			{ m_GameData.mode = PacData::PacGameMode::COOP; LoadLevel(0);		
+		ServiceLocator::GetSoundSystem().PlaySound(static_cast<int>(PacData::PacSound::INTRO), 50); });
 
 		versus_button->OnClick.AddFunction([this]()
-			{ m_GameData.mode = PacData::PacGameMode::VERSUS; LoadLevel(0); });
+			{ m_GameData.mode = PacData::PacGameMode::VERSUS; LoadLevel(0); 		
+		ServiceLocator::GetSoundSystem().PlaySound(static_cast<int>(PacData::PacSound::INTRO), 50); });
 
 		constexpr float half_width = g_WindowSize.x * .5f;
 		constexpr float half_height = g_WindowSize.y * .5f;
@@ -121,15 +142,32 @@ namespace dae
 		level->OnLevelCompleted.AddFunction([this]() {
 			LoadNextLevel();
 			});
+
 		//*************
 		// Create HUD
 		auto gameover_hud = std::make_shared<GameObject>();
 		auto gameover_text = gameover_hud->AddComponent<TextComponent>("GAME OVER", ResourceManager::Get().LoadFont(PacData::PacFiles::PacFont, 36));
 		const auto& gameover_text_size = gameover_text->GetSize();
 		gameover_hud->GetTransform()->SetLocalPosition(g_WindowSize.x * .5f - (gameover_text_size.x * .5f), g_WindowSize.y * .5f - (gameover_text_size.x * .5f));
-		gameover_hud->SetActive(false);
+		gameover_hud->SetActive(false); 
 		scene.Add(gameover_hud);
 
+		auto mute_toggle = std::make_shared<GameObject>();
+		auto mute_toggle_comp = mute_toggle->AddComponent<Toggle>(PacData::PacFiles::MutedBtn, PacData::PacFiles::MuteBtn);
+		mute_toggle_comp->SetSize({ 50.f, 50.f });
+		mute_toggle->GetTransform()->SetLocalPosition({ 50.f, g_WindowSize.y - 150.f });
+
+		std::weak_ptr weak_mute_toggle{ mute_toggle_comp };
+		mute_toggle_comp->OnClick.AddFunction([weak_mute_toggle]() {
+			if (auto mute_toggle_locked = weak_mute_toggle.lock(); mute_toggle_locked)
+			{
+				mute_toggle_locked->IsToggled()
+					? ServiceLocator::GetSoundSystem().Mute()
+					: ServiceLocator::GetSoundSystem().Unmute();
+			}}, { weak_mute_toggle });
+			
+		scene.Add(mute_toggle);
+			
 
 		//***************
 		// Create players
@@ -210,6 +248,14 @@ namespace dae
 
 			}, { weak_score, weak_controller });
 
+
+		// Sound
+		pac_health->OnHitTaken.AddFunction([]()
+			{
+				ServiceLocator::GetSoundSystem().PlaySound(static_cast<int>(PacData::PacSound::DEATH), 50);
+			});
+
+
 		scene.Add(pacman_go);
 		m_pPlayers.emplace_back(pacman_go);
 
@@ -271,7 +317,6 @@ namespace dae
 
 		auto impostor_navigator = impostor_player->GetComponent<PacNavigator>();
 		impostor_navigator->SetSpawn(level->GetPacGrid()->GetNPCSpawnIdxs()[0], true);
-		//impostor_navigator->OnArriveAtTarget.Clear();
 
 		auto astar_pathfinder = std::make_shared<AStarPathFinder>(level->GetGrid());
 		impostor_navigator->SetPathFinder(astar_pathfinder);
@@ -295,6 +340,12 @@ namespace dae
 				weak_brain.lock()->GetState()->OnArrive(*weak_brain.lock());
 			}}, { weak_brain });
 
+
+		// Sound
+		impostor_npc->OnNPCDeath.AddFunction([]()
+			{
+				ServiceLocator::GetSoundSystem().PlaySound(static_cast<int>(PacData::PacSound::EAT), 50);
+			});
 
 		return impostor_player;
 	}

@@ -23,7 +23,19 @@ namespace PacData
         const std::string ImpostorGhost = "Img/ImpostorGhost.png";
         const std::string PacDeathSound = "Audio/pacdeath.mp3";
         const std::string WAKAWAKAWAKA = "Audio/wakawakawaka.mp3";
+        const std::string PacEatSound = "Audio/paceat.mp3";
+        const std::string PacIntro = "Audio/pacintro.mp3";
+        const std::string MuteBtn = "Img/Mute.png";
+        const std::string MutedBtn = "Img/Muted.png";
     }
+
+    enum class PacSound
+    {
+        WAKA,
+        EAT,
+        DEATH,
+        INTRO
+    };
 
      constexpr char PacSpawn = 'P';
      constexpr char Dot = '.';

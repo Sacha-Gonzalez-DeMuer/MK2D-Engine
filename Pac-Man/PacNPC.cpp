@@ -16,14 +16,14 @@ namespace dae
 {
 	PacNPC::PacNPC(std::shared_ptr<PacNavigator> pNavigator)
 		: m_pNavigator(pNavigator),
-		m_State{std::make_shared<PacNPCWander>()}, m_DefaultState{nullptr}
+		m_State{std::make_shared<PacNPCWander>()}, m_DefaultState{ std::make_shared<PacNPCWander>() }
 	{}
 
 	void dae::PacNPC::Update()
 	{
 		m_State->UpdateState();
 
-		if (m_pNavigator && !m_pNavigator->HasTarget())
+		if (m_pNavigator && !m_pNavigator->HasTarget() && m_State)
 			m_State->OnArrive(*this);
 	}
 

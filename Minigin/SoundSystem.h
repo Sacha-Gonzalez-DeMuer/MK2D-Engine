@@ -26,6 +26,12 @@ namespace dae
 		virtual void PauseAllMusic() = 0;
 		virtual void ResumeAllSounds() = 0;
 		virtual void ResumeAllMusic() = 0;
+		virtual void MuteAllSounds() = 0;
+		virtual void MuteAllMusic() = 0;
+		virtual void UnmuteAllSounds() = 0;
+		virtual void UnmuteAllMusic() = 0;
+		virtual void Mute() = 0;
+		virtual void Unmute() = 0;
 		virtual bool IsSoundPlaying(const sound_id soundId) const = 0;
 	};
 
@@ -45,6 +51,12 @@ namespace dae
 		void PauseAllMusic() override {};
 		void ResumeAllSounds() override {};
 		void ResumeAllMusic() override {};
+		void MuteAllSounds() override {};
+		void MuteAllMusic() override {};
+		void UnmuteAllSounds() override {};
+		void UnmuteAllMusic() override {};
+		void Mute() override {};
+		void Unmute() override {};
 		bool IsSoundPlaying(const sound_id) const override {};
 	};
 
@@ -65,6 +77,12 @@ namespace dae
 		void PauseAllMusic() override;
 		void ResumeAllSounds() override;
 		void ResumeAllMusic() override;
+		void MuteAllSounds() override;
+		void MuteAllMusic() override;
+		void UnmuteAllSounds() override;
+		void UnmuteAllMusic() override;
+		void Mute() override;
+		void Unmute() override;
 		bool IsSoundPlaying(const sound_id soundId) const override;
 
 	private:

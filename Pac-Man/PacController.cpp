@@ -50,11 +50,10 @@ namespace dae
 			dae::Input::Get().AddCommand(SDL_SCANCODE_A, move_left_command);
 			dae::Input::Get().AddCommand(SDL_SCANCODE_W, move_up_command);
 			dae::Input::Get().AddCommand(SDL_SCANCODE_S, move_down_command);
-
-			return;
 		}
 
-		m_pGenericController = dae::Input::Get().AddController();
+		m_pGenericController = std::make_shared<GenericController>(playerIdx);
+		dae::Input::Get().AddController(m_pGenericController);
 		dae::Input::Get().AddCommand(std::make_pair(m_pGenericController->GetControllerIndex(), GenericController::ControllerButton::DPadRight), move_right_command);
 		dae::Input::Get().AddCommand(std::make_pair(m_pGenericController->GetControllerIndex(), GenericController::ControllerButton::DPadLeft), move_left_command);
 		dae::Input::Get().AddCommand(std::make_pair(m_pGenericController->GetControllerIndex(), GenericController::ControllerButton::DPadUp), move_up_command);
