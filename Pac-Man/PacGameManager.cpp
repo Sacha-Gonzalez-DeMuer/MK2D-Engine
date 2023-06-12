@@ -18,6 +18,7 @@
 #include "PacNPCState.h"
 #include "GameObject.h"
 #include <iostream>
+#include <fstream>
 #include <memory>
 #include "SceneManager.h"
 #include "TextObject.h"
@@ -141,6 +142,7 @@ namespace dae
 
 		level->OnLevelCompleted.AddFunction([this]() {
 			LoadNextLevel();
+			
 			});
 
 		//*************
@@ -174,7 +176,6 @@ namespace dae
 		auto pacman_go_default = AddPlayer(scene, level, gameover_hud);
 
 		AddSpawner(scene, level);
-
 		switch (m_GameData.mode)
 		{
 		case PacData::PacGameMode::COOP:
@@ -192,7 +193,7 @@ namespace dae
 	void PacGameManager::LoadNextLevel(bool unloadCurrent)
 	{
 		if (unloadCurrent) SceneManager::Get().RemoveScene(std::to_string(m_CurrentLevelIdx));
-		if (m_CurrentLevelIdx >= m_GameData.maps.size() - 1) return;
+		if (m_CurrentLevelIdx >= static_cast<int>(m_GameData.maps.size()) - 1) return;
 
 		m_pPlayers.clear();
 
@@ -213,6 +214,16 @@ namespace dae
 		auto pac_score = pacman_go->AddComponent<PacScoreComponent>(0);
 		auto pac_health = pacman_go->AddComponent<PacHealthComponent>(3);
 		pacman_go->AddComponent<CircleCollider>(static_cast<float>(level->GetGrid()->GetCellSize() * .5f));
+
+
+		std::weak_ptr weak_navigator = pac_navigator;
+		pac_health->OnDeath.AddFunction([weak_navigator]()
+			{
+				if (auto weak_navigator_locked = weak_navigator.lock(); weak_navigator_locked)
+				{
+					weak_navigator_locked->SetCurrentNode(weak_navigator_locked->GetSpawnNode());
+				}
+			}, { weak_navigator });
 
 		// Tell pacman what to do when he arrives at a node
 		std::weak_ptr weak_score = pac_score;
@@ -383,6 +394,40 @@ namespace dae
 		scene.Add(spawner_go);
 
 		return spawner;
+	}
+
+	void PacGameManager::SerializeHighscore(const PacData::PacPlayerInfo& playerInfo)
+	{
+		const auto& dataPath = dae::ResourceManager::Get().GetDataPath();
+
+		std::ofstream ofs{ dataPath + "Highscore.txt" };
+		if (ofs.is_open())
+		{
+			ofs << playerInfo.name << " " << playerInfo.score;
+		}
+
+		ofs.write(reinterpret_cast<const char*>(&playerInfo), sizeof(PacData::PacPlayerInfo));
+
+		ofs.close();
+	}
+
+	PacData::PacPlayerInfo PacGameManager::DeserializeHighscore()
+	{
+		const auto& dataPath = dae::ResourceManager::Get().GetDataPath();
+
+		std::ifstream ifs{ dataPath + "Highscore.txt" };
+		if (ifs.is_open())
+		{
+			PacData::PacPlayerInfo playerInfo{};
+			ifs >> playerInfo.name >> playerInfo.score;
+		}
+
+		PacData::PacPlayerInfo playerInfo{};
+		ifs.read(reinterpret_cast<char*>(&playerInfo), sizeof(PacData::PacPlayerInfo));
+
+		ifs.close();
+
+		return playerInfo;
 	}
 
 }

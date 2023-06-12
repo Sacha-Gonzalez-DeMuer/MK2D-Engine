@@ -94,7 +94,7 @@ namespace dae
 	int GridGraph::GetIndexUp(int currentIndex)
 	{
 		int up = currentIndex - 1;
-		if (up < 0 || up > this->m_Nodes.size() || ((up + 1) % m_NrOfColumns) == 0)
+		if (up < 0 || up > static_cast<int>(m_Nodes.size()) || ((up + 1) % m_NrOfColumns) == 0)
 			return -1;
 
 		return up;
@@ -104,7 +104,7 @@ namespace dae
 	int GridGraph::GetIndexRight(int currentIndex)
 	{
 		int right = currentIndex + m_NrOfColumns;
-		if (right < 0 || right > this->m_Nodes.size() || (currentIndex % m_NrOfColumns) == 0)
+		if (right < 0 || right > static_cast<int>(m_Nodes.size()) || (currentIndex % m_NrOfColumns) == 0)
 			return -1;
 
 		return right;
@@ -113,7 +113,7 @@ namespace dae
 	int GridGraph::GetIndexDown(int currentIndex)
 	{
 		int down = currentIndex + 1;
-		if (down < 0 || down > this->m_Nodes.size() || (down % m_NrOfColumns) == 0)
+		if (down < 0 || down > static_cast<int>(m_Nodes.size()) || (down % m_NrOfColumns) == 0)
 			return -1;
 
 		return down;
@@ -122,7 +122,7 @@ namespace dae
 	int GridGraph::GetIndexLeft(int currentIndex)
 	{
 		int left = currentIndex - m_NrOfColumns;
-		if (left < 0 || left > this->m_Nodes.size() || (left % m_NrOfColumns) == 0)
+		if (left < 0 || left > static_cast<int>(m_Nodes.size()) || (left % m_NrOfColumns) == 0)
 			return -1;
 		return left;
 	}

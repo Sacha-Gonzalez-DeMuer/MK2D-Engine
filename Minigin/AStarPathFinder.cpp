@@ -4,6 +4,7 @@
 #include "IGraph.h"
 #include "Heuristic.h"
 #include <algorithm>
+#pragma warning(disable : 6011)
 
 namespace dae
 {
@@ -104,18 +105,29 @@ namespace dae
 
 		}
 
-		//3. Reconstruct path from last connection to start node
+		// 3. Reconstruct path from last connection to start node
 		while (currentRecord.pNode != pStartNode)
 		{
 			path.emplace_back(currentRecord.pNode);
-			//look in the closedList for a record where pNode == currentRecord connection startNode
-			for (auto& record : closedList)
+
+			// Look in the closedList for a record where pNode == currentRecord connection startNode
+			bool foundRecord = false;
+			for (const auto& record : closedList)
 			{
-				if (record.pNode->GetIndex() == currentRecord.pConnection->GetFrom()) // found record
+				if (record.pNode->GetIndex() == currentRecord.pConnection->GetFrom())
 				{
-					currentRecord = record; //set new currentRecord to found record
+					currentRecord = record;
+					foundRecord = true;
 					break;
 				}
+			}
+
+			// Check if a matching record was found
+			if (!foundRecord)
+			{
+				// Handle the case where no matching record was found
+				// Add necessary error handling here, such as breaking the loop or returning an error code
+				break;
 			}
 		}
 

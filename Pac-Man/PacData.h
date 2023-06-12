@@ -27,6 +27,7 @@ namespace PacData
         const std::string PacIntro = "Audio/pacintro.mp3";
         const std::string MuteBtn = "Img/Mute.png";
         const std::string MutedBtn = "Img/Muted.png";
+        const std::string SaveBtn = "Img/Save.png";
     }
 
     enum class PacSound

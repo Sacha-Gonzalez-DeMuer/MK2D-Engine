@@ -45,6 +45,7 @@ namespace dae
 		int GetCurrentNodeIdx() const;
 		std::vector<Direction> GetLegalMoves() const;
 		std::shared_ptr<PacGrid> GetPacGrid() const { return m_pPacGrid; }
+		int GetSpawnNode() const { return m_SpawnNode; }
 
 		bool HasPath() const { return !m_DirectionQueue.empty(); }
 		bool HasTarget() const { return m_TargetNode != nullptr; }

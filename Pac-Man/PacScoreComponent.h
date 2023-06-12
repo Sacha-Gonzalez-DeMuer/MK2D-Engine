@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "Delegate.h"
-
+#include "PacData.h"
 namespace dae
 {
 	class PacScoreComponent final : public Component
@@ -13,9 +13,12 @@ namespace dae
 		void AddScore(int score);
 		int GetScore() const { return m_Score; };
 
+
 		Delegate<> OnScoreChanged;
 
 	private:
 		int m_Score;
+
+		void SerializeHighscore(const PacData::PacPlayerInfo& playerInfo, const std::string& fileName);
 	};
 }

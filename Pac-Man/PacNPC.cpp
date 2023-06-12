@@ -3,13 +3,11 @@
 #include "MathHelpers.h"
 #include "PacData.h"
 #include "ICollider.h"
-
 #include "PacNPCState.h"
 #include "PacNPCWander.h"
 #include "PacNPCChase.h"
 #include "PacNPCEyes.h"
 #include "PacNPCVulnerable.h"
-#include <iostream>
 #include "GameTime.h"
 
 namespace dae
