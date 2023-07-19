@@ -6,7 +6,7 @@
 #endif
 #endif
 
-#include "Minigin.h"
+#include "MK2D.h"
 #include "PacJSONParser.h"
 #include "PacData.h"
 #include "PacGameManager.h"
@@ -36,7 +36,7 @@ namespace dae
 
 
 int main(int, char* []) {
-	dae::Minigin engine("../Data/");
+	dae::MK2D engine("../Data/");
 	engine.Run(dae::LoadPacMan);
 	return 0;
 }

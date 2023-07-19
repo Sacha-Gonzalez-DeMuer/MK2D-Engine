@@ -101,7 +101,7 @@
     <ClInclude Include="Font.h">
       <Filter>EngineObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Minigin.h">
+    <ClInclude Include="MK2D.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
@@ -226,7 +226,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Minigin.cpp">
+    <ClCompile Include="MK2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
@@ -345,6 +345,6 @@
     <None Include="imgui.ini" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Minigin.rc" />
+    <ResourceCompile Include="MK2D.rc" />
   </ItemGroup>
 </Project>

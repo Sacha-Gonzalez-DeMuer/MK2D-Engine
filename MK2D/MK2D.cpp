@@ -5,7 +5,7 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
-#include "Minigin.h"
+#include "MK2D.h"
 #include "Input.h"
 #include "SceneManager.h"
 #include "Renderer.h"
@@ -43,7 +43,7 @@ void PrintSDLVersion()
 		version.major, version.minor, version.patch);
 }
 
-dae::Minigin::Minigin(const std::string &dataPath)
+dae::MK2D::MK2D(const std::string &dataPath)
 {
 	PrintSDLVersion();
 	
@@ -71,7 +71,7 @@ dae::Minigin::Minigin(const std::string &dataPath)
 	ResourceManager::Get().Init(dataPath);
 }
 
-dae::Minigin::~Minigin()
+dae::MK2D::~MK2D()
 {
 	Renderer::Get().Destroy();
 	SDL_DestroyWindow(g_window);
@@ -79,7 +79,7 @@ dae::Minigin::~Minigin()
 	SDL_Quit();
 }
 
-void dae::Minigin::Run(const std::function<void()>& load)
+void dae::MK2D::Run(const std::function<void()>& load)
 {
 	load();
 	srand(static_cast<unsigned int>(time(nullptr)));

@@ -1,7 +1,7 @@
 #include "PacHealthHUD.h"
 #include "TextObject.h"
 #include "PacHealthComponent.h"
-#include "Minigin.h"
+#include "MK2D.h"
 #include "ResourceManager.h"
 #include <memory>
 #include "Delegate.h"

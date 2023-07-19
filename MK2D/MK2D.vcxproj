@@ -20,10 +20,11 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{41B0EC47-D48C-4B0F-951B-D98595FFAE0A}</ProjectGuid>
+    <ProjectGuid>{3AAB729C-1FF1-48EE-8008-07F7BD9D77A0}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Minigin</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>MK2D</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -249,7 +250,7 @@
     <ClInclude Include="IObject.h" />
     <ClInclude Include="IPathFinder.h" />
     <ClInclude Include="MathHelpers.h" />
-    <ClInclude Include="Minigin.h" />
+    <ClInclude Include="MK2D.h" />
     <ClInclude Include="IObserver.h" />
     <ClInclude Include="Orbiter.h" />
     <ClInclude Include="resource.h" />
@@ -319,7 +320,7 @@
     </ClCompile>
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="IPathFinder.cpp" />
-    <ClCompile Include="Minigin.cpp" />
+    <ClCompile Include="MK2D.cpp" />
     <ClCompile Include="Orbiter.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="Renderer.cpp" />
@@ -338,7 +339,7 @@
     <None Include="imgui.ini" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Minigin.rc" />
+    <ResourceCompile Include="MK2D.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

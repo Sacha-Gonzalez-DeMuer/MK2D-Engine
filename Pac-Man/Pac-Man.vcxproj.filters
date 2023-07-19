@@ -78,7 +78,6 @@
     <ClCompile Include="PacNPC.cpp">
       <Filter>Character\NPC</Filter>
     </ClCompile>
-    <ClCompile Include="PacHealthComponent.cpp" />
     <ClCompile Include="PacHealthHUD.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -108,6 +107,9 @@
     </ClCompile>
     <ClCompile Include="PacImpostorVulnerableState.cpp">
       <Filter>Character\Impostor</Filter>
+    </ClCompile>
+    <ClCompile Include="PacHealthComponent.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -153,7 +155,6 @@
     <ClInclude Include="PacNPC.h">
       <Filter>Character\NPC</Filter>
     </ClInclude>
-    <ClInclude Include="PacHealthComponent.h" />
     <ClInclude Include="PacHealthHUD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -183,6 +184,9 @@
     </ClInclude>
     <ClInclude Include="PacImpostorVulnerableState.h">
       <Filter>Character\Impostor</Filter>
+    </ClInclude>
+    <ClInclude Include="PacHealthComponent.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
